@@ -4,6 +4,7 @@
 *.vcxproj
 *.vcxproj.*
 x64
+x86
 Debug
 Release
 
