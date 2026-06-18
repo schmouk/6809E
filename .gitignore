@@ -1,0 +1,11 @@
+#-- Visual Studio specifics --
+.vs
+*.slnx
+*.vcxproj
+*.vcxproj.*
+x64
+Debug
+Release
+
+#-- Project specifics --
+archive
