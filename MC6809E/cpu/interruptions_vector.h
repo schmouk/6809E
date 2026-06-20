@@ -5,7 +5,7 @@
 
 
 /**
-* This files declares the table of interruptions vetors for the MC6809E
+* This file declares the table of interruptions vetors for the MC6809E
 */
 
 namespace cpu
