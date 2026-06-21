@@ -3,6 +3,7 @@
 
 #include "cpu/cpu6809e.h"
 #include "cpu/interruptions_vector.h"
+#include "exceptions/exceptions.h"
 #include "memory/memory_addresses.h"
 #include "memory/memory_schema.h"
 #include "memory/types.h"
@@ -10,6 +11,6 @@
 
 int main()
 {
-    memory::MemoryException except(__FILE__, __LINE__, 0x8000);
+    except::MemoryException except(__FILE__, __LINE__, 0x8000);
     return 0;
 }

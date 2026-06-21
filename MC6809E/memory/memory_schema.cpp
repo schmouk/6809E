@@ -1,61 +1,16 @@
-#include <cassert>
-#include <exception>
-#include <format>
-#include <initializer_list>
-#include <string>
-#include <utility>
-#include <vector>
-#include <type_traits>
-
-#include "./memory_addresses.h"
-#include "./memory_schema.h"
-#include "./types.h"
 #include <algorithm>
+#include <cassert>
+#include <vector>
+
+#include "memory_addresses.h"
+#include "memory_schema.h"
+#include "types.h"
+
+#include "../exceptions/exceptions.h"
 
 
 namespace memory
 {
-    //=====   Memory Exception   ==============================
-    //---------------------------------------------------------
-    MemoryException::MemoryException(const std::size_t faulty_addr) noexcept
-        : std::exception()
-        , _err_msg{}
-        , _filepath{}
-        , _faulty_addr{ faulty_addr }
-        , _numline{}
-        , _specified{ true }
-    {}
-
-    //---------------------------------------------------------
-    MemoryException::MemoryException(
-        std::string       filepath,
-        const int         num_line,
-        const std::size_t faulty_addr
-    ) noexcept
-        : std::exception()
-        , _err_msg{}
-        , _filepath{ filepath }
-        , _faulty_addr{ faulty_addr }
-        , _numline{ num_line }
-        , _specified{ true }
-    {}
-
-    //---------------------------------------------------------
-    const char* MemoryException::what() const noexcept
-    {
-        _err_msg = "Memory access violation";
-
-        if (_specified) {
-            _err_msg += std::format(": address 0x{:4x} is invalid", _faulty_addr);
-
-            if (!_filepath.empty()) {
-                _err_msg += std::format(" (file '{}', line {})", _filepath, _numline);
-            }
-        }
-
-        return _err_msg.c_str();
-    }
-
     //=====   Memory schemas   ================================
     //---------------------------------------------------------
     MemorySchema::MemorySchema() noexcept
@@ -91,15 +46,16 @@ namespace memory
     //---------------------------------------------------------
     void MemorySchema::set_word(const memory::MemAddr addr, const memory::Word val)
     {
-        const std::size_t base_addr{ addr };
+        const std::size_t word_addr{ addr };
 
-        assert(base_addr + 1 < memory::MEM_MAX_SIZE);
-        
-        if (!_valid[base_addr] || !_valid[base_addr + 1])
-            throw memory::MemoryException(std::size_t(base_addr + 1));
+        if (word_addr >= memory::MEM_MAX_SIZE - 1)
+            throw except::OutOfMemoryWordAddrException(word_addr);
 
-        _content[base_addr]     = memory::Byte(val >> 8);
-        _content[base_addr + 1] = memory::Byte(val & 0xff);
+        if (!_valid[word_addr] || !_valid[word_addr + 1])
+            throw except::MemoryException(std::size_t(word_addr + 1));
+
+        _content[word_addr]     = memory::Byte(val >> 8);
+        _content[word_addr + 1] = memory::Byte(val & 0xff);
     }
 
     //---------------------------------------------------------
@@ -108,7 +64,7 @@ namespace memory
         if (_valid[addr])
             return _content[addr];
         else
-            throw memory::MemoryException(addr);
+            throw except::MemoryException(addr);
     }
 
 }

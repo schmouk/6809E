@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <concepts>
 #include <cstdint>
-#include <exception>
 #include <string>
 #include <vector>
 
@@ -17,28 +16,6 @@
 
 namespace memory
 {
-    //=====   Memory Exception   ==============================
-    class MemoryException : public std::exception
-    {
-    public:
-        inline MemoryException() noexcept = default;
-        inline MemoryException(const std::size_t faulty_addr) noexcept;
-        inline MemoryException(std::string filepath, const int num_line, const std::size_t faulty_addr) noexcept;
-
-        virtual inline ~MemoryException() noexcept = default;
-
-        const char* what() const noexcept override;
-
-    private:
-        mutable std::string _err_msg{};
-        const std::string   _filepath{};
-        const std::size_t   _faulty_addr{};
-        const int           _numline{};
-
-        bool _specified{ false };
-    };
-
-
     //=====   Memory schemas   ================================
     class MemorySchema
     {
