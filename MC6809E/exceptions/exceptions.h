@@ -15,10 +15,10 @@ namespace except
     class MemoryException : public std::exception
     {
     public:
-        inline MemoryException() noexcept = default;
-        inline MemoryException(const std::size_t faulty_addr) noexcept;
+        MemoryException() noexcept = default;
+        MemoryException(const std::size_t faulty_addr) noexcept;
 
-        virtual inline ~MemoryException() noexcept = default;
+        virtual ~MemoryException() noexcept = default;
 
         const char* what() const noexcept override;
 
@@ -34,9 +34,9 @@ namespace except
     class OutOfMemoryWordAddrException : public std::exception
     {
     public:
-        inline OutOfMemoryWordAddrException(const std::size_t word_addr) noexcept;
+        OutOfMemoryWordAddrException(const std::size_t word_addr) noexcept;
 
-        virtual inline ~OutOfMemoryWordAddrException() noexcept = default;
+        virtual ~OutOfMemoryWordAddrException() noexcept = default;
 
         const char* what() const noexcept override;
 
@@ -49,7 +49,7 @@ namespace except
     class InvalidAddressingModeException : public std::exception
     {
     public:
-        inline InvalidAddressingModeException(const std::string& err_msg = {}) noexcept;
+        InvalidAddressingModeException(const std::string& err_msg = {}) noexcept;
         const char* what() const noexcept override;
 
     private:
@@ -68,7 +68,9 @@ namespace except
     class InvalidRegisterCodeAddressingModeException : public std::exception
     {
     public:
-        inline InvalidRegisterCodeAddressingModeException(const std::uint8_t reg_code) noexcept;
+        InvalidRegisterCodeAddressingModeException(const std::uint8_t reg_code) noexcept;
+        virtual ~InvalidRegisterCodeAddressingModeException() noexcept = default;
+
         const char* what() const noexcept override;
 
     private:
@@ -81,7 +83,9 @@ namespace except
     class InvalidMixedRegisterAddressingModeException : public std::exception
     {
     public:
-        inline InvalidMixedRegisterAddressingModeException(const std::uint8_t reg_code) noexcept;
+        InvalidMixedRegisterAddressingModeException(const std::uint8_t reg_code) noexcept;
+        virtual ~InvalidMixedRegisterAddressingModeException() noexcept = default;
+
         const char* what() const noexcept override;
 
     private:

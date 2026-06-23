@@ -159,6 +159,19 @@ namespace cpu
     };
 
 
+    //-----   Constant 8-bits Offset Indexed Addressing   -----
+    struct Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    {
+        inline Constant8bitsOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem);
+
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+
     //-----   Accumulator Offset Indexed Addressing   ---------
 
 

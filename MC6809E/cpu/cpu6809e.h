@@ -156,7 +156,6 @@ namespace cpu
     //=====   The Microprocessing Unit   ======================
     struct MicroprocUnit
     {
-    public:
         //-----   Constructor / Destructor   ------------------
         inline MicroprocUnit() noexcept = default;
         inline virtual ~MicroprocUnit() noexcept = default;
@@ -172,9 +171,9 @@ namespace cpu
 
 
         //-----   Operations   ---------------------------------
-        inline const std::uint16_t get_directpage_addr(const std::uint8_t addr_low) const noexcept;
+        const memory::MemAddr get_directpage_addr(const memory::Byte addr_low) const noexcept;
 
-        inline const memory::MemAddr get_reg_value(const cpu::EReg reg_index) const;
+        const memory::Word get_reg_value(const cpu::EReg reg_index) const;
 
     };
 

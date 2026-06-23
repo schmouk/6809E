@@ -37,8 +37,8 @@ namespace memory
         MemorySchema& operator= (const MemorySchema&) noexcept = default;
         MemorySchema& operator= (MemorySchema&&) noexcept = default;
 
-        inline memory::Byte& operator[] (const memory::MemAddr addr);
-        inline const memory::Byte& operator[] (const memory::MemAddr addr) const;
+        memory::Byte& operator[] (const memory::MemAddr addr);
+        const memory::Byte operator[] (const memory::MemAddr addr) const;
 
 
         //-----   Operations   --------------------------------
@@ -48,15 +48,16 @@ namespace memory
 
         void add_sized_range(const memory::MemAddr low_addr, const std::size_t size);
 
-        inline const memory::Word get_word(const memory::MemAddr addr) const;
-        inline void  set_word(const memory::MemAddr addr, const memory::Word val);
+        const memory::Word get_word(const memory::MemAddr addr) const;
+        void  set_word(const memory::MemAddr addr, const memory::Word val);
 
 
     private:
         std::vector<memory::Byte> _content;
         std::vector<std::uint8_t> _valid;
 
-        inline memory::Byte& _get(const memory::MemAddr addr);
+        memory::Byte& _get(const memory::MemAddr addr);
+        const memory::Byte& _get(const memory::MemAddr addr) const;
 
     };
 

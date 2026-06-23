@@ -7,13 +7,13 @@
 namespace cpu
 {
     //---------------------------------------------------------
-    const std::uint16_t MicroprocUnit::get_directpage_addr(const std::uint8_t addr_low) const noexcept
+    const memory::MemAddr MicroprocUnit::get_directpage_addr(const memory::Byte addr_low) const noexcept
     {
-        return (std::uint16_t(regDP) << 8) | std::uint16_t(addr_low);
+        return (memory::MemAddr(regDP()) << 8) | memory::MemAddr(addr_low);
     }
 
     //---------------------------------------------------------
-    const memory::MemAddr MicroprocUnit::get_reg_value(const cpu::EReg reg_index) const
+    const memory::Word MicroprocUnit::get_reg_value(const cpu::EReg reg_index) const
     {
         switch (reg_index) {
             case cpu::EReg::D:

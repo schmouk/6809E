@@ -25,22 +25,23 @@ namespace memory
     }
 
     //---------------------------------------------------------
-    const memory::Byte& MemorySchema::operator[] (const memory::MemAddr addr) const
+    const memory::Byte MemorySchema::operator[] (const memory::MemAddr addr) const
     {
-        return operator[](addr);
+        return _get(addr);
     }
 
     //---------------------------------------------------------
     void MemorySchema::add_sized_range(const memory::MemAddr low_addr, const std::size_t size)
     {
         assert(low_addr + size <= memory::MEM_MAX_SIZE);
+
         std::ranges::fill_n(_valid.begin() + low_addr, size, true);
     }
 
     //---------------------------------------------------------
     const memory::Word MemorySchema::get_word(const memory::MemAddr addr) const
     {
-        return get_word(addr);
+        return (memory::Word(_content[addr]) << 8) | memory::Word(_content[addr + 1]);
     }
 
     //---------------------------------------------------------
@@ -60,6 +61,15 @@ namespace memory
 
     //---------------------------------------------------------
     memory::Byte& MemorySchema::_get(const memory::MemAddr addr)
+    {
+        if (_valid[addr])
+            return _content[addr];
+        else
+            throw except::MemoryException(addr);
+    }
+
+    //---------------------------------------------------------
+    const memory::Byte& MemorySchema::_get(const memory::MemAddr addr) const
     {
         if (_valid[addr])
             return _content[addr];
