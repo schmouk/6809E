@@ -22,29 +22,34 @@
 namespace cpu
 {
     //=====   The Microprocessing Registers   =================
+    //---------------------------------------------------------
+    struct CPURegister {};  // Notice: the base class for every CPU register
+
+
+    //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    class CPURegister
+    class CPURegisterT : private CPURegister
     {
     public:
         //-----   Constructors / Destructors   ----------------
-        inline CPURegister() noexcept = default;
-        inline virtual ~CPURegister() noexcept = default;
+        inline CPURegisterT() noexcept = default;
+        inline virtual ~CPURegisterT() noexcept = default;
 
-        inline CPURegister(const IntT value) noexcept;
+        inline CPURegisterT(const IntT value) noexcept;
 
-        CPURegister(const CPURegister&) = delete;   // Can't copy content of registers
-        CPURegister(CPURegister&&) = delete;        // Can't move content of registers
+        CPURegisterT(const CPURegisterT&) = delete;   // Can't copy content of registers
+        CPURegisterT(CPURegisterT&&) = delete;        // Can't move content of registers
 
 
         //-----   Operators   ---------------------------------
-        inline const CPURegister& operator= (const IntT new_value) noexcept;
+        inline const CPURegisterT& operator= (const IntT new_value) noexcept;
 
-        inline const CPURegister  operator+  (const IntT offset_value) noexcept;
-        inline const CPURegister& operator+= (const IntT offset_value) noexcept;
+        inline const CPURegisterT  operator+  (const IntT offset_value) noexcept;
+        inline const CPURegisterT& operator+= (const IntT offset_value) noexcept;
 
-        inline const CPURegister  operator-  (const IntT offset_value) noexcept;
-        inline const CPURegister& operator-= (const IntT offset_value) noexcept;
+        inline const CPURegisterT  operator-  (const IntT offset_value) noexcept;
+        inline const CPURegisterT& operator-= (const IntT offset_value) noexcept;
 
         inline const IntT operator++() noexcept;    // Notice: pre-increment
         inline const IntT operator++(int) noexcept; // Notice: post-increment
@@ -55,13 +60,12 @@ namespace cpu
         inline operator IntT() noexcept;
         inline operator const IntT() const noexcept;
 
-        inline const IntT operator() () const noexcept;
+        inline const IntT operator() () const noexcept; // Gets the value of the register content
 
 
         //-----   Operations   --------------------------------
-        inline void set(const IntT val) noexcept;   // Sets value of the register content
-
-        inline const IntT get() const noexcept;     // Gets the value of the register content
+        inline const IntT get() const noexcept;         // Gets the value of the register content
+        inline void       set(const IntT val) noexcept; // Sets value of the register content
 
 
     private:
@@ -71,8 +75,9 @@ namespace cpu
 
 
     //-----   Specializations   -------------------------------
-    using CpuRegister8bits  = CPURegister<std::uint8_t>;    //  8-bits wide registers
-    using CpuRegister16bits = CPURegister<std::uint16_t>;   // 16-bits wide registers
+    using CpuRegister8bits  = CPURegisterT<std::uint8_t>;    //  8-bits wide registers
+    using CpuRegister16bits = CPURegisterT<std::uint16_t>;   // 16-bits wide registers
+    using CpuIndexRegister  = CPURegisterT<std::uint16_t>;   // 16-bits wide indexing registers
 
 
     //=====   Registers Indexes   =============================
@@ -88,8 +93,6 @@ namespace cpu
         CC,
         DP
     };
-
-
 
 
     //=====   Deeper Specialization - the CC Register   =======
@@ -166,7 +169,8 @@ namespace cpu
 
         //-----   CPU Registers   -----------------------------
         CpuCCRegister     regCC;
-        CpuRegister16bits regX, regY, regU, regS, regPC, regD;
+        CpuIndexRegister  regX, regY, regU, regS;
+        CpuRegister16bits regPC, regD;
         CpuRegister8bits  regA, regB, regDP;
 
 
@@ -182,22 +186,14 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    CPURegister<IntT>::CPURegister(const IntT value) noexcept
+    CPURegisterT<IntT>::CPURegisterT(const IntT value) noexcept
         : _value(value)
     {}
 
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    void CPURegister<IntT>::set(const IntT val) noexcept
-    {
-        _value = val;
-    }
-
-    //---------------------------------------------------------
-    template<typename IntT>
-        requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegister<IntT>::get() const noexcept
+    const IntT CPURegisterT<IntT>::get() const noexcept
     {
         return _value;
     }
@@ -205,7 +201,15 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegister<IntT>& CPURegister<IntT>::operator= (const IntT new_value) noexcept
+    void CPURegisterT<IntT>::set(const IntT val) noexcept
+    {
+        _value = val;
+    }
+
+    //---------------------------------------------------------
+    template<typename IntT>
+        requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
+    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator= (const IntT new_value) noexcept
     {
         _value = new_value;
         return *this;
@@ -214,15 +218,15 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegister<IntT> CPURegister<IntT>::operator+ (const IntT offset_value) noexcept
+    inline const CPURegisterT<IntT> CPURegisterT<IntT>::operator+ (const IntT offset_value) noexcept
     {
-        return CPURegister<IntT>(_value + offset_value);
+        return CPURegisterT<IntT>(_value + offset_value);
     }
 
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegister<IntT>& CPURegister<IntT>::operator+= (const IntT offset_value) noexcept
+    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator+= (const IntT offset_value) noexcept
     {
         _value += offset_value;
         return *this;
@@ -231,15 +235,15 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegister<IntT> CPURegister<IntT>::operator-  (const IntT offset_value) noexcept
+    inline const CPURegisterT<IntT> CPURegisterT<IntT>::operator-  (const IntT offset_value) noexcept
     {
-        return CPURegister<IntT>(_value - offset_value);
+        return CPURegisterT<IntT>(_value - offset_value);
     }
 
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegister<IntT>& CPURegister<IntT>::operator-= (const IntT offset_value) noexcept
+    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator-= (const IntT offset_value) noexcept
     {
         _value -= offset_value;
         return *this;
@@ -248,7 +252,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegister<IntT>::operator++() noexcept
+    const IntT CPURegisterT<IntT>::operator++() noexcept
     {
         return ++_value;
     }
@@ -256,7 +260,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegister<IntT>::operator++(int) noexcept
+    const IntT CPURegisterT<IntT>::operator++(int) noexcept
     {
         const IntT val{ _value };
         ++_value;
@@ -266,7 +270,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegister<IntT>::operator--() noexcept
+    const IntT CPURegisterT<IntT>::operator--() noexcept
     {
         return --_value;
     }
@@ -274,7 +278,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegister<IntT>::operator--(int) noexcept
+    const IntT CPURegisterT<IntT>::operator--(int) noexcept
     {
         const IntT val{ _value };
         --_value;
@@ -284,7 +288,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline CPURegister<IntT>::operator IntT() noexcept
+    inline CPURegisterT<IntT>::operator IntT() noexcept
     {
         return _value;
     }
@@ -292,7 +296,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline CPURegister<IntT>::operator const IntT() const noexcept
+    inline CPURegisterT<IntT>::operator const IntT() const noexcept
     {
         return _value;
     }
@@ -300,7 +304,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const IntT CPURegister<IntT>::operator() () const noexcept
+    inline const IntT CPURegisterT<IntT>::operator() () const noexcept
     {
         return _value;
     }

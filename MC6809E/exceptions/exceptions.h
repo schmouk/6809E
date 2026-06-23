@@ -80,17 +80,9 @@ namespace except
 
 
     //=====   Invalid 8-bits/16-bits mixing Register Addressing Mode Exception   =====
-    class InvalidMixedRegisterAddressingModeException : public std::exception
+    struct InvalidMixedRegisterAddressingModeException : public std::exception
     {
-    public:
-        InvalidMixedRegisterAddressingModeException(const std::uint8_t reg_code) noexcept;
-        virtual ~InvalidMixedRegisterAddressingModeException() noexcept = default;
-
         const char* what() const noexcept override;
-
-    private:
-        const std::uint8_t  _reg_code{};
-        mutable std::string _err_msg{};
     };
 
 

@@ -1,7 +1,6 @@
 #include <cassert>
 #include <cstdint>
 #include <initializer_list>
-#include <type_traits>
 
 #include "cpu6809e.h"
 #include "../exceptions/exceptions.h"
@@ -16,9 +15,9 @@ namespace cpu
     //=====   Base Addressing Class   =========================
     //---------------------------------------------------------
     const memory::Byte  BaseAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit& mpu,
-        const cpu::EReg reg,
-        memory::MemorySchema& mem
+        cpu::MicroprocUnit&     mpu,
+        const cpu::CPURegister& reg,
+        memory::MemorySchema&   mem
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
@@ -26,9 +25,29 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Word  BaseAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit& mpu,
-        const cpu::EReg reg,
-        memory::MemorySchema& mem
+        cpu::MicroprocUnit&     mpu,
+        const cpu::CPURegister& reg,
+        memory::MemorySchema&   mem
+    ) const
+    {
+        throw except::InvalidRegisterAddressingModeException();
+    }
+
+    //---------------------------------------------------------
+    const memory::Byte  BaseAddressingMode::get_addressed_byte(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        throw except::InvalidRegisterAddressingModeException();
+    }
+
+    //---------------------------------------------------------
+    const memory::Word  BaseAddressingMode::get_addressed_word(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
@@ -38,20 +57,24 @@ namespace cpu
     //=====   Inherent Addressing   ===========================
     //---------------------------------------------------------
     const memory::Byte InherentAddressing::get_addressed_byte(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&   mpu,
         memory::MemorySchema& mem
     ) const
     {
-        throw except::InvalidAddressingModeException("Byte addressing is invalid for inherent addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Byte addressing is invalid for inherent addressing mode"
+        );
     }
 
     //---------------------------------------------------------
     const memory::Word InherentAddressing::get_addressed_word(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&   mpu,
         memory::MemorySchema& mem
     ) const
     {
-        throw except::InvalidAddressingModeException("Word addressing is invalid for inherent addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Word addressing is invalid for inherent addressing mode"
+        );
     }
 
     //---------------------------------------------------------
@@ -108,7 +131,9 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        throw except::InvalidAddressingModeException("Byte addressing is invalid for extended addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Byte addressing is invalid for extended addressing mode"
+        );
     }
 
     //---------------------------------------------------------
@@ -126,7 +151,9 @@ namespace cpu
     //---------------------------------------------------------
     const std::uint64_t ExtendedAddressing::get_byte_cycles() const
     {
-        throw except::InvalidAddressingModeException("Byte addressing is invalid for extended addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Byte addressing is invalid for extended addressing mode"
+        );
     }
 
     //---------------------------------------------------------
@@ -231,7 +258,9 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        throw except::InvalidAddressingModeException("Word addressing is invalid for register addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Word addressing is invalid for register addressing mode"
+        );
     }
 
     //---------------------------------------------------------
@@ -243,7 +272,9 @@ namespace cpu
     //---------------------------------------------------------
     const std::uint64_t RegisterAddressing::get_word_cycles() const
     {
-        throw except::InvalidAddressingModeException("Word addressing is invalid for register addressing mode");
+        throw except::InvalidAddressingModeException(
+            "Word addressing is invalid for register addressing mode"
+        );
     }
 
     //---------------------------------------------------------
@@ -253,7 +284,7 @@ namespace cpu
         const cpu::EReg dst{ _get_reg_index(bytecode & 0x0f) };
         
         if (_is_8bits(src) == _is_16bits(dst))
-            throw except::InvalidRegisterAddressingModeException();
+            throw except::InvalidMixedRegisterAddressingModeException();
 
         return { src, dst };
     }
@@ -278,25 +309,6 @@ namespace cpu
     {}
 
     //---------------------------------------------------------
-    OffsetIndexedAddressingMode::OffsetIndexedAddressingMode(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
-    )
-    {
-        throw except::InvalidOffsetAddressingModeException();
-    }
-
-    //---------------------------------------------------------
-    OffsetIndexedAddressingMode::OffsetIndexedAddressingMode(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    )
-    {
-        throw except::InvalidOffsetAddressingModeException();
-    }
-
-    //---------------------------------------------------------
     const memory::Byte  OffsetIndexedAddressingMode::get_addressed_byte(
         cpu::MicroprocUnit&   mpu,
         memory::MemorySchema& mem
@@ -316,22 +328,24 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Byte  OffsetIndexedAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
     ) const
     {
-        throw except::InvalidOffsetAddressingModeException();
+        const memory::MemAddr byte_addr{ memory::MemAddr(reg() + _offset) };
+        return mem[byte_addr];
     }
 
     //---------------------------------------------------------
     const memory::Word  OffsetIndexedAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&         mem
     ) const
     {
-        throw except::InvalidOffsetAddressingModeException();
+        const memory::MemAddr word_addr{ memory::MemAddr(reg() + _offset) };
+        return (memory::Word(mem[word_addr] << 8)) | memory::Word(mem[word_addr + 1]);
     }
 
     //---------------------------------------------------------
@@ -354,31 +368,6 @@ namespace cpu
         : OffsetIndexedAddressingMode{ 0 }
     {}
 
-    //---------------------------------------------------------
-    const memory::Byte  ZeroOffsetIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        assert(cpu::EReg::X <= reg && reg <= cpu::EReg::S);
-
-        return mem[mpu.get_reg_value(reg)];
-    }
-
-    //---------------------------------------------------------
-    const memory::Word  ZeroOffsetIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        assert(cpu::EReg::X <= reg && reg <= cpu::EReg::S);
-
-        memory::MemAddr reg_value{ mpu.get_reg_value(reg) };
-        return (memory::Word(mem[reg_value] << 8)) | memory::Word(mem[reg_value + 1]);
-    }
-
 
     //=====   Constant 5-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
@@ -393,28 +382,6 @@ namespace cpu
             _offset = std::int16_t(opcode & 0x0f) - 0x10;
         else
             _offset = std::int16_t(opcode & 0x0f);
-    }
-
-    //---------------------------------------------------------
-    const memory::Byte  Constant5bitsOffsetIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        const memory::MemAddr byte_addr{ memory::MemAddr(mpu.get_reg_value(reg) + _offset) };
-        return mem[byte_addr];
-    }
-
-    //---------------------------------------------------------
-    const memory::Word  Constant5bitsOffsetIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        const memory::MemAddr word_addr{ memory::MemAddr(mem[mpu.get_reg_value(reg)] + _offset) };
-        return (memory::Word(mem[word_addr]) << 8) | memory::Word(mem[word_addr + 1]);
     }
 
     //---------------------------------------------------------
@@ -444,28 +411,6 @@ namespace cpu
             _offset = std::int16_t(opcode & 0x7f) - 0x80;
         else
             _offset = std::int16_t(opcode & 0x7f);
-    }
-
-    //---------------------------------------------------------
-    const memory::Byte  Constant8bitsOffsetIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        const memory::MemAddr byte_addr{ mem[mpu.get_reg_value(reg)] };
-        return mem[byte_addr + _offset];
-    }
-
-    //---------------------------------------------------------
-    const memory::Word  Constant8bitsOffsetIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        const cpu::EReg       reg,
-        memory::MemorySchema& mem
-    ) const
-    {
-        const memory::MemAddr byte_addr{ mem[mpu.get_reg_value(reg)] };
-        return (memory::Word(mem[byte_addr + _offset]) << 8) | memory::Word(mem[byte_addr + _offset + 1]);
     }
 
     //---------------------------------------------------------

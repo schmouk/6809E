@@ -20,8 +20,11 @@ namespace cpu
         virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const = 0;
         virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const = 0;
 
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const;
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CPURegister& reg, memory::MemorySchema& mem) const;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CPURegister& reg, memory::MemorySchema& mem) const;
+
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const;
 
         virtual const std::uint64_t get_byte_cycles() const = 0;
         virtual const std::uint64_t get_word_cycles() const = 0;
@@ -105,7 +108,7 @@ namespace cpu
             return (memory::Byte(reg_ndx) & 0b1000) == 0b0000;
         }
 
-        static inline const cpu::EReg _get_reg_index(const memory::Byte reg_ndx);
+        static const cpu::EReg _get_reg_index(const memory::Byte reg_ndx);
     };
 
 
@@ -115,16 +118,14 @@ namespace cpu
     {
     public:
         inline OffsetIndexedAddressingMode(const std::int16_t offset = 0) noexcept;
-        inline OffsetIndexedAddressingMode(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem);
-        inline OffsetIndexedAddressingMode(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem);
 
         virtual ~OffsetIndexedAddressingMode() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const override;
         virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const override;
 
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -140,9 +141,6 @@ namespace cpu
     {
         inline ZeroOffsetIndexedAddressing() noexcept;
         virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
-
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
     };
 
 
@@ -150,9 +148,6 @@ namespace cpu
     struct Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
         inline Constant5bitsOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem);
-
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -163,9 +158,6 @@ namespace cpu
     struct Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
         inline Constant8bitsOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem);
-
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::EReg reg, memory::MemorySchema& mem) const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
