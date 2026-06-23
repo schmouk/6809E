@@ -1,126 +1,164 @@
+#include <cstdint>
 #include "cpu6809e.h"
+
+#include "../exceptions/exceptions.h"
 
 
 namespace cpu
 {
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::carry_flag() const noexcept {
+    const std::uint16_t MicroprocUnit::get_directpage_addr(const std::uint8_t addr_low) const noexcept
+    {
+        return (std::uint16_t(regDP) << 8) | std::uint16_t(addr_low);
+    }
+
+    //---------------------------------------------------------
+    const memory::MemAddr MicroprocUnit::get_reg_value(const cpu::EReg reg_index) const
+    {
+        switch (reg_index) {
+            case cpu::EReg::D:
+                return regD;
+            case cpu::EReg::X:
+                return regX;
+            case cpu::EReg::Y:
+                return regY;
+            case cpu::EReg::U:
+                return regU;
+            case cpu::EReg::S:
+                return regS;
+            case cpu::EReg::PC:
+                return regPC;
+            case cpu::EReg::A:
+                return regA;
+            case cpu::EReg::B:
+                return regB;
+            case cpu::EReg::CC:
+                return regCC;
+            case cpu::EReg::DP:
+                return regDP;
+            default:
+                throw except::InvalidRegisterCodeAddressingModeException(std::uint8_t(reg_index));
+        }
+    }
+
+    //---------------------------------------------------------
+    const bool CpuCCRegister::carry_flag() const noexcept {
         return get() & C_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_carry() noexcept {
+    void CpuCCRegister::clr_carry() noexcept {
         set(get() & ~C_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_carry() noexcept {
+    void CpuCCRegister::set_carry() noexcept {
         set(get() | C_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::overflow_flag() const noexcept {
+    const bool CpuCCRegister::overflow_flag() const noexcept {
         return get() & V_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_overflow() noexcept {
+    void CpuCCRegister::clr_overflow() noexcept {
         set(get() & ~V_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_overflow() noexcept {
+    void CpuCCRegister::set_overflow() noexcept {
         set(get() | V_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::zero_flag() const noexcept {
+    const bool CpuCCRegister::zero_flag() const noexcept {
         return get() & Z_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_zero() noexcept {
+    void CpuCCRegister::clr_zero() noexcept {
         set(get() & ~Z_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_zero() noexcept {
+    void CpuCCRegister::set_zero() noexcept {
         set(get() | Z_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::negative_flag() const noexcept {
+    const bool CpuCCRegister::negative_flag() const noexcept {
         return get() | N_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_negative() noexcept {
+    void CpuCCRegister::clr_negative() noexcept {
         set(get() & ~N_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_negative() noexcept {
+    void CpuCCRegister::set_negative() noexcept {
         set(get() | N_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::irqmask_flag() const noexcept {
+    const bool CpuCCRegister::irqmask_flag() const noexcept {
         return get() | I_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_irqmask() noexcept {
+    void CpuCCRegister::clr_irqmask() noexcept {
         set(get() & ~I_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_irqmask() noexcept {
+    void CpuCCRegister::set_irqmask() noexcept {
         set(get() | I_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::halfcarry_flag() const noexcept {
+    const bool CpuCCRegister::halfcarry_flag() const noexcept {
         return get() | H_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_halfcarry() noexcept {
+    void CpuCCRegister::clr_halfcarry() noexcept {
         set(get() & ~H_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_halfcarry() noexcept {
+    void CpuCCRegister::set_halfcarry() noexcept {
         set(get() | H_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::firqmask_flag() const noexcept {
+    const bool CpuCCRegister::firqmask_flag() const noexcept {
         return get() | F_FLAG;
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_firqmask() noexcept {
+    void CpuCCRegister::clr_firqmask() noexcept {
         set(get() & ~F_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_firqmask() noexcept {
+    void CpuCCRegister::set_firqmask() noexcept {
         set(get() | F_FLAG);
     }
 
     //---------------------------------------------------------
-    inline const bool CpuCCRegister::entire_flag() const noexcept {
+    const bool CpuCCRegister::entire_flag() const noexcept {
         return get() | E_FLAG;
     }
 
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::clr_entire() noexcept {
+    void CpuCCRegister::clr_entire() noexcept {
         set(get() & ~E_FLAG);
     }
 
     //---------------------------------------------------------
-    inline void CpuCCRegister::set_entire() noexcept {
+    void CpuCCRegister::set_entire() noexcept {
         set(get() | E_FLAG);
     }
 

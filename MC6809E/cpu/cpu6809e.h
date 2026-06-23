@@ -16,6 +16,9 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "../memory/types.h"
+
+
 namespace cpu
 {
     //=====   The Microprocessing Registers   =================
@@ -52,6 +55,8 @@ namespace cpu
         inline operator IntT() noexcept;
         inline operator const IntT() const noexcept;
 
+        inline const IntT operator() () const noexcept;
+
 
         //-----   Operations   --------------------------------
         inline void set(const IntT val) noexcept;   // Sets value of the register content
@@ -68,6 +73,23 @@ namespace cpu
     //-----   Specializations   -------------------------------
     using CpuRegister8bits  = CPURegister<std::uint8_t>;    //  8-bits wide registers
     using CpuRegister16bits = CPURegister<std::uint16_t>;   // 16-bits wide registers
+
+
+    //=====   Registers Indexes   =============================
+    enum class EReg : std::uint8_t {
+        D = 0b0000,
+        X,
+        Y,
+        U,
+        S,
+        PC,
+        A = 0b1000,
+        B,
+        CC,
+        DP
+    };
+
+
 
 
     //=====   Deeper Specialization - the CC Register   =======
@@ -147,6 +169,12 @@ namespace cpu
         CpuCCRegister     regCC;
         CpuRegister16bits regX, regY, regU, regS, regPC, regD;
         CpuRegister8bits  regA, regB, regDP;
+
+
+        //-----   Operations   ---------------------------------
+        inline const std::uint16_t get_directpage_addr(const std::uint8_t addr_low) const noexcept;
+
+        inline const memory::MemAddr get_reg_value(const cpu::EReg reg_index) const;
 
     };
 
@@ -266,6 +294,14 @@ namespace cpu
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
     inline CPURegister<IntT>::operator const IntT() const noexcept
+    {
+        return _value;
+    }
+
+    //---------------------------------------------------------
+    template<typename IntT>
+        requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
+    inline const IntT CPURegister<IntT>::operator() () const noexcept
     {
         return _value;
     }

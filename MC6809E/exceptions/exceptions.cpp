@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <exception>
 #include <format>
 #include <string>
@@ -56,5 +57,42 @@ namespace except
         return _err_msg.c_str();
     }
 
-    
+
+    //=====   Invalid Register Addressing Mode Exception   =====
+    //---------------------------------------------------------
+    const char* InvalidRegisterAddressingModeException::what() const noexcept
+    {
+        return "Invalid register addressing mode";
+    }
+
+
+    //=====   Invalid Register Code Addressing Mode Exception   =====
+    //---------------------------------------------------------
+    InvalidRegisterCodeAddressingModeException::InvalidRegisterCodeAddressingModeException(const std::uint8_t reg_code) noexcept
+        : _reg_code{ reg_code }
+    {}
+
+    //---------------------------------------------------------
+    const char* InvalidRegisterCodeAddressingModeException::what() const noexcept
+    {
+        _err_msg = std::format("Code '0x{:2X}' is an invalid register code for register addressing mode", _reg_code);
+        return _err_msg.c_str();
+    }
+
+
+    //=====   Invalid 8-bits/16-bits mixing Register Addressing Mode Exception   =====
+    //---------------------------------------------------------
+    const char* InvalidMixedRegisterAddressingModeException::what() const noexcept
+    {
+        return "Invalid mixing of 8-bits and 16-bits registers on register addressing mode";
+    }
+
+
+    //=====   Invalid Offset Addressing Mode Exception   ======
+    //---------------------------------------------------------
+    const char* InvalidOffsetAddressingModeException::what() const noexcept
+    {
+        return "Invalid offset addressing mode";
+    }
+
 }
