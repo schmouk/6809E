@@ -164,6 +164,16 @@ namespace cpu
     };
 
 
+    //-----   Constant 16-bits Offset Indexed Addressing   -----
+    struct Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    {
+        inline Constant16bitsOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem);
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+
     //-----   Accumulator Offset Indexed Addressing   ---------
 
 

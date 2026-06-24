@@ -341,11 +341,11 @@ namespace cpu
     const memory::Word  OffsetIndexedAddressingMode::get_addressed_word(
         cpu::MicroprocUnit&          mpu,
         const cpu::CpuIndexRegister& reg,
-        memory::MemorySchema&         mem
+        memory::MemorySchema&        mem
     ) const
     {
         const memory::MemAddr word_addr{ memory::MemAddr(reg() + _offset) };
-        return (memory::Word(mem[word_addr] << 8)) | memory::Word(mem[word_addr + 1]);
+        return mem.get_word(word_addr);  // (memory::Word(mem[word_addr] << 8)) | memory::Word(mem[word_addr + 1]);
     }
 
     //---------------------------------------------------------
@@ -423,6 +423,35 @@ namespace cpu
     const std::uint64_t Constant8bitsOffsetIndexedAddressing::get_word_cycles() const
     {
         return 1;
+    }
+
+
+    //=====   Constant 16-bits Offset Indexed Addressing   =====
+    //---------------------------------------------------------
+    Constant16bitsOffsetIndexedAddressing::Constant16bitsOffsetIndexedAddressing(
+        cpu::MicroprocUnit& mpu,
+        memory::MemorySchema& mem
+    )
+        : OffsetIndexedAddressingMode()
+    {
+        memory::Word opcode{ mem.get_word(mpu.regPC()) };
+        mpu.regPC += 2;
+        if (opcode & 0x8000)  // Notice: signed offset, negative value
+            _offset = std::int16_t(opcode & 0x7fff) - 0x8000;
+        else
+            _offset = std::int16_t(opcode & 0x7fff);
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t Constant16bitsOffsetIndexedAddressing::get_byte_cycles() const
+    {
+        return 4;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t Constant16bitsOffsetIndexedAddressing::get_word_cycles() const
+    {
+        return 4;
     }
 
 
