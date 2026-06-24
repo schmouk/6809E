@@ -174,7 +174,31 @@ namespace cpu
     };
 
 
-    //-----   Accumulator Offset Indexed Addressing   ---------
+    //-----   Accumulator A Offset Indexed Addressing   ---------
+    struct AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    {
+        inline AccAOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, [[maybe_unused]] memory::MemorySchema& mem);
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+
+    //-----   Accumulator B Offset Indexed Addressing   ---------
+    struct AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
+    {
+        inline AccBOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, [[maybe_unused]] memory::MemorySchema& mem);
+    };
+
+
+    //-----   Accumulator D Offset Indexed Addressing   ---------
+    struct AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    {
+        inline AccDOffsetIndexedAddressing(cpu::MicroprocUnit& mpu, [[maybe_unused]] memory::MemorySchema& mem);
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
 
 
     //-----   Auto Increment / Decrement Indexed Addressing   -----

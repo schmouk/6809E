@@ -345,7 +345,7 @@ namespace cpu
     ) const
     {
         const memory::MemAddr word_addr{ memory::MemAddr(reg() + _offset) };
-        return mem.get_word(word_addr);  // (memory::Word(mem[word_addr] << 8)) | memory::Word(mem[word_addr + 1]);
+        return mem.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -359,7 +359,6 @@ namespace cpu
     {
         return 0;
     }
-
 
 
     //=====   Zero-Offset Indexed Addressing   ================
@@ -377,7 +376,7 @@ namespace cpu
     )
         : OffsetIndexedAddressingMode()
     {
-        memory::Byte opcode{ mem[mpu.regPC() - 1]};
+        const memory::Byte opcode{ mem[mpu.regPC() - 1]};
         if (opcode & 0x10)  // Notice: signed offset, negative value
             _offset = std::int16_t(opcode & 0x0f) - 0x10;
         else
@@ -405,7 +404,7 @@ namespace cpu
     )
         : OffsetIndexedAddressingMode()
     {
-        memory::Byte opcode{ mem[mpu.regPC()] };
+        const memory::Byte opcode{ mem[mpu.regPC()] };
         mpu.regPC++;
         if (opcode & 0x80)  // Notice: signed offset, negative value
             _offset = std::int16_t(opcode & 0x7f) - 0x80;
@@ -434,7 +433,7 @@ namespace cpu
     )
         : OffsetIndexedAddressingMode()
     {
-        memory::Word opcode{ mem.get_word(mpu.regPC()) };
+        const memory::Word opcode{ mem.get_word(mpu.regPC()) };
         mpu.regPC += 2;
         if (opcode & 0x8000)  // Notice: signed offset, negative value
             _offset = std::int16_t(opcode & 0x7fff) - 0x8000;
@@ -455,7 +454,76 @@ namespace cpu
     }
 
 
-    //-----   Accumulator Offset Indexed Addressing   ---------
+    //=====   Accumulator A Offset Indexed Addressing   =======
+    //---------------------------------------------------------
+    AccAOffsetIndexedAddressing::AccAOffsetIndexedAddressing(
+        cpu::MicroprocUnit& mpu,
+        [[maybe_unused]] memory::MemorySchema& mem
+    )
+        : OffsetIndexedAddressingMode()
+    {
+        const memory::Byte acc_value{ mpu.regA() };
+        if (acc_value & 0x80)  // Notice: signed offset, negative value
+            _offset = std::int16_t(acc_value & 0x7f) - 0x80;
+        else
+            _offset = std::int16_t(acc_value & 0x7f);
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t AccAOffsetIndexedAddressing::get_byte_cycles() const
+    {
+        return 1;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t AccAOffsetIndexedAddressing::get_word_cycles() const
+    {
+        return 1;
+    }
+
+
+    //=====   Accumulator B Offset Indexed Addressing   =======
+    //---------------------------------------------------------
+    AccBOffsetIndexedAddressing::AccBOffsetIndexedAddressing(
+        cpu::MicroprocUnit& mpu,
+        [[maybe_unused]] memory::MemorySchema& mem
+    )
+        : AccAOffsetIndexedAddressing(mpu, mem)
+    {
+        const memory::Byte acc_value{ mpu.regB() };
+        if (acc_value & 0x80)  // Notice: signed offset, negative value
+            _offset = std::int16_t(acc_value & 0x7f) - 0x80;
+        else
+            _offset = std::int16_t(acc_value & 0x7f);
+    }
+
+
+    //=====   Accumulator D Offset Indexed Addressing   =======
+    //---------------------------------------------------------
+    AccDOffsetIndexedAddressing::AccDOffsetIndexedAddressing(
+        cpu::MicroprocUnit& mpu,
+        [[maybe_unused]] memory::MemorySchema& mem
+    )
+        : OffsetIndexedAddressingMode()
+    {
+        const memory::Word acc_value{ mpu.regD() };
+        if (acc_value & 0x8000)  // Notice: signed offset, negative value
+            _offset = std::int16_t(acc_value & 0x7fff) - 0x8000;
+        else
+            _offset = std::int16_t(acc_value & 0x7fff);
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t AccDOffsetIndexedAddressing::get_byte_cycles() const
+    {
+        return 4;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t AccDOffsetIndexedAddressing::get_word_cycles() const
+    {
+        return 4;
+    }
 
 
     //-----   Auto Increment / Decrement Indexed Addressing   -----
