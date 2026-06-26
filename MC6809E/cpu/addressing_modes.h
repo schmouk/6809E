@@ -6,6 +6,7 @@
 #include "./cpu6809e.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
+#include <concepts>
 
 
 /**
@@ -139,7 +140,11 @@ namespace cpu
     //-----   Zero-Offset Indexed Addressing   ----------------
     struct ZeroOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
-        inline ZeroOffsetIndexedAddressing() noexcept;
+        inline ZeroOffsetIndexedAddressing(
+            [[maybe_unused]] cpu::MicroprocUnit&   mpu,
+            [[maybe_unused]] memory::MemorySchema& mem
+        ) noexcept;
+
         virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
     };
 
@@ -201,7 +206,6 @@ namespace cpu
     };
 
 
-    //=====   Auto Increment / Decrement Indexed Addressing   =====
     //-----   Post Increment Indexed Addressing   -------------
     template<const memory::Word POST_INC = 1>
     struct PostIncrementIndexedAddressing : public BaseAddressingMode
@@ -225,6 +229,25 @@ namespace cpu
         virtual const std::uint64_t get_word_cycles() const override;
     };
 
+
+    //=====   Offset Indirect Indexed Addressing   ===========
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    struct OffsetIndirectIndexedAddressingMode : public IndexedAddrT
+    {
+        inline OffsetIndirectIndexedAddressingMode(const std::int16_t offset = 0) noexcept;
+
+        virtual ~OffsetIndirectIndexedAddressingMode() noexcept = default;
+
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const override;
+
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
 
 
 
@@ -325,6 +348,86 @@ namespace cpu
     const std::uint64_t PreDecrementIndexedAddressing<PRE_DEC>::get_word_cycles() const
     {
         return 1 + PRE_DEC;
+    }
+
+    //-----   Offset Indirect Indexed Addressing   -----------
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    OffsetIndirectIndexedAddressingMode<IndexedAddrT>::OffsetIndirectIndexedAddressingMode(
+        const std::int16_t offset
+    ) noexcept
+        : IndexedAddrT(offset)
+    {}
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const memory::Byte OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_addressed_byte(
+        cpu::MicroprocUnit&   mpu,
+        memory::MemorySchema& mem
+    ) const
+    {
+        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(mpu, mem)) };
+        const memory::MemAddr final_addr{ memory::MemAddr(mem.get_word(indirect_addr)) };
+        return mem.get_byte(final_addr);
+    }
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const memory::Word OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_addressed_word(
+        cpu::MicroprocUnit&   mpu,
+        memory::MemorySchema& mem
+    ) const
+    {
+        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(mpu, mem)) };
+        const memory::MemAddr final_addr{ memory::MemAddr(mem.get_word(indirect_addr)) };
+        return mem.get_word(final_addr);
+    }
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const memory::Byte OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_addressed_byte(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(mpu, reg, mem)) };
+        const memory::MemAddr final_addr{ memory::MemAddr(mem.get_word(indirect_addr)) };
+        return mem.get_byte(final_addr);
+    }
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const memory::Word  OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_addressed_word(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(mpu, reg, mem)) };
+        const memory::MemAddr final_addr{ memory::MemAddr(mem.get_word(indirect_addr)) };
+        return mem.get_word(final_addr);
+    }
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const std::uint64_t OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_byte_cycles() const
+    {
+        return 3 + IndexedAddrT::get_byte_cycles();
+    }
+
+    //---------------------------------------------------------
+    template<typename IndexedAddrT>
+        requires std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode>
+    const std::uint64_t OffsetIndirectIndexedAddressingMode<IndexedAddrT>::get_word_cycles() const
+    {
+        return 3 + IndexedAddrT::get_word_cycles();
     }
 
 }

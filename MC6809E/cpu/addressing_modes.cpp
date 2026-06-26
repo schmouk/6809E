@@ -363,7 +363,10 @@ namespace cpu
 
     //=====   Zero-Offset Indexed Addressing   ================
     //---------------------------------------------------------
-    ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing() noexcept
+    ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing(
+        [[maybe_unused]] cpu::MicroprocUnit&   mpu,
+        [[maybe_unused]] memory::MemorySchema& mem
+    ) noexcept
         : OffsetIndexedAddressingMode{ 0 }
     {}
 
@@ -525,19 +528,5 @@ namespace cpu
         return 4;
     }
 
-
-    //-----   Auto Increment / Decrement Indexed Addressing   -----
-
-
-    //-----   Zero-Offset Indexed Indirect Addressing   -------
-
-
-    //-----   Constant Offset Indexed Indirect Addressing   -----
-
-
-    //-----   Accumulator Offset Indexed Indirect Addressing   -----
-
-
-    //-----   Auto Increment / Decrement Indexed Addressing   -----
 
 }
