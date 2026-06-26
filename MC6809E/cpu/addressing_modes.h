@@ -201,10 +201,32 @@ namespace cpu
     };
 
 
-    //-----   Auto Increment / Decrement Indexed Addressing   -----
+    //=====   Auto Increment / Decrement Indexed Addressing   =====
+    //-----   Post Increment Indexed Addressing   -------------
+    template<const memory::Word POST_INC = 1>
+    struct PostIncrementIndexedAddressing : public BaseAddressingMode
+    {
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
 
-        
-    //-----   Zero-Offset Indexed Indirect Addressing   -------
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+
+    //-----   Pre Decrement Indexed Addressing   --------------
+    template<const memory::Word POST_INC = 1>
+    struct PreDecrementIndexedAddressing : public BaseAddressingMode
+    {
+        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const override;
+
+        virtual const std::uint64_t get_byte_cycles() const override;
+        virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+
+
 
 
     //-----   Constant Offset Indexed Indirect Addressing   -----
@@ -224,4 +246,85 @@ namespace cpu
 
 
     //=====   IMPLEMENTATIONS   ===============================
+    //-----   Post Increment Indexed Addressing   -------------
+    //---------------------------------------------------------
+    template<const memory::Word POST_INC>
+    const memory::Byte PostIncrementIndexedAddressing<POST_INC>::get_addressed_byte(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        const memory::Byte byte{ mem.get_byte(reg()) };
+        reg += POST_INC;
+        return byte;
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word POST_INC>
+    const memory::Word  PostIncrementIndexedAddressing<POST_INC>::get_addressed_word(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        const memory::Word word{ mem.get_word(reg()) };
+        reg += POST_INC;
+        return word;
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word POST_INC>
+    const std::uint64_t PostIncrementIndexedAddressing<POST_INC>::get_byte_cycles() const
+    {
+        return 1 + POST_INC;
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word POST_INC>
+    const std::uint64_t PostIncrementIndexedAddressing<POST_INC>::get_word_cycles() const
+    {
+        return 1 + POST_INC;
+    }
+
+
+    //-----   Pre Decrement Indexed Addressing   --------------
+    //---------------------------------------------------------
+    template<const memory::Word PRE_DEC>
+    const memory::Byte PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_byte(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        reg -= PRE_DEC;
+        return mem.get_byte(reg()) ;
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word PRE_DEC>
+    const memory::Word  PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_word(
+        cpu::MicroprocUnit&          mpu,
+        const cpu::CpuIndexRegister& reg,
+        memory::MemorySchema&        mem
+    ) const
+    {
+        reg -= PRE_DEC;
+        return mem.get_word(reg());
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word PRE_DEC>
+    const std::uint64_t PreDecrementIndexedAddressing<PRE_DEC>::get_byte_cycles() const
+    {
+        return 1 + PRE_DEC;
+    }
+
+    //---------------------------------------------------------
+    template<const memory::Word PRE_DEC>
+    const std::uint64_t PreDecrementIndexedAddressing<PRE_DEC>::get_word_cycles() const
+    {
+        return 1 + PRE_DEC;
+    }
+
 }

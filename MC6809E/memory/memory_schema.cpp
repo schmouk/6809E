@@ -39,6 +39,18 @@ namespace memory
     }
 
     //---------------------------------------------------------
+    const memory::Byte MemorySchema::get_byte(const memory::MemAddr addr) const
+    {
+        return _content[addr];
+    }
+
+    //---------------------------------------------------------
+    void MemorySchema::set_byte(const memory::MemAddr addr, const memory::Byte val)
+    {
+        _content[addr] = val;
+    }
+
+    //---------------------------------------------------------
     const memory::Word MemorySchema::get_word(const memory::MemAddr addr) const
     {
         return (memory::Word(_content[addr]) << 8) | memory::Word(_content[addr + 1]);
