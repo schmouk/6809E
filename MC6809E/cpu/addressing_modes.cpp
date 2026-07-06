@@ -16,21 +16,19 @@ namespace cpu
     //---------------------------------------------------------
     const memory::Byte  BaseAddressingMode::get_addressed_byte(
         cpu::MicroprocUnit&     mpu,
-        const cpu::CPURegister& reg,
         memory::MemorySchema&   mem
     ) const
     {
-        throw except::InvalidRegisterAddressingModeException();
+        throw except::InvalidAddressingModeException();
     }
 
     //---------------------------------------------------------
     const memory::Word  BaseAddressingMode::get_addressed_word(
         cpu::MicroprocUnit&     mpu,
-        const cpu::CPURegister& reg,
         memory::MemorySchema&   mem
     ) const
     {
-        throw except::InvalidRegisterAddressingModeException();
+        throw except::InvalidAddressingModeException();
     }
 
     //---------------------------------------------------------
@@ -431,7 +429,7 @@ namespace cpu
     //=====   Constant 16-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant16bitsOffsetIndexedAddressing::Constant16bitsOffsetIndexedAddressing(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&   mpu,
         memory::MemorySchema& mem
     )
         : OffsetIndexedAddressingMode()
@@ -460,7 +458,7 @@ namespace cpu
     //=====   Accumulator A Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccAOffsetIndexedAddressing::AccAOffsetIndexedAddressing(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&                    mpu,
         [[maybe_unused]] memory::MemorySchema& mem
     )
         : OffsetIndexedAddressingMode()
@@ -488,7 +486,7 @@ namespace cpu
     //=====   Accumulator B Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccBOffsetIndexedAddressing::AccBOffsetIndexedAddressing(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&                    mpu,
         [[maybe_unused]] memory::MemorySchema& mem
     )
         : AccAOffsetIndexedAddressing(mpu, mem)
@@ -504,7 +502,7 @@ namespace cpu
     //=====   Accumulator D Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccDOffsetIndexedAddressing::AccDOffsetIndexedAddressing(
-        cpu::MicroprocUnit& mpu,
+        cpu::MicroprocUnit&                    mpu,
         [[maybe_unused]] memory::MemorySchema& mem
     )
         : OffsetIndexedAddressingMode()
