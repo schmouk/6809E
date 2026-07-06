@@ -15,8 +15,8 @@ namespace cpu
     //=====   Base Addressing Class   =========================
     //---------------------------------------------------------
     const memory::Byte  BaseAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&     mpu,
-        memory::MemorySchema&   mem
+        cpu::MicroprocUnit&   mpu,
+        memory::MemorySchema& mem
     ) const
     {
         throw except::InvalidAddressingModeException();
@@ -24,8 +24,8 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Word  BaseAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&     mpu,
-        memory::MemorySchema&   mem
+        cpu::MicroprocUnit&   mpu,
+        memory::MemorySchema& mem
     ) const
     {
         throw except::InvalidAddressingModeException();
@@ -495,7 +495,7 @@ namespace cpu
         if (acc_value & 0x80)  // Notice: signed offset, negative value
             _offset = std::int16_t(acc_value & 0x7f) - 0x80;
         else
-            _offset = std::int16_t(acc_value & 0x7f);
+            _offset = std::int16_t(acc_value);
     }
 
 
@@ -511,7 +511,7 @@ namespace cpu
         if (acc_value & 0x8000)  // Notice: signed offset, negative value
             _offset = std::int16_t(acc_value & 0x7fff) - 0x8000;
         else
-            _offset = std::int16_t(acc_value & 0x7fff);
+            _offset = std::int16_t(acc_value);
     }
 
     //---------------------------------------------------------
@@ -526,5 +526,30 @@ namespace cpu
         return 4;
     }
 
+
+    //=====   Short Relative Branching   ======================
+    const std::int16_t ShortRelativeAddressing::get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const
+    {
+        const memory::Byte byte{ mem.get_byte(mpu.regPC()) };
+        mpu.regPC++;
+
+        if (byte & 0x80)
+            return std::int16_t(byte & 0x7f) - 0x8000;
+        else
+            return std::int16_t(byte);
+    }
+
+
+    //=====    Long Relative Branching   ======================
+    const std::int16_t LongRelativeAddressing::get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const
+    {
+        const memory::Word word{ mem.get_word(mpu.regPC()) };
+        mpu.regPC += 2;
+
+        if (word & 0x8000)
+            return std::int16_t(word & 0x7fff) - 0x8000;
+        else
+            return std::int16_t(word);
+    }
 
 }

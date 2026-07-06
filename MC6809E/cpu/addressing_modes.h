@@ -267,25 +267,17 @@ namespace cpu
 
     //=====   Relative Addressing   ===========================
     //-----   Short Relative Branching   ----------------------
-    /** /
-    struct ShortRelativeAddressing : public BaseAddressingMode
+    struct ShortRelativeAddressing
     {
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const = 0;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const = 0;
-
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CPURegister& reg, memory::MemorySchema& mem) const;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CPURegister& reg, memory::MemorySchema& mem) const;
-
-        virtual const memory::Byte  get_addressed_byte(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const;
-        virtual const memory::Word  get_addressed_word(cpu::MicroprocUnit& mpu, const cpu::CpuIndexRegister& reg, memory::MemorySchema& mem) const;
-
-        virtual const std::uint64_t get_byte_cycles() const = 0;
-        virtual const std::uint64_t get_word_cycles() const = 0;
+        const std::int16_t get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const;
     };
-    /**/
 
 
     //-----    Long Relative Branching   ----------------------
+    struct LongRelativeAddressing
+    {
+        const std::int16_t get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const;
+    };
 
 
     //-----   Program Counter Relative Addressing   -----------
