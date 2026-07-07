@@ -6,8 +6,8 @@
 * It defines next classes:
 * 
 * - template<typename IntT> class CPURegister;
-* - using CpuRegister8bits  = CPURegister<std::uint8_t>;
-* - using CpuRegister16bits = CPURegister<std::uint16_t>;
+* - using CPURegister8bits  = CPURegister<std::uint8_t>;
+* - using CPURegister16bits = CPURegister<std::uint16_t>;
 * - struct CpuCCRegister;
 * 
 * - struct MicroprocUnit;  // The composition of all 8-bits and 16-bits MC6809 registers
@@ -75,9 +75,9 @@ namespace cpu
 
 
     //-----   Specializations   -------------------------------
-    using CpuRegister8bits  = CPURegisterT<std::uint8_t>;    //  8-bits wide registers
-    using CpuRegister16bits = CPURegisterT<std::uint16_t>;   // 16-bits wide registers
-    using CpuIndexRegister  = CPURegisterT<std::uint16_t>;   // 16-bits wide indexing registers
+    using CPURegister8bits  = CPURegisterT<std::uint8_t>;    //  8-bits wide registers
+    using CPURegister16bits = CPURegisterT<std::uint16_t>;   // 16-bits wide registers
+    using CPUIndexRegister  = CPURegisterT<std::uint16_t>;   // 16-bits wide indexing registers
 
 
     //=====   Registers Indexes   =============================
@@ -96,7 +96,7 @@ namespace cpu
 
 
     //=====   Deeper Specialization - the CC Register   =======
-    struct CpuCCRegister : public CpuRegister8bits
+    struct CpuCCRegister : public CPURegister8bits
     {
         //-----   Constructors / Destructors   ----------------
         inline CpuCCRegister() noexcept = default;
@@ -169,9 +169,9 @@ namespace cpu
 
         //-----   CPU Registers   -----------------------------
         CpuCCRegister     regCC;
-        CpuIndexRegister  regX, regY, regU, regS;
-        CpuRegister16bits regPC, regD;
-        CpuRegister8bits  regA, regB, regDP;
+        CPUIndexRegister  regX, regY, regU, regS;
+        CPURegister16bits regPC, regD;
+        CPURegister8bits  regA, regB, regDP;
 
 
         //-----   Operations   ---------------------------------
