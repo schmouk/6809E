@@ -149,9 +149,10 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        throw except::InvalidAddressingModeException(
-            "Byte addressing is invalid for extended addressing mode"
-        );
+        memory::Word byte_addr{ mem.get_word(mpu.regPC()) };
+        mpu.regPC += 2;
+
+        return mem.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
@@ -160,7 +161,7 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC) };
+        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
         mpu.regPC += 2;
 
         return mem.get_word(word_addr);
@@ -169,9 +170,7 @@ namespace cpu
     //---------------------------------------------------------
     const std::uint64_t ExtendedAddressing::get_byte_cycles() const
     {
-        throw except::InvalidAddressingModeException(
-            "Byte addressing is invalid for extended addressing mode"
-        );
+        return 1;
     }
 
     //---------------------------------------------------------
@@ -188,7 +187,7 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC) };
+        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
         mpu.regPC += 2;
 
         return mem[mem.get_word(word_addr)];
@@ -200,7 +199,7 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC) };
+        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
         mpu.regPC += 2;
 
         return mem.get_word(mem.get_word(word_addr));
@@ -226,10 +225,10 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        const memory::MemAddr byte_addr{ mpu.get_directpage_addr(mem[mpu.regPC]) };
+        const memory::MemAddr byte_addr{ mpu.get_directpage_addr(mem.get_byte(mpu.regPC())) };
         mpu.regPC++;
 
-        return mem[byte_addr];
+        return mem.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
@@ -238,7 +237,7 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        const memory::MemAddr word_addr{ mpu.get_directpage_addr(mem[mpu.regPC]) };
+        const memory::MemAddr word_addr{ mpu.get_directpage_addr(mem.get_byte(mpu.regPC())) };
         mpu.regPC++;
 
         return mem.get_word(word_addr);
@@ -264,7 +263,7 @@ namespace cpu
         memory::MemorySchema& mem
     ) const
     {
-        const memory::Byte reg_code{ mem[mpu.regPC] };
+        const memory::Byte reg_code{ mem.get_byte(mpu.regPC()) };
         mpu.regPC++;
 
         return reg_code;
@@ -425,7 +424,7 @@ namespace cpu
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Byte opcode{ mem[mpu.regPC()] };
+        const memory::Byte opcode{ mem.get_byte(mpu.regPC()) };
         mpu.regPC++;
         if (opcode & 0x80)  // Notice: signed offset, negative value
             _offset = memory::Offset(opcode & 0x7f) - 0x80;
