@@ -1,0 +1,46 @@
+#pragma once
+
+/**
+* This file defines next class:
+* - class CPUInstruction;      // The base class for every MC6809E microprocessing unit instruction
+* - class CPUInstructionsSet;  // The set of MC6809E instructions
+*/
+
+#include <vector>
+
+#include "../architecture/hw_architecture.h"
+#include "../memory/types.h"
+
+
+namespace instr
+{
+    //=====   MC6809E CPU Instruction Base Class   ============
+    class BaseInstruction
+    {
+    public:
+        //-----   Constructors / Destructor   -----------------
+        inline BaseInstruction() noexcept = default;
+        inline virtual ~BaseInstruction() noexcept = default;
+
+        BaseInstruction(const BaseInstruction&) = delete;
+        BaseInstruction(BaseInstruction&&) = delete;
+
+        BaseInstruction(const memory::Byte opcode) noexcept;
+        BaseInstruction(const memory::Byte opcode1, const memory::Byte opcode2) noexcept;
+
+
+        //-----   Operators   ---------------------------------
+        const bool operator== (const memory::Byte opcode) const noexcept;
+        const bool operator== (const std::vector<memory::Byte>& opcode) const noexcept;
+
+
+        //-----   Operations   --------------------------------
+        virtual void exec(archi::HWArchitecture& hw_architecture) = 0;
+
+
+    private:
+        std::vector<memory::Byte> _opcode{};
+
+    };
+
+}
