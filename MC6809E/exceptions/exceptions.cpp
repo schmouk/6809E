@@ -2,8 +2,11 @@
 #include <exception>
 #include <format>
 #include <string>
+#include <vector>
 
-#include "exceptions.h"
+#include "./exceptions.h"
+
+#include "../memory/types.h"
 
 
 namespace except
@@ -93,6 +96,51 @@ namespace except
     const char* InvalidOffsetAddressingModeException::what() const noexcept
     {
         return "Invalid offset addressing mode";
+    }
+
+
+    //=====   Invalid Register Code Addressing Mode Exception   =====
+    //---------------------------------------------------------
+    InvalidInstructionOpCodeException::InvalidInstructionOpCodeException(
+        const memory::Byte op_code
+    ) noexcept
+        : _op_code{ 1, op_code }
+    {}
+
+    //---------------------------------------------------------
+    InvalidInstructionOpCodeException::InvalidInstructionOpCodeException(
+        const memory::Byte op_code1,
+        const memory::Byte op_code2
+    ) noexcept
+        : _op_code{ op_code1, op_code2 }
+    {}
+
+    //---------------------------------------------------------
+    InvalidInstructionOpCodeException::InvalidInstructionOpCodeException(
+        const std::vector<memory::Byte>& op_code
+    ) noexcept
+        : _op_code{ op_code }
+    {}
+
+    //---------------------------------------------------------
+    const char* InvalidInstructionOpCodeException::what() const noexcept
+    {
+        if (_op_code.size() == 1)
+            _err_msg = std::format("Code '0x{:2X}' is an invalid operating code for an MC6809E instruction", _op_code[0]);
+
+        else if (_op_code.size() == 2)
+            _err_msg = std::format("Code '0x{:2X}{:2X}' is an invalid operating code for an MC6809E instruction", _op_code[0], _op_code[1]);
+
+        else if (_op_code.empty())
+            _err_msg = "operating code of length 0 is an invalid opcode for MC6809E instructions";
+
+        else
+            _err_msg = std::format(
+                "operating code of length > 2 is an invalid opcode for MC6809E instructions (0x{:2X}{:2X}{:2X}{})",
+                _op_code[0], _op_code[1], _op_code[2], _op_code.size() == 3 ? "" : "..."
+            );
+
+        return _err_msg.c_str();
     }
 
 }

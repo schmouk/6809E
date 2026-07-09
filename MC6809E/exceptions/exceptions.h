@@ -7,6 +7,9 @@
 #include <cstdint>
 #include <exception>
 #include <string>
+#include <vector>
+
+#include "../memory/types.h"
 
 
 namespace except
@@ -92,4 +95,20 @@ namespace except
         const char* what() const noexcept override;
     };
 
+
+    //=====   Invalid Instruction OpCode Exception   =========-
+    class InvalidInstructionOpCodeException : public std::exception
+    {
+    public:
+        InvalidInstructionOpCodeException(const memory::Byte op_code) noexcept;
+        InvalidInstructionOpCodeException(const memory::Byte op_code1, const memory::Byte op_code2) noexcept;
+        InvalidInstructionOpCodeException(const std::vector<memory::Byte>& op_code) noexcept;
+        virtual ~InvalidInstructionOpCodeException() noexcept = default;
+
+        const char* what() const noexcept override;
+
+    private:
+        const std::vector<memory::Byte>  _op_code{};
+        mutable std::string _err_msg{};
+    };
 }
