@@ -12,9 +12,11 @@
 namespace archi
 {
     //=====   H/W Architecture   ==============================
-    class HWArchitecture
+    struct HWArchitecture
     {
-    public:
+        cpu::MicroprocUnit   mpu{};
+        memory::MemorySchema mem{};
+
         //-----   Constructors / Destructor   -----------------
         inline HWArchitecture() noexcept = default;
         virtual inline ~HWArchitecture() noexcept = default;
@@ -22,16 +24,11 @@ namespace archi
         inline HWArchitecture(const HWArchitecture&) noexcept = default;
         inline HWArchitecture(HWArchitecture&&) noexcept = default;
 
-        HWArchitecture(memory::MemorySchema& mem) noexcept;
+        HWArchitecture(memory::MemorySchema& mem_) noexcept;
 
 
         //-----   Operations   --------------------------------
-        void set_memory_schema(memory::MemorySchema& mem) noexcept;
-
-
-    private:
-        cpu::MicroprocUnit   _mpu{};
-        memory::MemorySchema _mem{};
+        void set_memory_schema(memory::MemorySchema& mem_) noexcept;
 
     };
 

@@ -5,14 +5,14 @@
 namespace archi
 {
     //---------------------------------------------------------
-    HWArchitecture::HWArchitecture(memory::MemorySchema& mem) noexcept
-        : _mem{mem}
+    HWArchitecture::HWArchitecture(memory::MemorySchema& mem_) noexcept
+        : mem{ mem_ }
     {}
 
     //---------------------------------------------------------
-    void HWArchitecture::set_memory_schema(memory::MemorySchema& mem) noexcept
+    void HWArchitecture::set_memory_schema(memory::MemorySchema& mem_) noexcept
     {
-        _mem = mem;
+        mem = mem_;
     }
 
 }
