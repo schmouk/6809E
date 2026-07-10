@@ -1,71 +1,49 @@
-#include <cassert>
 #include <cstdint>
 #include <initializer_list>
 
-#include "./microproc_unit.h"
+#include "./addressing_modes.h"
+#include "./cpu_registers.h"
+
+#include "../architecture/hw_architecture.h"
 #include "../exceptions/exceptions.h"
-#include "../memory/memory_schema.h"
 #include "../memory/types.h"
 
-#include "addressing_modes.h"
 
 
 namespace cpu
 {
     //=====   Base Addressing Class   =========================
     //---------------------------------------------------------
-    const memory::Byte  BaseAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
-    ) const
-    {
-        throw except::InvalidAddressingModeException();
-    }
-
-    //---------------------------------------------------------
-    const memory::Word  BaseAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
-    ) const
-    {
-        throw except::InvalidAddressingModeException();
-    }
-
-    //---------------------------------------------------------
-    const memory::Byte  BaseAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&     mpu,
-        const cpu::CPURegister& reg,
-        memory::MemorySchema&   mem
+    const memory::Byte BaseAddressingMode::get_addressed_byte(
+        archi::HWArchitecture& hw_arch,
+        const CPURegister&     reg
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
     }
 
     //---------------------------------------------------------
-    const memory::Word  BaseAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&     mpu,
-        const cpu::CPURegister& reg,
-        memory::MemorySchema&   mem
+    const memory::Word BaseAddressingMode::get_addressed_word(
+        archi::HWArchitecture& hw_arch,
+        const CPURegister&     reg
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
     }
 
     //---------------------------------------------------------
-    const memory::Byte  BaseAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&          mpu,
-        const cpu::CPUIndexRegister& reg,
-        memory::MemorySchema&        mem
+    const memory::Byte BaseAddressingMode::get_addressed_byte(
+        archi::HWArchitecture&  hw_arch,
+        const CPUIndexRegister& reg
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
     }
 
     //---------------------------------------------------------
-    const memory::Word  BaseAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&          mpu,
-        const cpu::CPUIndexRegister& reg,
-        memory::MemorySchema&        mem
+    const memory::Word BaseAddressingMode::get_addressed_word(
+        archi::HWArchitecture&  hw_arch,
+        const CPUIndexRegister& reg
     ) const
     {
         throw except::InvalidRegisterAddressingModeException();
@@ -75,8 +53,7 @@ namespace cpu
     //=====   Inherent Addressing   ===========================
     //---------------------------------------------------------
     const memory::Byte InherentAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
         throw except::InvalidAddressingModeException(
@@ -86,8 +63,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Word InherentAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
         throw except::InvalidAddressingModeException(
@@ -111,21 +87,19 @@ namespace cpu
     //=====   Immediate Addressing   ==========================
     //---------------------------------------------------------
     const memory::Byte ImmediateAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        return mem[mpu.regPC++];
+        return hw_arch.get_byte(hw_arch.regPC++);  // mem[mpu.regPC++];
     }
 
     //---------------------------------------------------------
     const memory::Word ImmediateAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        memory::Word w{ mem.get_word(mpu.regPC) };
-        mpu.regPC += 2;
+        memory::Word w{ hw_arch.get_word(hw_arch.regPC) };
+        hw_arch.regPC += 2;
         return w;
     }
 
@@ -145,26 +119,24 @@ namespace cpu
     //=====   Extended Addressing   ===========================
     //---------------------------------------------------------
     const memory::Byte ExtendedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        memory::Word byte_addr{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        memory::Word byte_addr{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
 
-        return mem.get_byte(byte_addr);
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word ExtendedAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        memory::Word word_addr{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
 
-        return mem.get_word(word_addr);
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -183,26 +155,24 @@ namespace cpu
     //=====   Extended Indirect Addressing   ==================
     //---------------------------------------------------------
     const memory::Byte ExtendedIndirectAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        memory::Word word_addr{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
 
-        return mem[mem.get_word(word_addr)];
+        return hw_arch.get_byte(hw_arch.get_word(word_addr));
     }
 
     //---------------------------------------------------------
     const memory::Word ExtendedIndirectAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        memory::Word word_addr{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        memory::Word word_addr{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
 
-        return mem.get_word(mem.get_word(word_addr));
+        return hw_arch.get_word(hw_arch.get_word(word_addr));
     }
 
     //---------------------------------------------------------
@@ -221,26 +191,24 @@ namespace cpu
     //=====   Direct Addressing   =============================
     //---------------------------------------------------------
     const memory::Byte DirectAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr byte_addr{ mpu.get_directpage_addr(mem.get_byte(mpu.regPC())) };
-        mpu.regPC++;
+        const memory::MemAddr byte_addr{ hw_arch.get_directpage_addr(hw_arch.get_byte(hw_arch.regPC())) };
+        hw_arch.regPC++;
 
-        return mem.get_byte(byte_addr);
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word DirectAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr word_addr{ mpu.get_directpage_addr(mem.get_byte(mpu.regPC())) };
-        mpu.regPC++;
+        const memory::MemAddr word_addr{ hw_arch.get_directpage_addr(hw_arch.get_byte(hw_arch.regPC())) };
+        hw_arch.regPC++;
 
-        return mem.get_word(word_addr);
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -259,20 +227,18 @@ namespace cpu
     //=====   Register Addressing   ===========================
     //---------------------------------------------------------
     const memory::Byte  RegisterAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::Byte reg_code{ mem.get_byte(mpu.regPC()) };
-        mpu.regPC++;
+        const memory::Byte reg_code{ hw_arch.get_byte(hw_arch.regPC()) };
+        hw_arch.regPC++;
 
         return reg_code;
     }
 
     //---------------------------------------------------------
     const memory::Word  RegisterAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
         throw except::InvalidAddressingModeException(
@@ -295,10 +261,10 @@ namespace cpu
     }
 
     //---------------------------------------------------------
-    std::initializer_list<cpu::EReg> RegisterAddressing::evaluate_regs(const memory::Byte bytecode)
+    std::initializer_list<EReg> RegisterAddressing::evaluate_regs(const memory::Byte bytecode)
     {
-        const cpu::EReg src{ _get_reg_index(bytecode >> 4) };
-        const cpu::EReg dst{ _get_reg_index(bytecode & 0x0f) };
+        const EReg src{ _get_reg_index(bytecode >> 4) };
+        const EReg dst{ _get_reg_index(bytecode & 0x0f) };
         
         if (_is_8bits(src) == _is_16bits(dst))
             throw except::InvalidMixedRegisterAddressingModeException();
@@ -307,13 +273,13 @@ namespace cpu
     }
 
     //---------------------------------------------------------
-    const cpu::EReg RegisterAddressing::_get_reg_index(const memory::Byte reg_ndx)
+    const EReg RegisterAddressing::_get_reg_index(const memory::Byte reg_ndx)
     {
-        if (reg_ndx <= memory::Byte(cpu::EReg::PC))
-            return cpu::EReg(reg_ndx);
+        if (reg_ndx <= memory::Byte(EReg::PC))
+            return EReg(reg_ndx);
 
-        if (memory::Byte(cpu::EReg::A) <= reg_ndx && reg_ndx <= memory::Byte(cpu::EReg::DP))
-            return cpu::EReg(reg_ndx);
+        if (memory::Byte(EReg::A) <= reg_ndx && reg_ndx <= memory::Byte(EReg::DP))
+            return EReg(reg_ndx);
 
         throw except::InvalidRegisterCodeAddressingModeException(reg_ndx);
     }
@@ -327,8 +293,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Byte  OffsetIndexedAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
         throw except::InvalidOffsetAddressingModeException();
@@ -336,8 +301,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Word  OffsetIndexedAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
         throw except::InvalidOffsetAddressingModeException();
@@ -345,24 +309,22 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Byte  OffsetIndexedAddressingMode::get_addressed_byte(
-        cpu::MicroprocUnit&          mpu,
-        const cpu::CPUIndexRegister& reg,
-        memory::MemorySchema&        mem
+        archi::HWArchitecture&  hw_arch,
+        const CPUIndexRegister& reg
     ) const
     {
         const memory::MemAddr byte_addr{ memory::MemAddr(reg() + _offset) };
-        return mem[byte_addr];
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word  OffsetIndexedAddressingMode::get_addressed_word(
-        cpu::MicroprocUnit&          mpu,
-        const cpu::CPUIndexRegister& reg,
-        memory::MemorySchema&        mem
+        archi::HWArchitecture&  hw_arch,
+        const CPUIndexRegister& reg
     ) const
     {
         const memory::MemAddr word_addr{ memory::MemAddr(reg() + _offset) };
-        return mem.get_word(word_addr);
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -381,22 +343,20 @@ namespace cpu
     //=====   Zero-Offset Indexed Addressing   ================
     //---------------------------------------------------------
     ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing(
-        [[maybe_unused]] cpu::MicroprocUnit&   mpu,
-        [[maybe_unused]] memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) noexcept
-        : OffsetIndexedAddressingMode{ 0 }
+        : OffsetIndexedAddressingMode(0)
     {}
 
 
     //=====   Constant 5-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant5bitsOffsetIndexedAddressing::Constant5bitsOffsetIndexedAddressing(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Byte opcode{ mem[mpu.regPC() - 1]};
+        const memory::Byte opcode{ hw_arch.get_byte(hw_arch.regPC() - 1)};
         if (opcode & 0x10)  // Notice: signed offset, negative value
             _offset = memory::Offset(opcode & 0x0f) - 0x10;
         else
@@ -419,13 +379,12 @@ namespace cpu
     //=====   Constant 8-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant8bitsOffsetIndexedAddressing::Constant8bitsOffsetIndexedAddressing(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Byte opcode{ mem.get_byte(mpu.regPC()) };
-        mpu.regPC++;
+        const memory::Byte opcode{ hw_arch.get_byte(hw_arch.regPC()) };
+        hw_arch.regPC++;
         if (opcode & 0x80)  // Notice: signed offset, negative value
             _offset = memory::Offset(opcode & 0x7f) - 0x80;
         else
@@ -448,13 +407,12 @@ namespace cpu
     //=====   Constant 16-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant16bitsOffsetIndexedAddressing::Constant16bitsOffsetIndexedAddressing(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Word opcode{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        const memory::Word opcode{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
         if (opcode & 0x8000)  // Notice: signed offset, negative value
             _offset = memory::Offset(opcode & 0x7fff) - 0x8000;
         else
@@ -477,12 +435,11 @@ namespace cpu
     //=====   Accumulator A Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccAOffsetIndexedAddressing::AccAOffsetIndexedAddressing(
-        cpu::MicroprocUnit&                    mpu,
-        [[maybe_unused]] memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Byte acc_value{ mpu.regA() };
+        const memory::Byte acc_value{ hw_arch.regA() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
             _offset = memory::Offset(acc_value & 0x7f) - 0x80;
         else
@@ -505,12 +462,11 @@ namespace cpu
     //=====   Accumulator B Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccBOffsetIndexedAddressing::AccBOffsetIndexedAddressing(
-        cpu::MicroprocUnit&                    mpu,
-        [[maybe_unused]] memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
-        : AccAOffsetIndexedAddressing(mpu, mem)
+        : AccAOffsetIndexedAddressing(hw_arch)
     {
-        const memory::Byte acc_value{ mpu.regB() };
+        const memory::Byte acc_value{ hw_arch.regB() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
             _offset = memory::Offset(acc_value & 0x7f) - 0x80;
         else
@@ -521,12 +477,11 @@ namespace cpu
     //=====   Accumulator D Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccDOffsetIndexedAddressing::AccDOffsetIndexedAddressing(
-        cpu::MicroprocUnit&                    mpu,
-        [[maybe_unused]] memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Word acc_value{ mpu.regD() };
+        const memory::Word acc_value{ hw_arch.regD() };
         if (acc_value & 0x8000)  // Notice: signed offset, negative value
             _offset = memory::Offset(acc_value & 0x7fff) - 0x8000;
         else
@@ -548,10 +503,12 @@ namespace cpu
 
     //=====   Short Relative Branching   ======================
     //---------------------------------------------------------
-    const memory::Offset ShortRelativeAddressing::get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const
+    const memory::Offset ShortRelativeAddressing::get_offset(
+        archi::HWArchitecture& hw_arch
+    ) const
     {
-        const memory::Byte byte{ mem.get_byte(mpu.regPC()) };
-        mpu.regPC++;
+        const memory::Byte byte{ hw_arch.get_byte(hw_arch.regPC()) };
+        hw_arch.regPC++;
 
         if (byte & 0x80)
             return memory::Offset(byte & 0x7f) - 0x8000;
@@ -574,10 +531,12 @@ namespace cpu
 
     //=====    Long Relative Branching   ======================
     //---------------------------------------------------------
-    const memory::Offset LongRelativeAddressing::get_offset(cpu::MicroprocUnit& mpu, memory::MemorySchema& mem) const
+    const memory::Offset LongRelativeAddressing::get_offset(
+        archi::HWArchitecture& hw_arch
+    ) const
     {
-        const memory::Word word{ mem.get_word(mpu.regPC()) };
-        mpu.regPC += 2;
+        const memory::Word word{ hw_arch.get_word(hw_arch.regPC()) };
+        hw_arch.regPC += 2;
 
         if (word & 0x8000)
             return memory::Offset(word & 0x7fff) - 0x8000;
@@ -601,22 +560,20 @@ namespace cpu
     //=====   Program Counter Relative Addressing   ===========
     //---------------------------------------------------------
     const memory::Byte ProgramCounterShortRelativeAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr byte_addr{ memory::MemAddr(mpu.regPC() + ShortRelativeAddressing::get_offset(mpu, mem)) };
-        return mem.get_byte(byte_addr);
+        const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word ProgramCounterShortRelativeAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr byte_addr{ memory::MemAddr(mpu.regPC() + ShortRelativeAddressing::get_offset(mpu, mem)) };
-        return mem.get_word(byte_addr);
+        const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
+        return hw_arch.get_word(byte_addr);
     }
 
     //---------------------------------------------------------
@@ -633,22 +590,20 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Byte ProgramCounterLongRelativeAddressing::get_addressed_byte(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr byte_addr{ memory::MemAddr(mpu.regPC() + LongRelativeAddressing::get_offset(mpu, mem)) };
-        return mem.get_byte(byte_addr);
+        const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word ProgramCounterLongRelativeAddressing::get_addressed_word(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr byte_addr{ memory::MemAddr(mpu.regPC() + LongRelativeAddressing::get_offset(mpu, mem)) };
-        return mem.get_word(byte_addr);
+        const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
+        return hw_arch.get_word(byte_addr);
     }
 
     //---------------------------------------------------------
@@ -667,24 +622,22 @@ namespace cpu
     //=====   Program Counter Relative Indexed Addressing   =====
     //---------------------------------------------------------
     const memory::Byte ProgramCounterShortRelativeIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ memory::MemAddr(mpu.regPC() + ShortRelativeAddressing::get_offset(mpu, mem)) };
-        const memory::MemAddr byte_addr{ mem.get_word(indexed_addr) };
-        return mem.get_byte(byte_addr);
+        const memory::MemAddr indexed_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
+        const memory::MemAddr byte_addr{ hw_arch.get_word(indexed_addr) };
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word ProgramCounterShortRelativeIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ memory::MemAddr(mpu.regPC() + ShortRelativeAddressing::get_offset(mpu, mem)) };
-        const memory::MemAddr word_addr{ mem.get_word(indexed_addr) };
-        return mem.get_word(word_addr);
+        const memory::MemAddr indexed_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
+        const memory::MemAddr word_addr{ hw_arch.get_word(indexed_addr) };
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -701,24 +654,22 @@ namespace cpu
 
     //---------------------------------------------------------
     const memory::Byte ProgramCounterLongRelativeIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ memory::MemAddr(mpu.regPC() + LongRelativeAddressing::get_offset(mpu, mem)) };
-        const memory::MemAddr byte_addr{ mem.get_word(indexed_addr) };
-        return mem.get_byte(byte_addr);
+        const memory::MemAddr indexed_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
+        const memory::MemAddr byte_addr{ hw_arch.get_word(indexed_addr) };
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word ProgramCounterLongRelativeIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit& mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ memory::MemAddr(mpu.regPC() + LongRelativeAddressing::get_offset(mpu, mem)) };
-        const memory::MemAddr word_addr{ mem.get_word(indexed_addr) };
-        return mem.get_word(word_addr);
+        const memory::MemAddr indexed_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
+        const memory::MemAddr word_addr{ hw_arch.get_word(indexed_addr) };
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------
@@ -737,26 +688,24 @@ namespace cpu
     //=====   Extended Indirect Indexed Addressing   ==========
     //---------------------------------------------------------
     const memory::Byte  ExtendedIndirectIndexedAddressing::get_addressed_byte(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ mpu.regPC() };
-        const memory::MemAddr byte_addr{ mem.get_word(indexed_addr) };
-        mpu.regPC += 2;
-        return mem.get_byte(byte_addr);
+        const memory::MemAddr indexed_addr{ hw_arch.regPC() };
+        const memory::MemAddr byte_addr{ hw_arch.get_word(indexed_addr) };
+        hw_arch.regPC += 2;
+        return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
     const memory::Word  ExtendedIndirectIndexedAddressing::get_addressed_word(
-        cpu::MicroprocUnit&   mpu,
-        memory::MemorySchema& mem
+        archi::HWArchitecture& hw_arch
     ) const
     {
-        const memory::MemAddr indexed_addr{ mpu.regPC() };
-        const memory::MemAddr word_addr{ mem.get_word(indexed_addr) };
-        mpu.regPC += 2;
-        return mem.get_word(word_addr);
+        const memory::MemAddr indexed_addr{ hw_arch.regPC() };
+        const memory::MemAddr word_addr{ hw_arch.get_word(indexed_addr) };
+        hw_arch.regPC += 2;
+        return hw_arch.get_word(word_addr);
     }
 
     //---------------------------------------------------------

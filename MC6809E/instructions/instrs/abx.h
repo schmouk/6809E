@@ -16,7 +16,7 @@ namespace instr
         inline ABX() noexcept;
         virtual ~ABX() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_architecture) override;
+        virtual void exec(archi::HWArchitecture& hw_arch) override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 

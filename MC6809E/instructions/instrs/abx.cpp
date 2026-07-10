@@ -14,9 +14,9 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void  ABX::exec(archi::HWArchitecture& hw_architecture)
+    void  ABX::exec(archi::HWArchitecture& hw_arch)
     {
-        hw_architecture.regX += hw_architecture.regB;
+        hw_arch.regX += hw_arch.regB;
     }
 
     //---------------------------------------------------------
