@@ -5,18 +5,15 @@
 * - class HWArchitecture;  // The HardWare Architecture running any MC6809E emulation
 */
 
-#include "../cpu/cpu6809e.h"
+#include "../cpu/microproc_unit.h"
 #include "../memory/memory_schema.h"
 
 
 namespace archi
 {
     //=====   H/W Architecture   ==============================
-    struct HWArchitecture
+    struct HWArchitecture : public cpu::MicroprocUnit, public memory::MemorySchema
     {
-        cpu::MicroprocUnit   mpu{};
-        memory::MemorySchema mem{};
-
         //-----   Constructors / Destructor   -----------------
         inline HWArchitecture() noexcept = default;
         virtual inline ~HWArchitecture() noexcept = default;
@@ -26,9 +23,8 @@ namespace archi
 
         HWArchitecture(memory::MemorySchema& mem_) noexcept;
 
-
         //-----   Operations   --------------------------------
-        void set_memory_schema(memory::MemorySchema& mem_) noexcept;
+        void set_memory_schema(const memory::MemorySchema& mem_) noexcept;
 
     };
 

@@ -1,18 +1,19 @@
 #include "./hw_architecture.h"
-#include "../cpu/cpu6809e.h"
+#include "../cpu/microproc_unit.h"
 #include "../memory/memory_schema.h"
 
 namespace archi
 {
     //---------------------------------------------------------
     HWArchitecture::HWArchitecture(memory::MemorySchema& mem_) noexcept
-        : mem{ mem_ }
+        : cpu::MicroprocUnit()
+        , memory::MemorySchema()
     {}
 
     //---------------------------------------------------------
-    void HWArchitecture::set_memory_schema(memory::MemorySchema& mem_) noexcept
+    void HWArchitecture::set_memory_schema(const memory::MemorySchema& mem_schema) noexcept
     {
-        mem = mem_;
+        (void)memory::MemorySchema::operator=(mem_schema);
     }
 
 }
