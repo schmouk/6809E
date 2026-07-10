@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "cpu/cpu6809e.h"
+#include "cpu/microproc_unit.h"
 #include "cpu/interruptions_vector.h"
 //#include "exceptions/exceptions.h"
 #include "memory/memory_addresses.h"

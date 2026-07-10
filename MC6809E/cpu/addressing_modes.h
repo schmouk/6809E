@@ -1,13 +1,14 @@
 #pragma once
 
+#include <concepts>
 #include <cstdint>
 #include <initializer_list>
+#include <type_traits>
 
-#include "./cpu6809e.h"
+#include "./microproc_unit.h"
+
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
-#include <concepts>
-#include <type_traits>
 
 
 /**

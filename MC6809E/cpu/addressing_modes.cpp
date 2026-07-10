@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <initializer_list>
 
-#include "cpu6809e.h"
+#include "./microproc_unit.h"
 #include "../exceptions/exceptions.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
