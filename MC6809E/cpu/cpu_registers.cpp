@@ -1,4 +1,5 @@
 #include "./cpu_registers.h"
+#include "../memory/types.h"
 
 
 namespace cpu
@@ -6,7 +7,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::carry_flag() const noexcept {
-        return get() & C_FLAG;
+        return (get() & C_FLAG) == C_FLAG;
     }
 
     //---------------------------------------------------------
@@ -20,8 +21,13 @@ namespace cpu
     }
 
     //---------------------------------------------------------
+    inline const memory::Byte CPUCCRegister::carry_value() const noexcept {
+        return memory::Byte(carry_flag());
+    }
+
+    //---------------------------------------------------------
     const bool CPUCCRegister::overflow_flag() const noexcept {
-        return get() & V_FLAG;
+        return (get() & V_FLAG) == V_FLAG;
     }
 
     //---------------------------------------------------------
@@ -36,7 +42,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::zero_flag() const noexcept {
-        return get() & Z_FLAG;
+        return (get() & Z_FLAG) == Z_FLAG;
     }
 
     //---------------------------------------------------------
@@ -51,7 +57,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::negative_flag() const noexcept {
-        return get() | N_FLAG;
+        return (get() & N_FLAG) == N_FLAG;
     }
 
     //---------------------------------------------------------
@@ -66,7 +72,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::irqmask_flag() const noexcept {
-        return get() | I_FLAG;
+        return (get() & I_FLAG) == I_FLAG;
     }
 
     //---------------------------------------------------------
@@ -81,7 +87,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::halfcarry_flag() const noexcept {
-        return get() | H_FLAG;
+        return (get() & H_FLAG) == H_FLAG;
     }
 
     //---------------------------------------------------------
@@ -96,7 +102,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::firqmask_flag() const noexcept {
-        return get() | F_FLAG;
+        return (get() & F_FLAG) == F_FLAG;
     }
 
     //---------------------------------------------------------
@@ -111,7 +117,7 @@ namespace cpu
 
     //---------------------------------------------------------
     const bool CPUCCRegister::entire_flag() const noexcept {
-        return get() | E_FLAG;
+        return (get() & E_FLAG) == E_FLAG;
     }
 
 

@@ -13,6 +13,8 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "../memory/types.h"
+
 
 namespace cpu
 {
@@ -108,6 +110,7 @@ namespace cpu
         inline const bool carry_flag() const noexcept;      // C flag - Bit 0
         inline void clr_carry() noexcept;
         inline void set_carry() noexcept;
+        inline const memory::Byte carry_value() const noexcept;
 
         inline const bool overflow_flag() const noexcept;   // V flag - Bit 1
         inline void clr_overflow() noexcept;

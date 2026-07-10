@@ -6,6 +6,7 @@
 * - class CPUInstructionsSet;  // The set of MC6809E instructions
 */
 
+#include <cstdint>
 #include <vector>
 
 #include "../architecture/hw_architecture.h"
@@ -36,6 +37,8 @@ namespace instr
 
         //-----   Operations   --------------------------------
         virtual void exec(archi::HWArchitecture& hw_architecture) = 0;
+
+        virtual const std::uint64_t get_cycles_count() noexcept = 0;
 
 
     private:
