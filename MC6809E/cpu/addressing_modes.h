@@ -3,6 +3,7 @@
 #include <concepts>
 #include <cstdint>
 #include <initializer_list>
+#include <memory>
 #include <type_traits>
 
 #include "./cpu_registers.h"
@@ -13,7 +14,48 @@
 
 
 /**
-* This file defines the many memory addressing modes of the microprocessor MC6809E
+* This file defines the many memory addressing modes of the microprocessor MC6809E:
+* 
+* - struct BaseAddressingMode;
+* - struct InherentAddressing                           : public BaseAddressingMode;
+* - struct ImmediateAddressing                          : public BaseAddressingMode;
+* - struct ExtendedAddressing                           : public BaseAddressingMode;
+* - struct ExtendedIndirectAddressing                   : public BaseAddressingMode;
+* - struct DirectAddressing                             : public BaseAddressingMode;
+* - class  RegisterAddressing                           : public BaseAddressingMode;
+* - class  OffsetIndexedAddressingMode                  : public BaseAddressingMode;
+* - struct ZeroOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+* - struct Constant5bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
+* - struct Constant8bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
+* - struct Constant16bitsOffsetIndexedAddressing        : public OffsetIndexedAddressingMode;
+* - struct AccAOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+* - struct AccBOffsetIndexedAddressing                  : public AccAOffsetIndexedAddressing;
+* - struct AccDOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+* - template<const memory::Word POST_INC = 1>
+*   struct PostIncrementIndexedAddressing               : public BaseAddressingMode;
+* - template<const memory::Word PRE_DEC = 1>
+*   struct PreDecrementIndexedAddressing                : public BaseAddressingMode;
+* - template<typename IndexedAddrT>
+*   struct OffsetIndirectIndexedAddressingModeT         : public IndexedAddrT;
+* - using  ZeroOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
+* - using  Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
+* - using  Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
+* - using  Constant16bitsOffsetIndirectIndexedAddressing= OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
+* - using  AccAOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
+* - using  AccBOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
+* - using  AccDOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
+* - using  PostIncrementIndirectIndexedAddressing       = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
+* - using  PreDecrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
+* - struct OffsetRelativeAddressing                     : public BaseAddressingMode;
+* - struct ShortRelativeAddressing                      : public OffsetRelativeAddressing;
+* - struct LongRelativeAddressing                       : public OffsetRelativeAddressing;
+* - struct ProgramCounterShortRelativeAddressing        : public ShortRelativeAddressing
+* - struct ProgramCounterLongRelativeAddressing         : public LongRelativeAddressing;
+* - struct ProgramCounterShortRelativeIndexedAddressing : public ShortRelativeAddressing;
+* - struct ProgramCounterLongRelativeIndexedAddressing  : public LongRelativeAddressing
+* - struct ExtendedIndirectIndexedAddressing            : public BaseAddressingMode;
+* 
+* - BaseAddressingClass& make_indexed_addressing_class(const memory::Byte mode_post_byte);
 */
 
 namespace cpu
@@ -121,21 +163,23 @@ namespace cpu
     class OffsetIndexedAddressingMode : public BaseAddressingMode
     {
     public:
-        inline OffsetIndexedAddressingMode(const memory::Offset offset = 0) noexcept;
+        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
 
         virtual ~OffsetIndexedAddressingMode() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
         virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
 
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch, const cpu::CPUIndexRegister& reg) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch, const cpu::CPUIndexRegister& reg) const override;
-
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        memory::Offset _offset{ 0 };
+        memory::Offset    _offset{ 0 };
+        CPUIndexRegister* _indexing_reg_ptr{ nullptr };
+
+        void _evaluate_indexing_register(archi::HWArchitecture& hw_arch) noexcept;
+        const memory::Offset _evaluate_offset(const memory::Byte post_byte);
+
     };
 
 
@@ -275,6 +319,9 @@ namespace cpu
     using AccDOffsetIndirectIndexedAddressing           = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
     using PostIncrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
     using PreDecrementIndirectIndexedAddressing         = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
+
+    //-----   Factory creation of Addressing Mode Class   -----
+    std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
 
 
     //=====   Relative Addressing   ===========================

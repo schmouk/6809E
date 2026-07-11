@@ -72,9 +72,9 @@ namespace cpu
 
 
     //-----   Specializations   -------------------------------
-    using CPURegister8bits = CPURegisterT<std::uint8_t>;    //  8-bits wide registers
+    using CPURegister8bits  = CPURegisterT<std::uint8_t>;    //  8-bits wide registers
     using CPURegister16bits = CPURegisterT<std::uint16_t>;   // 16-bits wide registers
-    using CPUIndexRegister = CPURegisterT<std::uint16_t>;   // 16-bits wide indexing registers
+    using CPUIndexRegister  = CPURegisterT<std::uint16_t>;   // 16-bits wide indexing registers
 
 
     //=====   Registers Indexes   =============================

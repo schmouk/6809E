@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <initializer_list>
+#include <memory>
 
 #include "./addressing_modes.h"
 #include "./cpu_registers.h"
@@ -7,7 +8,6 @@
 #include "../architecture/hw_architecture.h"
 #include "../exceptions/exceptions.h"
 #include "../memory/types.h"
-
 
 
 namespace cpu
@@ -339,6 +339,28 @@ namespace cpu
         return 0;
     }
 
+    //---------------------------------------------------------
+    void OffsetIndexedAddressingMode::_evaluate_indexing_register(
+        archi::HWArchitecture& hw_arch,
+        const memory::Byte     post_byte
+    ) noexcept
+    {
+        switch ((post_byte & 0b0110'0000) {
+        case 0:
+            _indexing_reg_ptr = &(hw_arch.regX);
+            break;
+        case 1:
+            _indexing_reg_ptr = &(hw_arch.regY);
+            break;
+        case 2:
+            _indexing_reg_ptr = &(hw_arch.regU);
+            break;
+        case 3:
+            _indexing_reg_ptr = &(hw_arch.regS);
+            break;
+        }
+    }
+
 
     //=====   Zero-Offset Indexed Addressing   ================
     //---------------------------------------------------------
@@ -352,15 +374,13 @@ namespace cpu
     //=====   Constant 5-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant5bitsOffsetIndexedAddressing::Constant5bitsOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch
+        const memory::Byte post_code
     )
         : OffsetIndexedAddressingMode()
     {
-        const memory::Byte opcode{ hw_arch.get_byte(hw_arch.regPC() - 1)};
-        if (opcode & 0x10)  // Notice: signed offset, negative value
-            _offset = memory::Offset(opcode & 0x0f) - 0x10;
-        else
-            _offset = memory::Offset(opcode & 0x0f);
+        _offset = memory::Offset(post_code & 0x0f);
+        if (post_code & 0x10)  // Notice: signed offset, negative value
+            _offset -= 0x10;
     }
 
     //---------------------------------------------------------
@@ -718,6 +738,48 @@ namespace cpu
     const std::uint64_t ExtendedIndirectIndexedAddressing::get_word_cycles() const
     {
         return 5;
+    }
+
+
+    //=====   Factory creation of Addressing Mode Class   =====
+    //---------------------------------------------------------
+    std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch)
+    {
+        const memory::Byte post_byte{ hw_arch.get_byte(hw_arch.regPC) };
+        hw_arch.regPC++;
+
+        /** /
+        * - class  OffsetIndexedAddressingMode                  : public BaseAddressingMode;
+        * - struct ZeroOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+        * - struct Constant5bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
+        * - struct Constant8bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
+        * - struct Constant16bitsOffsetIndexedAddressing        : public OffsetIndexedAddressingMode;
+        * - struct AccAOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+        * - struct AccBOffsetIndexedAddressing                  : public AccAOffsetIndexedAddressing;
+        * - struct AccDOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
+        * - template<const memory::Word POST_INC = 1>
+        *   struct PostIncrementIndexedAddressing               : public BaseAddressingMode;
+        * - template<const memory::Word PRE_DEC = 1>
+        *   struct PreDecrementIndexedAddressing                : public BaseAddressingMode;
+        * - template<typename IndexedAddrT>
+        *   struct OffsetIndirectIndexedAddressingModeT         : public IndexedAddrT;
+        * - using  ZeroOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
+        * - using  Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
+        * - using  Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
+        * - using  Constant16bitsOffsetIndirectIndexedAddressing= OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
+        * - using  AccAOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
+        * - using  AccBOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
+        * - using  AccDOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
+        * - using  PostIncrementIndirectIndexedAddressing       = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
+        * - using  PreDecrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
+        /**/
+
+        if ((post_byte & 0x80) == 0) {
+            return std::make_unique<Constant5bitsOffsetIndexedAddressing>(post_byte);
+        }
+        else {
+
+        }
     }
 
 }
