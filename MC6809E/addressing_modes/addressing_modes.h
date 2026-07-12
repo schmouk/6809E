@@ -6,9 +6,10 @@
 #include <memory>
 #include <type_traits>
 
-#include "./cpu_registers.h"
+#include "./base_addressing.h"
 
 #include "../architecture/hw_architecture.h"
+#include "../cpu/cpu_registers.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
 
@@ -16,7 +17,6 @@
 /**
 * This file defines the many memory addressing modes of the microprocessor MC6809E:
 * 
-* - struct BaseAddressingMode;
 * - struct InherentAddressing                           : public BaseAddressingMode;
 * - struct ImmediateAddressing                          : public BaseAddressingMode;
 * - struct ExtendedAddressing                           : public BaseAddressingMode;
@@ -58,68 +58,8 @@
 * - BaseAddressingClass& make_indexed_addressing_class(const memory::Byte mode_post_byte);
 */
 
-namespace cpu
+namespace addr
 {
-    //=====   Base Addressing Class   =========================
-    struct BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const = 0;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const = 0;
-
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch, const CPURegister& reg) const;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch, const CPURegister& reg) const;
-
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch, const CPUIndexRegister& reg) const;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch, const CPUIndexRegister& reg) const;
-
-        virtual const std::uint64_t get_byte_cycles() const = 0;
-        virtual const std::uint64_t get_word_cycles() const = 0;
-    };
-
-
-    //=====   Inherent Addressing   ===========================
-    struct InherentAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
-
-    //=====   Immediate Addressing   ==========================
-    struct ImmediateAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
-
-    //=====   Extended Addressing   ===========================
-    //-----   Extended Addressing   ---------------------------
-    struct ExtendedAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
-    //-----   Extended Indirect Addressing   ------------------
-    struct ExtendedIndirectAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
 
     //=====   Direct Addressing   =============================
     struct DirectAddressing : public BaseAddressingMode
@@ -158,17 +98,33 @@ namespace cpu
     };
 
 
-    //=====   Offset Indexed Addressing   =====================
-    // Notice: base class for all offset indexed addressing modes.
-    class OffsetIndexedAddressingMode : public BaseAddressingMode
+    //=====   Indexed Register Addressing   ===================
+    // Notice: The base class for all indexed addressing mode
+    class IndexedAddressingMode : public BaseAddressingMode
     {
     public:
-        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
-
-        virtual ~OffsetIndexedAddressingMode() noexcept = default;
+        inline IndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~IndexedAddressingMode() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
         virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
+
+        virtual void set_addressed_byte(archi::HWArchitecture& hw_arch, const memory::Byte byte_value) const override;
+        virtual void set_addressed_word(archi::HWArchitecture& hw_arch, const memory::Word word_value) const override;
+
+    protected:
+        CPUIndexRegister* _indexing_reg_ptr{ nullptr };
+        memory::Byte      _post_byte{ 0 };
+    };
+
+
+    //=====   Offset Indexed Addressing   =====================
+    // Notice: The base class for all offset indexed addressing modes.
+    class OffsetIndexedAddressingMode : public IndexedAddressingMode
+    {
+    public:
+        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~OffsetIndexedAddressingMode() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -177,83 +133,116 @@ namespace cpu
         memory::Offset    _offset{ 0 };
         CPUIndexRegister* _indexing_reg_ptr{ nullptr };
 
-        void _evaluate_indexing_register(archi::HWArchitecture& hw_arch) noexcept;
-        const memory::Offset _evaluate_offset(const memory::Byte post_byte);
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) = 0;
 
     };
 
 
     //=====   Indexed Addressing   ============================
     //-----   Zero-Offset Indexed Addressing   ----------------
-    struct ZeroOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    struct ZeroOffsetIndexedAddressing : public IndexedAddressingMode
     {
+    public:
         inline ZeroOffsetIndexedAddressing(archi::HWArchitecture& hw_arch) noexcept;
-
         virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
     };
 
 
     //-----   Constant 5-bits Offset Indexed Addressing   -----
-    struct Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    class Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
+    public:
         inline Constant5bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~Constant5bitsOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Constant 8-bits Offset Indexed Addressing   -----
-    struct Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    class Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
+    public:
         inline Constant8bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~Constant8bitsOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Constant 16-bits Offset Indexed Addressing   -----
-    struct Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    class Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
+    public:
         inline Constant16bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~Constant16bitsOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Accumulator A Offset Indexed Addressing   ---------
-    struct AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    class AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
+    public:
         inline AccAOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~AccAOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Accumulator B Offset Indexed Addressing   ---------
-    struct AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
+    class AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
     {
+    public:
         inline AccBOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~AccBOffsetIndexedAddressing() noexcept = default;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Accumulator D Offset Indexed Addressing   ---------
-    struct AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    class AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
+    public:
         inline AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~AccDOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Post Increment Indexed Addressing   -------------
     template<const memory::Word POST_INC = 1>
-    struct PostIncrementIndexedAddressing : public BaseAddressingMode
+    class PostIncrementIndexedAddressing : public BaseAddressingMode
     {
+    public:
+        inline PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch);
+        virtual ~PostIncrementIndexedAddressing() noexcept = default;
+
         virtual const memory::Byte  get_addressed_byte(
             archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg
@@ -266,13 +255,17 @@ namespace cpu
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
     //-----   Pre Decrement Indexed Addressing   --------------
     template<const memory::Word PRE_DEC = 1>
-    struct PreDecrementIndexedAddressing : public BaseAddressingMode
+    class PreDecrementIndexedAddressing : public BaseAddressingMode
     {
+    public:
         virtual const memory::Byte  get_addressed_byte(
             archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg
@@ -285,6 +278,9 @@ namespace cpu
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
 
@@ -293,8 +289,9 @@ namespace cpu
         requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
                   std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
                   std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    struct OffsetIndirectIndexedAddressingModeT : public IndexedAddrT
+    class OffsetIndirectIndexedAddressingModeT : public IndexedAddrT
     {
+    public:
         inline OffsetIndirectIndexedAddressingModeT(const memory::Offset offset = 0) noexcept;
 
         virtual ~OffsetIndirectIndexedAddressingModeT() noexcept = default;
@@ -307,6 +304,9 @@ namespace cpu
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+
+    protected:
+        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
     };
 
     //-----   Specializations   -------------------------------
@@ -415,6 +415,13 @@ namespace cpu
 
     //=====   IMPLEMENTATIONS   ===============================
     //-----   Post Increment Indexed Addressing   -------------
+    //---------------------------------------------------------
+    template<const memory::Word POST_INC>
+    PostIncrementIndexedAddressing<POST_INC>::PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch)
+    {
+
+    }
+
     //---------------------------------------------------------
     template<const memory::Word POST_INC>
     const memory::Byte PostIncrementIndexedAddressing<POST_INC>::get_addressed_byte(

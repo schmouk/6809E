@@ -7,6 +7,7 @@
 
 #include "../cpu/microproc_unit.h"
 #include "../memory/memory_schema.h"
+#include "../memory/types.h"
 
 
 namespace archi
@@ -25,6 +26,12 @@ namespace archi
 
         //-----   Operations   --------------------------------
         void set_memory_schema(const memory::MemorySchema& mem_) noexcept;
+
+        const memory::Byte load_next_byte();                // PC register relative
+        void  save_next_byte(const memory::Byte byte_val);  // PC register relative
+
+        const memory::Word load_next_word();                // PC register relative
+        void  save_next_word(const memory::Word word_val);  // PC register relative
 
     };
 
