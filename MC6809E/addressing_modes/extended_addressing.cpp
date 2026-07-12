@@ -31,13 +31,13 @@ namespace addr
     //---------------------------------------------------------
     const std::uint64_t ExtendedAddressing::get_byte_cycles() const
     {
-        return 1;
+        return 0;
     }
 
     //---------------------------------------------------------
     const std::uint64_t ExtendedAddressing::get_word_cycles() const
     {
-        return 3;
+        return 0;
     }
 
 
@@ -67,13 +67,13 @@ namespace addr
     //---------------------------------------------------------
     const std::uint64_t ExtendedIndirectAddressing::get_byte_cycles() const
     {
-        return 3;
+        return 5;
     }
 
     //---------------------------------------------------------
     const std::uint64_t ExtendedIndirectAddressing::get_word_cycles() const
     {
-        return 3;
+        return 5;
     }
 
 }

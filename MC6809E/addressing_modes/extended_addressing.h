@@ -20,6 +20,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
     };
 
+
     //=====   Extended Indirect Addressing   ==================
     struct ExtendedIndirectAddressing : public BaseAddressingMode
     {

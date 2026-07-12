@@ -61,137 +61,11 @@
 namespace addr
 {
 
-    //=====   Direct Addressing   =============================
-    struct DirectAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
 
 
-    //=====   Register Addressing   ===========================
-    class RegisterAddressing : public BaseAddressingMode
-    {
-    public:
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-        std::initializer_list<cpu::EReg> evaluate_regs(const memory::Byte bytecode);
-
-
-    private:
-        static inline const bool _is_8bits(const cpu::EReg reg_ndx) {
-            return (memory::Byte(reg_ndx) & 0b1000) == 0b1000;
-        }
-
-        static inline const bool _is_16bits(const cpu::EReg reg_ndx) {
-            return (memory::Byte(reg_ndx) & 0b1000) == 0b0000;
-        }
-
-        static const cpu::EReg _get_reg_index(const memory::Byte reg_ndx);
-    };
-
-
-    //=====   Indexed Register Addressing   ===================
-    // Notice: The base class for all indexed addressing mode
-    class IndexedAddressingMode : public BaseAddressingMode
-    {
-    public:
-        inline IndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
-        virtual ~IndexedAddressingMode() noexcept = default;
-
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual void set_addressed_byte(archi::HWArchitecture& hw_arch, const memory::Byte byte_value) const override;
-        virtual void set_addressed_word(archi::HWArchitecture& hw_arch, const memory::Word word_value) const override;
-
-    protected:
-        CPUIndexRegister* _indexing_reg_ptr{ nullptr };
-        memory::Byte      _post_byte{ 0 };
-    };
-
-
-    //=====   Offset Indexed Addressing   =====================
-    // Notice: The base class for all offset indexed addressing modes.
-    class OffsetIndexedAddressingMode : public IndexedAddressingMode
-    {
-    public:
-        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch) noexcept;
-        virtual ~OffsetIndexedAddressingMode() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        memory::Offset    _offset{ 0 };
-        CPUIndexRegister* _indexing_reg_ptr{ nullptr };
-
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) = 0;
-
-    };
 
 
     //=====   Indexed Addressing   ============================
-    //-----   Zero-Offset Indexed Addressing   ----------------
-    struct ZeroOffsetIndexedAddressing : public IndexedAddressingMode
-    {
-    public:
-        inline ZeroOffsetIndexedAddressing(archi::HWArchitecture& hw_arch) noexcept;
-        virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
-    };
-
-
-    //-----   Constant 5-bits Offset Indexed Addressing   -----
-    class Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
-    {
-    public:
-        inline Constant5bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~Constant5bitsOffsetIndexedAddressing() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
-
-    //-----   Constant 8-bits Offset Indexed Addressing   -----
-    class Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
-    {
-    public:
-        inline Constant8bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~Constant8bitsOffsetIndexedAddressing() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
-
-    //-----   Constant 16-bits Offset Indexed Addressing   -----
-    class Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
-    {
-    public:
-        inline Constant16bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~Constant16bitsOffsetIndexedAddressing() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
 
     //-----   Accumulator A Offset Indexed Addressing   ---------
     class AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
@@ -320,7 +194,7 @@ namespace addr
     using PostIncrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
     using PreDecrementIndirectIndexedAddressing         = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
 
-    //-----   Factory creation of Addressing Mode Class   -----
+    //-----   Factory creation of Indexed Addressing Mode Classes   -----
     std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
 
 
