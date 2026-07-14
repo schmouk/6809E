@@ -68,54 +68,6 @@ namespace addr
     //=====   Indexed Addressing   ============================
 
 
-    //-----   Post Increment Indexed Addressing   -------------
-    template<const memory::Word POST_INC = 1>
-    class PostIncrementIndexedAddressing : public BaseAddressingMode
-    {
-    public:
-        inline PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~PostIncrementIndexedAddressing() noexcept = default;
-
-        virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
-
-        virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
-
-    //-----   Pre Decrement Indexed Addressing   --------------
-    template<const memory::Word PRE_DEC = 1>
-    class PreDecrementIndexedAddressing : public BaseAddressingMode
-    {
-    public:
-        virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
-        
-        virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
 
     //=====   Offset Indirect Indexed Addressing   ===========
     template<typename IndexedAddrT>
@@ -157,60 +109,7 @@ namespace addr
     std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
 
 
-    //=====   Relative Addressing   ===========================
-    //-----   Offsets Relative Addressing Base Class   --------
-    struct OffsetRelativeAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Offset get_offset(archi::HWArchitecture& hw_arch) const = 0;
-
-        //virtual const std::uint64_t get_byte_cycles() const = 0;
-        //virtual const std::uint64_t get_word_cycles() const = 0;
-    };
-
-
-    //-----   Short Relative Branching   ----------------------
-    struct ShortRelativeAddressing : public OffsetRelativeAddressing
-    {
-        virtual const memory::Offset get_offset(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
-
-    //-----    Long Relative Branching   ----------------------
-    struct LongRelativeAddressing : public OffsetRelativeAddressing
-    {
-        virtual const memory::Offset get_offset(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
-
-
     //-----   Program Counter Relative Addressing   -----------
-    //---------------------------------------------------------
-    struct ProgramCounterShortRelativeAddressing : public ShortRelativeAddressing
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    };
-
-    //---------------------------------------------------------
-    struct ProgramCounterLongRelativeAddressing : public LongRelativeAddressing
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    };
-
     //---------------------------------------------------------
     struct ProgramCounterShortRelativeIndexedAddressing : public ShortRelativeAddressing
     {
@@ -247,90 +146,6 @@ namespace addr
 
 
     //=====   IMPLEMENTATIONS   ===============================
-    //-----   Post Increment Indexed Addressing   -------------
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
-    PostIncrementIndexedAddressing<POST_INC>::PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch)
-    {
-
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
-    const memory::Byte PostIncrementIndexedAddressing<POST_INC>::get_addressed_byte(
-        archi::HWArchitecture& hw_arch,
-        cpu::CPUIndexRegister& reg
-    ) const
-    {
-        const memory::Byte byte{ hw_arch.get_byte(reg()) };
-        reg += POST_INC;
-        return byte;
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
-    const memory::Word  PostIncrementIndexedAddressing<POST_INC>::get_addressed_word(
-        archi::HWArchitecture& hw_arch,
-        cpu::CPUIndexRegister& reg
-    ) const
-    {
-        const memory::Word word{ hw_arch.get_word(reg()) };
-        reg += POST_INC;
-        return word;
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
-    const std::uint64_t PostIncrementIndexedAddressing<POST_INC>::get_byte_cycles() const
-    {
-        return 1 + POST_INC;
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
-    const std::uint64_t PostIncrementIndexedAddressing<POST_INC>::get_word_cycles() const
-    {
-        return 1 + POST_INC;
-    }
-
-
-    //-----   Pre Decrement Indexed Addressing   --------------
-    //---------------------------------------------------------
-    template<const memory::Word PRE_DEC>
-    const memory::Byte PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_byte(
-        archi::HWArchitecture& hw_arch,
-        cpu::CPUIndexRegister& reg
-    ) const
-    {
-        reg -= PRE_DEC;
-        return hw_arch.get_byte(reg()) ;
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word PRE_DEC>
-    const memory::Word  PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_word(
-        archi::HWArchitecture& hw_arch,
-        cpu::CPUIndexRegister& reg
-    ) const
-    {
-        reg -= PRE_DEC;
-        return hw_arch.get_word(reg());
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word PRE_DEC>
-    const std::uint64_t PreDecrementIndexedAddressing<PRE_DEC>::get_byte_cycles() const
-    {
-        return 1 + PRE_DEC;
-    }
-
-    //---------------------------------------------------------
-    template<const memory::Word PRE_DEC>
-    const std::uint64_t PreDecrementIndexedAddressing<PRE_DEC>::get_word_cycles() const
-    {
-        return 1 + PRE_DEC;
-    }
-
     //-----   Offset Indirect Indexed Addressing   -----------
     //---------------------------------------------------------
     template<typename IndexedAddrT>
