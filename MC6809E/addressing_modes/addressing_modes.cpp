@@ -62,74 +62,7 @@ namespace addr
 
 
 
-    //=====   Accumulator A Offset Indexed Addressing   =======
-    //---------------------------------------------------------
-    AccAOffsetIndexedAddressing::AccAOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch
-    )
-        : OffsetIndexedAddressingMode()
-    {
-        const memory::Byte acc_value{ hw_arch.regA() };
-        if (acc_value & 0x80)  // Notice: signed offset, negative value
-            _offset = memory::Offset(acc_value & 0x7f) - 0x80;
-        else
-            _offset = memory::Offset(acc_value & 0x7f);
-    }
-
-    //---------------------------------------------------------
-    const std::uint64_t AccAOffsetIndexedAddressing::get_byte_cycles() const
-    {
-        return 1;
-    }
-
-    //---------------------------------------------------------
-    const std::uint64_t AccAOffsetIndexedAddressing::get_word_cycles() const
-    {
-        return 1;
-    }
-
-
-    //=====   Accumulator B Offset Indexed Addressing   =======
-    //---------------------------------------------------------
-    AccBOffsetIndexedAddressing::AccBOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch
-    )
-        : AccAOffsetIndexedAddressing(hw_arch)
-    {
-        const memory::Byte acc_value{ hw_arch.regB() };
-        if (acc_value & 0x80)  // Notice: signed offset, negative value
-            _offset = memory::Offset(acc_value & 0x7f) - 0x80;
-        else
-            _offset = memory::Offset(acc_value);
-    }
-
-
-    //=====   Accumulator D Offset Indexed Addressing   =======
-    //---------------------------------------------------------
-    AccDOffsetIndexedAddressing::AccDOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch
-    )
-        : OffsetIndexedAddressingMode()
-    {
-        const memory::Word acc_value{ hw_arch.regD() };
-        if (acc_value & 0x8000)  // Notice: signed offset, negative value
-            _offset = memory::Offset(acc_value & 0x7fff) - 0x8000;
-        else
-            _offset = memory::Offset(acc_value);
-    }
-
-    //---------------------------------------------------------
-    const std::uint64_t AccDOffsetIndexedAddressing::get_byte_cycles() const
-    {
-        return 4;
-    }
-
-    //---------------------------------------------------------
-    const std::uint64_t AccDOffsetIndexedAddressing::get_word_cycles() const
-    {
-        return 4;
-    }
-
+ 
 
     //=====   Short Relative Branching   ======================
     //---------------------------------------------------------

@@ -8,6 +8,24 @@
 namespace addr
 {
     //---------------------------------------------------------
+    const memory::Byte BaseAddressingMode::get_addressed_byte(
+        archi::HWArchitecture& hw_arch,
+        const memory::MemAddr  addr
+    ) const
+    {
+        return hw_arch.get_byte(addr);
+    }
+
+    //---------------------------------------------------------
+    const memory::Word BaseAddressingMode::get_addressed_word(
+        archi::HWArchitecture& hw_arch,
+        const memory::MemAddr  addr
+    ) const
+    {
+        return hw_arch.get_word(addr);
+    }
+
+    //---------------------------------------------------------
     void BaseAddressingMode::set_addressed_byte(
         archi::HWArchitecture& hw_arch,
         const memory::MemAddr  addr,

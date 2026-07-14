@@ -17,12 +17,6 @@ namespace addr
         inline IndexedAddressingMode(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) noexcept;
         virtual ~IndexedAddressingMode() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual inline void         save_addressed_byte(archi::HWArchitecture& hw_arch, const memory::Byte byte_value);
-        virtual inline void         save_addressed_word(archi::HWArchitecture& hw_arch, const memory::Word word_value);
-
         inline cpu::CPUIndexRegister* get_indexing_reg_ptr() const noexcept;
         inline const memory::Byte     get_post_byte() const noexcept;
 

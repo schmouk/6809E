@@ -67,47 +67,6 @@ namespace addr
 
     //=====   Indexed Addressing   ============================
 
-    //-----   Accumulator A Offset Indexed Addressing   ---------
-    class AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
-    {
-    public:
-        inline AccAOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~AccAOffsetIndexedAddressing() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
-
-    //-----   Accumulator B Offset Indexed Addressing   ---------
-    class AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
-    {
-    public:
-        inline AccBOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~AccBOffsetIndexedAddressing() noexcept = default;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
-
-    //-----   Accumulator D Offset Indexed Addressing   ---------
-    class AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
-    {
-    public:
-        inline AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch);
-        virtual ~AccDOffsetIndexedAddressing() noexcept = default;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
 
     //-----   Post Increment Indexed Addressing   -------------
     template<const memory::Word POST_INC = 1>

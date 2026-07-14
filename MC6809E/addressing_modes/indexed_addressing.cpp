@@ -40,34 +40,6 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Byte  IndexedAddressingMode::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
-    {
-        throw except::InvalidAddressingModeException("base class IndexedAddressingMode does not implement method get_addressed_byte().");
-    }
-
-    //---------------------------------------------------------
-    const memory::Word  IndexedAddressingMode::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
-    {
-        throw except::InvalidAddressingModeException("base class IndexedAddressingMode does not implement method get_addressed_word().");
-    }
-
-    //---------------------------------------------------------
-    void IndexedAddressingMode::save_addressed_byte(archi::HWArchitecture& hw_arch, const memory::Byte byte_value)
-    {
-        hw_arch.save_next_byte(byte_value);
-    }
-
-    //---------------------------------------------------------
-    void IndexedAddressingMode::save_addressed_word(archi::HWArchitecture& hw_arch, const memory::Word word_value)
-    {
-        hw_arch.save_next_word(word_value);
-    }
-
-    //---------------------------------------------------------
     cpu::CPUIndexRegister* IndexedAddressingMode::get_indexing_reg_ptr() const noexcept
     {
         return _indexing_reg_ptr;
