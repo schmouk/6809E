@@ -14,14 +14,22 @@ namespace addr
     struct ProgramCounterShortRelativeAddressing : public ShortRelativeAddressing
     {
         virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            const memory::MemAddr  addr
+            archi::HWArchitecture& hw_arch
         ) const override;
 
         virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            const memory::MemAddr  addr
+            archi::HWArchitecture& hw_arch
         ) const override;
+
+        virtual void set_addressed_byte(
+            archi::HWArchitecture& hw_arch,
+            const memory::Byte     byte_value
+        ) override;
+
+        virtual void set_addressed_word(
+            archi::HWArchitecture& hw_arch,
+            const memory::Word     word_value
+        ) override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -32,14 +40,22 @@ namespace addr
     struct ProgramCounterLongRelativeAddressing : public LongRelativeAddressing
     {
         virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            const memory::MemAddr  addr
+            archi::HWArchitecture& hw_arch
         ) const override;
         
         virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            const memory::MemAddr  addr
+            archi::HWArchitecture& hw_arch
         ) const override;
+
+        virtual void set_addressed_byte(
+            archi::HWArchitecture& hw_arch,
+            const memory::Byte     byte_value
+        ) override;
+
+        virtual void set_addressed_word(
+            archi::HWArchitecture& hw_arch,
+            const memory::Word     word_value
+        ) override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;

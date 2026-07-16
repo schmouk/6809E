@@ -11,6 +11,14 @@ namespace addr
     //=====   Base Addressing Class   =========================
     struct BaseAddressingMode
     {
+        virtual const memory::Byte  get_addressed_byte(
+            archi::HWArchitecture& hw_arch
+        ) const = 0;
+
+        virtual const memory::Word  get_addressed_word(
+            archi::HWArchitecture& hw_arch
+        ) const = 0;
+
         virtual inline const memory::Byte  get_addressed_byte(
             archi::HWArchitecture& hw_arch,
             const memory::MemAddr  addr
@@ -20,6 +28,16 @@ namespace addr
             archi::HWArchitecture& hw_arch,
             const memory::MemAddr  addr
         ) const;
+
+        virtual void set_addressed_byte(
+            archi::HWArchitecture& hw_arch,
+            const memory::Byte     byte_value
+        ) = 0;
+
+        virtual void set_addressed_word(
+            archi::HWArchitecture& hw_arch,
+            const memory::Word     word_value
+        ) = 0;
 
         inline void set_addressed_byte(
             archi::HWArchitecture& hw_arch,
