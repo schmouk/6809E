@@ -51,14 +51,4 @@ namespace addr
         return _post_byte;
     }
 
-
-    //=====   Zero-Offset Indexed Addressing   ================
-    //---------------------------------------------------------
-    ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
-    ) noexcept
-        : IndexedAddressingMode(hw_arch, post_byte)
-    {}
-
 }

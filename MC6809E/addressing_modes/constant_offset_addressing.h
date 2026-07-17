@@ -2,7 +2,6 @@
 
 #include <cstdint>
 
-#include "./indexed_addressing.h"
 #include "./offset_indexed_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -11,7 +10,24 @@
 
 namespace addr
 {
+    //=====   Zero-Offset Indexed Addressing   ================
+    struct ZeroOffsetIndexedAddressing : public OffsetIndexedAddressingMode
+    {
+    public:
+        inline ZeroOffsetIndexedAddressing(
+            archi::HWArchitecture& hw_arch,
+            const memory::Byte     post_byte
+        ) noexcept;
+
+        virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
+    };
+
+    //---------------------------------------------------------
+    using ZeroOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
+
+
     //=====   Constant 5-bits Offset Indexed Addressing   =====
+    //---------------------------------------------------------
     class Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
@@ -31,6 +47,9 @@ namespace addr
             const memory::Byte     post_byte
         ) override;
     };
+
+    //---------------------------------------------------------
+    using Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
 
 
     //=====   Constant 8-bits Offset Indexed Addressing   =====
@@ -54,6 +73,9 @@ namespace addr
         ) override;
     };
 
+    //---------------------------------------------------------
+    using Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
+
 
     //=====   Constant 16-bits Offset Indexed Addressing   =====
     class Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
@@ -75,5 +97,8 @@ namespace addr
             const memory::Byte     post_byte
         ) override;
     };
+
+    //---------------------------------------------------------
+    using Constant16bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
 
 }

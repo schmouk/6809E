@@ -26,17 +26,4 @@ namespace addr
         memory::Byte           _post_byte{ 0 };
     };
 
-
-    //=====   Zero-Offset Indexed Addressing   ================
-    struct ZeroOffsetIndexedAddressing : public IndexedAddressingMode
-    {
-    public:
-        inline ZeroOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) noexcept;
-
-        virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
-    };
-
 }

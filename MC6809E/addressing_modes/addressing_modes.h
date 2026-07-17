@@ -68,42 +68,8 @@ namespace addr
     //=====   Indexed Addressing   ============================
 
 
-    //-----   Specializations   -------------------------------
-    using ZeroOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
-    using Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
-    using Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
-    using Constant16bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
-    using AccAOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
-    using AccBOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
-    using AccDOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
-
-
     //-----   Factory creation of Indexed Addressing Mode Classes   -----
     std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
-
-
-    //-----   Program Counter Relative Addressing   -----------
-    //---------------------------------------------------------
-    struct ProgramCounterShortRelativeIndexedAddressing : public ShortRelativeAddressing
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    };
-
-    //---------------------------------------------------------
-    struct ProgramCounterLongRelativeIndexedAddressing : public LongRelativeAddressing
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    };
 
 
     //=====   Extended Indirect Indexed Addressing   ==========

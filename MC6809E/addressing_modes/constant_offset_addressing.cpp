@@ -10,6 +10,16 @@
 
 namespace addr
 {
+    //=====   Zero-Offset Indexed Addressing   ================
+    //---------------------------------------------------------
+    ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing(
+        archi::HWArchitecture& hw_arch,
+        const memory::Byte     post_byte
+    ) noexcept
+        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+    {}
+
+
     //=====   Constant 5-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant5bitsOffsetIndexedAddressing::Constant5bitsOffsetIndexedAddressing(

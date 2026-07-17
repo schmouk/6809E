@@ -31,6 +31,9 @@ namespace addr
         ) override;
     };
 
+    //---------------------------------------------------------
+    using AccAOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
+
 
     //=====   Accumulator B Offset Indexed Addressing   =========
     class AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
@@ -49,6 +52,9 @@ namespace addr
             const memory::Byte     post_byte
         ) override;
     };
+
+    //---------------------------------------------------------
+    using AccBOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
 
 
     //=====   Accumulator D Offset Indexed Addressing   =========
@@ -71,5 +77,8 @@ namespace addr
             const memory::Byte     post_byte
         ) override;
     };
+
+    //---------------------------------------------------------
+    using AccDOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
 
 }
