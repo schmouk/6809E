@@ -68,42 +68,15 @@ namespace addr
     //=====   Indexed Addressing   ============================
 
 
-
-    //=====   Offset Indirect Indexed Addressing   ===========
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    class OffsetIndirectIndexedAddressingModeT : public IndexedAddrT
-    {
-    public:
-        inline OffsetIndirectIndexedAddressingModeT(const memory::Offset offset = 0) noexcept;
-
-        virtual ~OffsetIndirectIndexedAddressingModeT() noexcept = default;
-
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch, const cpu::CPUIndexRegister& reg) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch, const cpu::CPUIndexRegister& reg) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-
-    protected:
-        virtual const memory::Offset _evaluate_offset(archi::HWArchitecture& hw_arch, const memory::Byte post_byte) override;
-    };
-
     //-----   Specializations   -------------------------------
-    using ZeroOffsetIndirectIndexedAddressing           = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
-    using Constant5bitsOffsetIndirectIndexedAddressing  = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
-    using Constant8bitsOffsetIndirectIndexedAddressing  = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
+    using ZeroOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
+    using Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
+    using Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
     using Constant16bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
-    using AccAOffsetIndirectIndexedAddressing           = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
-    using AccBOffsetIndirectIndexedAddressing           = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
-    using AccDOffsetIndirectIndexedAddressing           = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
-    using PostIncrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
-    using PreDecrementIndirectIndexedAddressing         = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
+    using AccAOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
+    using AccBOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
+    using AccDOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
+
 
     //-----   Factory creation of Indexed Addressing Mode Classes   -----
     std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
@@ -143,97 +116,5 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
     };
 
-
-
-    //=====   IMPLEMENTATIONS   ===============================
-    //-----   Offset Indirect Indexed Addressing   -----------
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::OffsetIndirectIndexedAddressingModeT(
-        const memory::Offset offset
-    ) noexcept
-        : IndexedAddrT(offset)
-    {}
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const memory::Byte OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
-    {
-        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(hw_arch)) };
-        const memory::MemAddr final_addr{ memory::MemAddr(hw_arch.get_word(indirect_addr)) };
-        return hw_arch.get_byte(final_addr);
-    }
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const memory::Word OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
-    {
-        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(hw_arch)) };
-        const memory::MemAddr final_addr{ memory::MemAddr(hw_arch.get_word(indirect_addr)) };
-        return hw_arch.get_word(final_addr);
-    }
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const memory::Byte OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_addressed_byte(
-        archi::HWArchitecture&       hw_arch,
-        const cpu::CPUIndexRegister& reg
-    ) const
-    {
-        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(hw_arch, reg)) };
-        const memory::MemAddr final_addr{ memory::MemAddr(hw_arch.get_word(indirect_addr)) };
-        return hw_arch.get_byte(final_addr);
-    }
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const memory::Word  OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_addressed_word(
-        archi::HWArchitecture&       hw_arch,
-        const cpu::CPUIndexRegister& reg
-    ) const
-    {
-        const memory::MemAddr indirect_addr{ memory::MemAddr(IndexedAddrT::get_addressed_word(hw_arch, reg)) };
-        const memory::MemAddr final_addr{ memory::MemAddr(hw_arch.get_word(indirect_addr)) };
-        return hw_arch.get_word(final_addr);
-    }
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const std::uint64_t OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_byte_cycles() const
-    {
-        return 3 + IndexedAddrT::get_byte_cycles();
-    }
-
-    //---------------------------------------------------------
-    template<typename IndexedAddrT>
-        requires (std::derived_from<IndexedAddrT, OffsetIndexedAddressingMode> ||
-                  std::is_same_v<IndexedAddrT, PostIncrementIndexedAddressing<2>> ||
-                  std::is_same_v<IndexedAddrT, PreDecrementIndexedAddressing<2>>)
-    const std::uint64_t OffsetIndirectIndexedAddressingModeT<IndexedAddrT>::get_word_cycles() const
-    {
-        return 3 + IndexedAddrT::get_word_cycles();
-    }
 
 }

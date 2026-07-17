@@ -42,7 +42,7 @@ namespace instr
     {
         memory::Byte value_low_addr{ hw_arch.get_byte(hw_arch.regPC) };
         hw_arch.regPC++;
-        memory::Byte mem_value{ hw_arch.get_directpage_addr(value_low_addr) };
+        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.get_directpage_addr(value_low_addr)) };
 
         hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
     }
@@ -80,7 +80,7 @@ namespace instr
     //---------------------------------------------------------
     void ADCAExtended::exec(archi::HWArchitecture& hw_arch)
     {
-        memory::Byte value_addr { hw_arch.get_word(hw_arch.regPC) };
+        memory::MemAddr value_addr { memory::MemAddr(hw_arch.get_word(hw_arch.regPC)) };
         hw_arch.regPC += 2;
         memory::Byte mem_value{ hw_arch.get_byte(value_addr) };
 
@@ -127,7 +127,7 @@ namespace instr
     {
         memory::Byte value_low_addr{ hw_arch.get_byte(hw_arch.regPC) };
         hw_arch.regPC++;
-        memory::Byte mem_value{ hw_arch.get_directpage_addr(value_low_addr) };
+        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.get_directpage_addr(value_low_addr)) };
 
         hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
     }
@@ -157,7 +157,7 @@ namespace instr
     //---------------------------------------------------------
     void ADCBExtended::exec(archi::HWArchitecture& hw_arch)
     {
-        memory::Byte value_addr{ hw_arch.get_word(hw_arch.regPC) };
+        memory::MemAddr value_addr{ memory::MemAddr(hw_arch.get_word(hw_arch.regPC)) };
         hw_arch.regPC += 2;
         memory::Byte mem_value{ hw_arch.get_byte(value_addr) };
 

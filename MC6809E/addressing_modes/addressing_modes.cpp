@@ -207,8 +207,8 @@ namespace addr
             return std::make_unique<Constant5bitsOffsetIndexedAddressing>(post_byte);
         }
         else {
-            const memory::Byte post_byte_payload{ post_byte & 0b1111 };
-            const bool indirect_bit_is_set{ (post_byte & 0b0001'0000) != 0 };
+            const memory::Byte post_byte_payload{ memory::Byte(post_byte & 0b1111) };
+            const bool indirect_bit_is_set{ (post_byte & memory::Byte(0b0001'0000)) != 0 };
 
             switch (post_byte_payload) {
             case 0b0000:

@@ -19,7 +19,6 @@ namespace addr
         _evaluate_offset(hw_arch, post_byte);
     }
 
-
     //---------------------------------------------------------
     const memory::Byte  OffsetIndexedAddressingMode::get_addressed_byte(
         archi::HWArchitecture& hw_arch
