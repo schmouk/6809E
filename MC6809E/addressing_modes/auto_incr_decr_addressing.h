@@ -12,36 +12,42 @@
 namespace addr
 {
     //=====   Post Increment Indexed Addressing   =============
+    //---------------------------------------------------------
     template<const memory::Word POST_INC = 1>
     struct PostIncrementIndexedAddressing : public IndexedAddressingMode
     {
-        inline PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch);
+        inline PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch_)
+            : IndexedAddressingMode(hw_arch_)
+        {}
+
         virtual ~PostIncrementIndexedAddressing() noexcept = default;
 
-        virtual const memory::Byte get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
-
-        virtual const memory::Word get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
+        virtual const memory::Byte get_addressed_byte(cpu::CPUIndexRegister& reg) const;
+        virtual const memory::Word get_addressed_word(cpu::CPUIndexRegister& reg) const;
 
         void set_addressed_byte(
-            archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg,
             const memory::Byte     byte_val
         );
 
         void set_addressed_word(
-            archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg,
             const memory::Word     word_val
         );
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
+    };
+
+    //---------------------------------------------------------
+    struct PostIncrementIndexedIndirectAddressing : public PostIncrementIndexedAddressing<2>
+    {
+        inline PostIncrementIndexedIndirectAddressing(archi::HWArchitecture& hw_arch_)
+            : PostIncrementIndexedAddressing<2>(hw_arch_)
+        {}
+
+        virtual ~PostIncrementIndexedIndirectAddressing() noexcept = default;
+
     };
 
 
@@ -49,24 +55,21 @@ namespace addr
     template<const memory::Word PRE_DEC = 1>
     struct PreDecrementIndexedAddressing : public IndexedAddressingMode
     {
-        virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
+        inline PreDecrementIndexedAddressing(archi::HWArchitecture& hw_arch_)
+            : IndexedAddressingMode(hw_arch_)
+        {}
 
-        virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            cpu::CPUIndexRegister& reg
-        ) const;
+        virtual ~PreDecrementIndexedAddressing() noexcept = default;
+
+        virtual const memory::Byte  get_addressed_byte(cpu::CPUIndexRegister& reg) const;
+        virtual const memory::Word  get_addressed_word(cpu::CPUIndexRegister& reg) const;
 
         void set_addressed_byte(
-            archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg,
             const memory::Byte     byte_val
         );
 
         void set_addressed_word(
-            archi::HWArchitecture& hw_arch,
             cpu::CPUIndexRegister& reg,
             const memory::Word     word_val
         );
@@ -75,18 +78,23 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
     };
 
+    //---------------------------------------------------------
+    struct PreDecrementIndexedIndirectAddressing : public PreDecrementIndexedAddressing<2>
+    {
+        inline PreDecrementIndexedIndirectAddressing(archi::HWArchitecture& hw_arch_)
+            : PreDecrementIndexedAddressing<2>(hw_arch_)
+        {}
+
+        virtual ~PreDecrementIndexedIndirectAddressing() noexcept = default;
+
+    };
+
 
     //=====   IMPLEMENTATIONS   ===============================
     //-----   Post Increment Indexed Addressing   -------------
     //---------------------------------------------------------
     template<const memory::Word POST_INC>
-    PostIncrementIndexedAddressing<POST_INC>::PostIncrementIndexedAddressing(archi::HWArchitecture& hw_arch)
-    {}
-
-    //---------------------------------------------------------
-    template<const memory::Word POST_INC>
     const memory::Byte PostIncrementIndexedAddressing<POST_INC>::get_addressed_byte(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg
     ) const
     {
@@ -98,7 +106,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word POST_INC>
     const memory::Word  PostIncrementIndexedAddressing<POST_INC>::get_addressed_word(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg
     ) const
     {
@@ -110,7 +117,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word POST_INC>
     void PostIncrementIndexedAddressing<POST_INC>::set_addressed_byte(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg,
         const memory::Byte     byte_val
     )
@@ -122,7 +128,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word POST_INC>
     void PostIncrementIndexedAddressing<POST_INC>::set_addressed_word(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg,
         const memory::Word     word_val
     )
@@ -150,7 +155,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word PRE_DEC>
     const memory::Byte PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_byte(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg
     ) const
     {
@@ -161,7 +165,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word PRE_DEC>
     const memory::Word  PreDecrementIndexedAddressing<PRE_DEC>::get_addressed_word(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg
     ) const
     {
@@ -172,7 +175,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word PRE_DEC>
     void PreDecrementIndexedAddressing<PRE_DEC>::set_addressed_byte(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg,
         const memory::Byte     byte_val
     )
@@ -184,7 +186,6 @@ namespace addr
     //---------------------------------------------------------
     template<const memory::Word PRE_DEC>
     void PreDecrementIndexedAddressing<PRE_DEC>::set_addressed_word(
-        archi::HWArchitecture& hw_arch,
         cpu::CPUIndexRegister& reg,
         const memory::Word     word_val
     )

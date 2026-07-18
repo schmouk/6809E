@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <initializer_list>
 
+#include "./base_addressing.h"
 #include "./register_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -14,9 +15,12 @@ namespace addr
 {
     //=====   Register Addressing   ===========================
     //---------------------------------------------------------
-    const memory::Byte  RegisterAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    RegisterAddressing::RegisterAddressing(archi::HWArchitecture& hw_arch_)
+        : BaseAddressingMode(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte  RegisterAddressing::get_addressed_byte() const
     {
         const memory::Byte reg_code{ hw_arch.get_byte(hw_arch.regPC()) };
         hw_arch.regPC++;
@@ -25,9 +29,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Word  RegisterAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word  RegisterAddressing::get_addressed_word() const
     {
         throw except::InvalidAddressingModeException(
             "Word addressing is invalid for register addressing mode"

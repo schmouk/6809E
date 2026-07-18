@@ -11,18 +11,19 @@ namespace addr
 {
     //=====   Program Counter Short Relative Addressing   =====
     //---------------------------------------------------------
-    const memory::Byte ProgramCounterShortRelativeAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    ProgramCounterShortRelativeAddressing::ProgramCounterShortRelativeAddressing(archi::HWArchitecture& hw_arch_)
+        : ShortRelativeAddressing(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte ProgramCounterShortRelativeAddressing::get_addressed_byte() const
     {
         const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
         return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
-    const memory::Word ProgramCounterShortRelativeAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word ProgramCounterShortRelativeAddressing::get_addressed_word() const
     {
         const memory::MemAddr word_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
         return hw_arch.get_word(word_addr);
@@ -30,8 +31,7 @@ namespace addr
 
     //---------------------------------------------------------
     void ProgramCounterShortRelativeAddressing::set_addressed_byte(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     byte_value
+        const memory::Byte byte_value
     )
     {
         const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
@@ -40,8 +40,7 @@ namespace addr
 
     //---------------------------------------------------------
     void ProgramCounterShortRelativeAddressing::set_addressed_word(
-        archi::HWArchitecture& hw_arch,
-        const memory::Word     word_value
+        const memory::Word word_value
     )
     {
         const memory::MemAddr word_addr{ memory::MemAddr(hw_arch.regPC() + ShortRelativeAddressing::get_offset(hw_arch)) };
@@ -63,18 +62,19 @@ namespace addr
 
     //=====   Program Counter Long Relative Addressing   ======
     //---------------------------------------------------------
-    const memory::Byte ProgramCounterLongRelativeAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    ProgramCounterLongRelativeAddressing::ProgramCounterLongRelativeAddressing(archi::HWArchitecture& hw_arch_)
+        : LongRelativeAddressing(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte ProgramCounterLongRelativeAddressing::get_addressed_byte() const
     {
         const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
         return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
-    const memory::Word ProgramCounterLongRelativeAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word ProgramCounterLongRelativeAddressing::get_addressed_word() const
     {
         const memory::MemAddr word_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
         return hw_arch.get_word(word_addr);
@@ -82,8 +82,7 @@ namespace addr
 
     //---------------------------------------------------------
     void ProgramCounterLongRelativeAddressing::set_addressed_byte(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     byte_value
+        const memory::Byte byte_value
     )
     {
         const memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };
@@ -92,8 +91,7 @@ namespace addr
 
     //---------------------------------------------------------
     void ProgramCounterLongRelativeAddressing::set_addressed_word(
-        archi::HWArchitecture& hw_arch,
-        const memory::Word     word_value
+        const memory::Word word_value
     )
     {
         const memory::MemAddr word_addr{ memory::MemAddr(hw_arch.regPC() + LongRelativeAddressing::get_offset(hw_arch)) };

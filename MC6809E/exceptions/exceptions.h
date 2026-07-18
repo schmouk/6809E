@@ -14,6 +14,13 @@
 
 namespace except
 {
+    //=====   H/W schema not set   ============================
+    struct HWArchitectureNotSet : public std::exception
+    {
+        const char* what() const noexcept override;
+    };
+
+
     //=====   Memory Exception   ==============================
     class MemoryException : public std::exception
     {
@@ -111,4 +118,5 @@ namespace except
         const std::vector<memory::Byte>  _op_code{};
         mutable std::string _err_msg{};
     };
+
 }

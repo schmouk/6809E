@@ -14,10 +14,7 @@ namespace addr
     class AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline AccAOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline AccAOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~AccAOffsetIndexedAddressing() noexcept = default;
 
@@ -25,10 +22,8 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
+
     };
 
     //---------------------------------------------------------
@@ -39,18 +34,13 @@ namespace addr
     class AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
     {
     public:
-        inline AccBOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline AccBOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~AccBOffsetIndexedAddressing() noexcept = default;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
+
     };
 
     //---------------------------------------------------------
@@ -61,10 +51,7 @@ namespace addr
     class AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline AccDOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~AccDOffsetIndexedAddressing() noexcept = default;
 
@@ -72,10 +59,8 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
+
     };
 
     //---------------------------------------------------------

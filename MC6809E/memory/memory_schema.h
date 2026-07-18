@@ -49,10 +49,10 @@ namespace memory
         void add_sized_range(const memory::MemAddr low_addr, const std::size_t size);
 
         const memory::Byte get_byte(const memory::MemAddr addr) const;
-        void  set_byte(const memory::MemAddr addr, const memory::Byte val);
+        void               set_byte(const memory::MemAddr addr, const memory::Byte val);
 
         const memory::Word get_word(const memory::MemAddr addr) const;
-        void  set_word(const memory::MemAddr addr, const memory::Word val);
+        void               set_word(const memory::MemAddr addr, const memory::Word val);
 
 
     private:

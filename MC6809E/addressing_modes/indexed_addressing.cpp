@@ -11,16 +11,14 @@ namespace addr
 {
     //=====   Indexed Addressing   ============================
     //---------------------------------------------------------
-    IndexedAddressingMode::IndexedAddressingMode(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
-    ) noexcept
-        : BaseAddressingMode()
-        , _post_byte{ post_byte }
+    IndexedAddressingMode::IndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept
+        : BaseAddressingMode(hw_arch_)
     {
         // Sets the internal pointer to the indexing register
+        _post_byte = hw_arch.load_next_byte();
+
         constexpr memory::Byte REG_MASK{ 0b0110'0000 };
-        switch ((post_byte & REG_MASK) >> 5) {
+        switch ((_post_byte & REG_MASK) >> 5) {
         case 0b00:
             _indexing_reg_ptr = &(hw_arch.regX);
             break;

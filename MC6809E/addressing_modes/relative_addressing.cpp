@@ -1,5 +1,6 @@
 #include <cstdint>
 
+#include "./base_addressing.h"
 #include "./relative_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -8,11 +9,21 @@
 
 namespace addr
 {
+    //=====   Offsets Relative Addressing Base Class   ========
+    //---------------------------------------------------------
+    OffsetRelativeAddressing::OffsetRelativeAddressing(archi::HWArchitecture& hw_arch_)
+        : BaseAddressingMode(hw_arch_)
+    {}
+
+
     //=====   Short Relative Branching   ======================
     //---------------------------------------------------------
-    const memory::Offset ShortRelativeAddressing::get_offset(
-        archi::HWArchitecture& hw_arch
-    ) const
+    ShortRelativeAddressing::ShortRelativeAddressing(archi::HWArchitecture& hw_arch_)
+        : OffsetRelativeAddressing(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Offset ShortRelativeAddressing::get_offset() const
     {
         const memory::Byte byte{ hw_arch.load_next_byte() };
 
@@ -37,9 +48,12 @@ namespace addr
 
     //=====    Long Relative Branching   ======================
     //---------------------------------------------------------
-    const memory::Offset LongRelativeAddressing::get_offset(
-        archi::HWArchitecture& hw_arch
-    ) const
+    LongRelativeAddressing::LongRelativeAddressing(archi::HWArchitecture& hw_arch_)
+        : OffsetRelativeAddressing(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Offset LongRelativeAddressing::get_offset() const
     {
         const memory::Word word{ hw_arch.load_next_word() };
 

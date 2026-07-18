@@ -17,30 +17,15 @@ namespace addr
     class OffsetIndexedAddressingMode : public IndexedAddressingMode
     {
     public:
-        inline OffsetIndexedAddressingMode(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) noexcept;
+        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept;
 
         virtual ~OffsetIndexedAddressingMode() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch
-        ) const;
+        virtual const memory::Byte  get_addressed_byte() const;
+        virtual const memory::Word  get_addressed_word() const;
 
-        virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch
-        ) const;
-
-        virtual void set_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     byte_value
-        );
-
-        virtual void set_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            const memory::Word     word_value
-        );
+        virtual void set_addressed_byte(const memory::Byte byte_value);
+        virtual void set_addressed_word(const memory::Word word_value);
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -48,10 +33,7 @@ namespace addr
     protected:
         memory::Offset _offset{ 0 };
 
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) = 0;
+        virtual const memory::Offset _evaluate_offset() = 0;
 
     };
 
@@ -62,37 +44,22 @@ namespace addr
     class OffsetIndirectIndexedAddressingModeT : public OffsetIndexedAddrT
     {
     public:
-        inline OffsetIndirectIndexedAddressingModeT(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) noexcept;
+        inline OffsetIndirectIndexedAddressingModeT(archi::HWArchitecture& hw_arch_);
 
         virtual ~OffsetIndirectIndexedAddressingModeT() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte(
-            archi::HWArchitecture& hw_arch
-        ) const override;
+        virtual const memory::Byte  get_addressed_byte() const override;
+        virtual const memory::Word  get_addressed_word() const override;
 
-        virtual const memory::Word  get_addressed_word(
-            archi::HWArchitecture& hw_arch
-        ) const override;
-
-        virtual void set_addressed_byte(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     byte_value
-        );
-
-        virtual void set_addressed_word(
-            archi::HWArchitecture& hw_arch,
-            const memory::Word     word_value
-        );
+        virtual void set_addressed_byte(const memory::Byte byte_value);
+        virtual void set_addressed_word(const memory::Word word_value);
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
 
 
     private:
-        const memory::MemAddr _evaluate_indirect_address(archi::HWArchitecture& hw_arch);
+        const memory::MemAddr _evaluate_indirect_address();
 
     };
 
@@ -102,52 +69,45 @@ namespace addr
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
     OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::OffsetIndirectIndexedAddressingModeT(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
-    ) noexcept
-        : OffsetIndexedAddrT(hw_arch, post_byte)
+        archi::HWArchitecture& hw_arch_
+    )
+        : OffsetIndexedAddrT(hw_arch_)
     {}
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
-    const memory::Byte OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_byte(
-            archi::HWArchitecture& hw_arch
-        ) const
+    const memory::Byte OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_byte() const
     {
-        return hw_arch.get_byte(_evaluate_indirect_address(hw_arch));
+        return OffsetIndexedAddrT::hw_arch.get_byte(_evaluate_indirect_address());
     }
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
-    const memory::Word OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_word(
-            archi::HWArchitecture& hw_arch
-        ) const
+    const memory::Word OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_word() const
     {
-        return hw_arch.get_word(_evaluate_indirect_address(hw_arch));
+        return OffsetIndexedAddrT::hw_arch.get_word(_evaluate_indirect_address());
     }
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
     void OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::set_addressed_byte(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     byte_value
+        const memory::Byte byte_value
     )
     {
-        return hw_arch.set_byte(_evaluate_indirect_address(hw_arch), byte_value);
+        return OffsetIndexedAddrT::hw_arch.set_byte(_evaluate_indirect_address(), byte_value);
     }
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
     void OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::set_addressed_word(
-        archi::HWArchitecture& hw_arch,
-        const memory::Word     word_value
+        const memory::Word word_value
     )
     {
-        return hw_arch.set_word(_evaluate_indirect_address(hw_arch), word_value);
+        return OffsetIndexedAddrT::hw_arch.set_word(_evaluate_indirect_address(), word_value);
     }
 
     //---------------------------------------------------------
@@ -169,12 +129,12 @@ namespace addr
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
         requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
-    const memory::MemAddr OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::_evaluate_indirect_address(
-        archi::HWArchitecture& hw_arch
-    )
+    const memory::MemAddr OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::_evaluate_indirect_address()
     {
-        const memory::MemAddr indirect_addr{ memory::MemAddr(OffsetIndexedAddrT::get_addressed_word(hw_arch)) };
-        const memory::MemAddr final_addr{ memory::MemAddr(hw_arch.get_word(indirect_addr)) };
+        const memory::MemAddr indirect_addr{
+            memory::MemAddr(OffsetIndexedAddrT::get_addressed_word(OffsetIndexedAddrT::hw_arch))
+        };
+        const memory::MemAddr final_addr{ memory::MemAddr(OffsetIndexedAddrT::hw_arch.get_word(indirect_addr)) };
         return final_addr;
     }
 

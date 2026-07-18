@@ -16,8 +16,11 @@ namespace addr
     class RegisterAddressing : public BaseAddressingMode
     {
     public:
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
+        inline RegisterAddressing(archi::HWArchitecture& hw_arch_);
+        virtual ~RegisterAddressing() noexcept = default;
+
+        virtual const memory::Byte  get_addressed_byte() const override;
+        virtual const memory::Word  get_addressed_word() const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;

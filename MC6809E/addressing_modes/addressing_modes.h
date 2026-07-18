@@ -68,19 +68,6 @@ namespace addr
     //=====   Indexed Addressing   ============================
 
 
-    //-----   Factory creation of Indexed Addressing Mode Classes   -----
-    std::unique_ptr<BaseAddressingMode> make_indexed_addressing_class(archi::HWArchitecture& hw_arch);
-
-
-    //=====   Extended Indirect Indexed Addressing   ==========
-    struct ExtendedIndirectIndexedAddressing : public BaseAddressingMode
-    {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
-
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
-    };
 
 
 }

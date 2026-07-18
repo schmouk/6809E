@@ -12,10 +12,9 @@ namespace addr
     //=====   Accumulator A Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccAOffsetIndexedAddressing::AccAOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
     //---------------------------------------------------------
@@ -31,10 +30,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset AccAOffsetIndexedAddressing::_evaluate_offset(
-        archi::HWArchitecture& hw_arch,
-        [[maybe_unused]] const memory::Byte post_byte
-    )
+    const memory::Offset AccAOffsetIndexedAddressing::_evaluate_offset()
     {
         const memory::Byte acc_value{ hw_arch.regA() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
@@ -47,17 +43,13 @@ namespace addr
     //=====   Accumulator B Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccBOffsetIndexedAddressing::AccBOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : AccAOffsetIndexedAddressing(hw_arch, post_byte)
+        : AccAOffsetIndexedAddressing(hw_arch_)
     {}
 
     //---------------------------------------------------------
-    const memory::Offset AccBOffsetIndexedAddressing::_evaluate_offset(
-        archi::HWArchitecture& hw_arch,
-        [[maybe_unused]] const memory::Byte post_byte
-    )
+    const memory::Offset AccBOffsetIndexedAddressing::_evaluate_offset()
     {
         const memory::Byte acc_value{ hw_arch.regB() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
@@ -70,10 +62,9 @@ namespace addr
     //=====   Accumulator D Offset Indexed Addressing   =======
     //---------------------------------------------------------
     AccDOffsetIndexedAddressing::AccDOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
     //---------------------------------------------------------
@@ -89,10 +80,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset AccDOffsetIndexedAddressing::_evaluate_offset(
-        archi::HWArchitecture& hw_arch,
-        [[maybe_unused]] const memory::Byte post_byte
-    )
+    const memory::Offset AccDOffsetIndexedAddressing::_evaluate_offset()
     {
         const memory::Word acc_value{ hw_arch.regD() };
         if (acc_value & 0x8000)  // Notice: signed offset, negative value

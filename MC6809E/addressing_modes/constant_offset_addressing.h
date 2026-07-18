@@ -14,10 +14,7 @@ namespace addr
     struct ZeroOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline ZeroOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) noexcept;
+        inline ZeroOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_) noexcept;
 
         virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
     };
@@ -31,10 +28,7 @@ namespace addr
     class Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant5bitsOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline Constant5bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant5bitsOffsetIndexedAddressing() noexcept = default;
 
@@ -42,10 +36,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
     };
 
     //---------------------------------------------------------
@@ -56,10 +47,7 @@ namespace addr
     class Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant8bitsOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline Constant8bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant8bitsOffsetIndexedAddressing() noexcept = default;
 
@@ -67,10 +55,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
     };
 
     //---------------------------------------------------------
@@ -81,10 +66,7 @@ namespace addr
     class Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant16bitsOffsetIndexedAddressing(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        );
+        inline Constant16bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant16bitsOffsetIndexedAddressing() noexcept = default;
 
@@ -92,10 +74,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset(
-            archi::HWArchitecture& hw_arch,
-            const memory::Byte     post_byte
-        ) override;
+        virtual const memory::Offset _evaluate_offset() override;
     };
 
     //---------------------------------------------------------

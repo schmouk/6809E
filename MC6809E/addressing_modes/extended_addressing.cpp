@@ -1,6 +1,7 @@
 
 #include <cstdint>
 
+#include "./base_addressing.h"
 #include "./extended_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -11,18 +12,19 @@ namespace addr
 {
     //=====   Extended Addressing   ===========================
     //---------------------------------------------------------
-    const memory::Byte ExtendedAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    ExtendedAddressing::ExtendedAddressing(archi::HWArchitecture& hw_arch_)
+        : BaseAddressingMode(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte ExtendedAddressing::get_addressed_byte() const
     {
         memory::MemAddr byte_addr{ memory::MemAddr(hw_arch.load_next_word()) };
         return hw_arch.get_byte(byte_addr);
     }
 
     //---------------------------------------------------------
-    const memory::Word ExtendedAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word ExtendedAddressing::get_addressed_word() const
     {
         memory::MemAddr word_addr{ memory::MemAddr(hw_arch.load_next_word()) };
         return hw_arch.get_word(word_addr);
@@ -43,9 +45,12 @@ namespace addr
 
     //=====   Extended Indirect Addressing   ==================
     //---------------------------------------------------------
-    const memory::Byte ExtendedIndirectAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    ExtendedIndirectAddressing::ExtendedIndirectAddressing(archi::HWArchitecture& hw_arch_)
+        : BaseAddressingMode(hw_arch_)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte ExtendedIndirectAddressing::get_addressed_byte() const
     {
         const memory::MemAddr byte_memaddr{ memory::MemAddr(hw_arch.load_next_word()) };
         const memory::MemAddr byte_addr{ hw_arch.get_word(byte_memaddr) };
@@ -54,9 +59,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Word ExtendedIndirectAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word ExtendedIndirectAddressing::get_addressed_word() const
     {
         const memory::MemAddr word_memaddr{ memory::MemAddr(hw_arch.load_next_word()) };
         const memory::MemAddr word_addr{ hw_arch.get_word(word_memaddr) };

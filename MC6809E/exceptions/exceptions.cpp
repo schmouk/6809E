@@ -11,6 +11,14 @@
 
 namespace except
 {
+    //=====   H/W schema not set   ============================
+    //---------------------------------------------------------
+    const char* HWArchitectureNotSet::what() const noexcep
+    {
+        return "Attempt to access to a not set Hardware Architecture."
+    }
+
+
     //=====   Memory Exception   ==============================
     //---------------------------------------------------------
     MemoryException::MemoryException(const std::size_t faulty_addr) noexcept

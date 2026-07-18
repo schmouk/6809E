@@ -13,20 +13,18 @@ namespace addr
     //=====   Zero-Offset Indexed Addressing   ================
     //---------------------------------------------------------
     ZeroOffsetIndexedAddressing::ZeroOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     ) noexcept
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
 
     //=====   Constant 5-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant5bitsOffsetIndexedAddressing::Constant5bitsOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
     //---------------------------------------------------------
@@ -42,12 +40,11 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant5bitsOffsetIndexedAddressing::_evaluate_offset(
-        [[maybe_unused]] archi::HWArchitecture& hw_arch,
-        const memory::Byte                      post_byte
-    )
+    const memory::Offset Constant5bitsOffsetIndexedAddressing::_evaluate_offset()
     {
-        memory::Offset ret_offset{ memory::Offset(post_byte & 0x0f) };
+        const memory::Byte post_byte{ get_post_byte() };
+
+        memory::Offset ret_offset{ memory::Offset(post_byte & 0x0f)};
         if (post_byte & 0x10)
             // Negative offset!
             ret_offset -= 0x10;
@@ -59,10 +56,9 @@ namespace addr
     //=====   Constant 8-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant8bitsOffsetIndexedAddressing::Constant8bitsOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
     //---------------------------------------------------------
@@ -78,10 +74,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant8bitsOffsetIndexedAddressing::_evaluate_offset(
-        archi::HWArchitecture&              hw_arch,
-        [[maybe_unused]] const memory::Byte post_byte
-    )
+    const memory::Offset Constant8bitsOffsetIndexedAddressing::_evaluate_offset()
     {
         const memory::Byte offset_code{ hw_arch.load_next_byte() };
 
@@ -96,10 +89,9 @@ namespace addr
     //=====   Constant 16-bits Offset Indexed Addressing   =====
     //---------------------------------------------------------
     Constant16bitsOffsetIndexedAddressing::Constant16bitsOffsetIndexedAddressing(
-        archi::HWArchitecture& hw_arch,
-        const memory::Byte     post_byte
+        archi::HWArchitecture& hw_arch_
     )
-        : OffsetIndexedAddressingMode(hw_arch, post_byte)
+        : OffsetIndexedAddressingMode(hw_arch_)
     {}
 
     //---------------------------------------------------------
@@ -115,10 +107,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant16bitsOffsetIndexedAddressing::_evaluate_offset(
-        archi::HWArchitecture&              hw_arch,
-        [[maybe_unused]] const memory::Byte post_byte
-    )
+    const memory::Offset Constant16bitsOffsetIndexedAddressing::_evaluate_offset()
     {
         const memory::Word offset_code{ hw_arch.load_next_word() };
 

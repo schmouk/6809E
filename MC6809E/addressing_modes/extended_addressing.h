@@ -13,8 +13,11 @@ namespace addr
     //=====   Extended Addressing   ===========================
     struct ExtendedAddressing : public BaseAddressingMode
     {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
+        inline ExtendedAddressing(archi::HWArchitecture& hw_arch_);
+        virtual ~ExtendedAddressing() noexcept = default;
+
+        virtual const memory::Byte  get_addressed_byte() const override;
+        virtual const memory::Word  get_addressed_word() const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
@@ -24,8 +27,11 @@ namespace addr
     //=====   Extended Indirect Addressing   ==================
     struct ExtendedIndirectAddressing : public BaseAddressingMode
     {
-        virtual const memory::Byte  get_addressed_byte(archi::HWArchitecture& hw_arch) const override;
-        virtual const memory::Word  get_addressed_word(archi::HWArchitecture& hw_arch) const override;
+        inline ExtendedIndirectAddressing(archi::HWArchitecture& hw_arch_);
+        virtual ~ExtendedIndirectAddressing() noexcept = default;
+
+        virtual const memory::Byte  get_addressed_byte() const override;
+        virtual const memory::Word  get_addressed_word() const override;
 
         virtual const std::uint64_t get_byte_cycles() const override;
         virtual const std::uint64_t get_word_cycles() const override;
