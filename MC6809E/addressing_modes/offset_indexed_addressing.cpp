@@ -58,4 +58,9 @@ namespace addr
         return 0;
     }
 
+    //---------------------------------------------------------
+    const memory::Offset OffsetIndexedAddressingMode::_evaluate_offset() const
+    {
+        return memory::Offset(0);
+    }
 }

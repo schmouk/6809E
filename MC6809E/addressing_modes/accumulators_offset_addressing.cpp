@@ -30,7 +30,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset AccAOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset AccAOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Byte acc_value{ hw_arch.regA() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
@@ -49,7 +49,7 @@ namespace addr
     {}
 
     //---------------------------------------------------------
-    const memory::Offset AccBOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset AccBOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Byte acc_value{ hw_arch.regB() };
         if (acc_value & 0x80)  // Notice: signed offset, negative value
@@ -80,7 +80,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset AccDOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset AccDOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Word acc_value{ hw_arch.regD() };
         if (acc_value & 0x8000)  // Notice: signed offset, negative value

@@ -13,6 +13,18 @@ namespace addr
     {}
 
     //---------------------------------------------------------
+    const memory::Byte BaseAddressingMode::get_addressed_byte() const
+    {
+        throw except::NotImplementedMethodException("BaseAddressingMode::get_addressed_byte()");
+    }
+
+    //---------------------------------------------------------
+    const memory::Word BaseAddressingMode::get_addressed_word() const
+    {
+        throw except::NotImplementedMethodException("BaseAddressingMode::get_addressed_word()");
+    }
+
+    //---------------------------------------------------------
     const memory::Byte BaseAddressingMode::get_addressed_byte(
         const memory::MemAddr addr
     )
@@ -26,6 +38,18 @@ namespace addr
     )
     {
        return hw_arch.get_word(addr);
+    }
+
+    //---------------------------------------------------------
+    void BaseAddressingMode::set_addressed_byte(const memory::Byte byte_value)
+    {
+        throw except::NotImplementedMethodException("BaseAddressingMode::set_addressed_byte(const memory::Byte)");
+    }
+
+    //---------------------------------------------------------
+    void BaseAddressingMode::set_addressed_word(const memory::Word word_value)
+    {
+        throw except::NotImplementedMethodException("BaseAddressingMode::set_addressed_word(const memory::Word)");
     }
 
     //---------------------------------------------------------

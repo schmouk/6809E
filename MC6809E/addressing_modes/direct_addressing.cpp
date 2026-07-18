@@ -11,7 +11,7 @@ namespace addr
     //---------------------------------------------------------
     const memory::Byte DirectAddressing::get_addressed_byte(
         archi::HWArchitecture& hw_arch
-    ) const
+    )
     {
         const memory::Byte byte_low_addr{ hw_arch.load_next_byte() };
         const memory::MemAddr byte_addr{ hw_arch.get_directpage_addr(byte_low_addr) };
@@ -22,7 +22,7 @@ namespace addr
     //---------------------------------------------------------
     const memory::Word DirectAddressing::get_addressed_word(
         archi::HWArchitecture& hw_arch
-    ) const
+    )
     {
         const memory::Byte word_low_addr{ hw_arch.load_next_byte() };
         const memory::MemAddr word_addr{ hw_arch.get_directpage_addr(word_low_addr) };

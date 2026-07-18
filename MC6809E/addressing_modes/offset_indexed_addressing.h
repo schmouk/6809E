@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "./indexed_addressing.h"
+#include "./relative_addressing.h"
 
 #include "../architecture/hw_architecture.h"
 #include "../cpu/cpu_registers.h"
@@ -33,14 +34,15 @@ namespace addr
     protected:
         memory::Offset _offset{ 0 };
 
-        virtual const memory::Offset _evaluate_offset() = 0;
+        virtual const memory::Offset _evaluate_offset() const;
 
     };
 
 
     //=====   Offset Indirect Indexed Addressing   ===========
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     class OffsetIndirectIndexedAddressingModeT : public OffsetIndexedAddrT
     {
     public:
@@ -59,7 +61,7 @@ namespace addr
 
 
     private:
-        const memory::MemAddr _evaluate_indirect_address();
+        const memory::MemAddr _evaluate_indirect_address() const;
 
     };
 
@@ -67,7 +69,8 @@ namespace addr
     //=====   IMPLEMENTATIONS   ===============================
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::OffsetIndirectIndexedAddressingModeT(
         archi::HWArchitecture& hw_arch_
     )
@@ -76,7 +79,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     const memory::Byte OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_byte() const
     {
         return OffsetIndexedAddrT::hw_arch.get_byte(_evaluate_indirect_address());
@@ -84,7 +88,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     const memory::Word OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_addressed_word() const
     {
         return OffsetIndexedAddrT::hw_arch.get_word(_evaluate_indirect_address());
@@ -92,7 +97,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     void OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::set_addressed_byte(
         const memory::Byte byte_value
     )
@@ -102,7 +108,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     void OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::set_addressed_word(
         const memory::Word word_value
     )
@@ -112,7 +119,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     const std::uint64_t OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_byte_cycles() const
     {
         return 3 + OffsetIndexedAddrT::get_byte_cycles();
@@ -120,7 +128,8 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
     const std::uint64_t OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::get_word_cycles() const
     {
         return 3 + OffsetIndexedAddrT::get_word_cycles();
@@ -128,11 +137,12 @@ namespace addr
 
     //---------------------------------------------------------
     template<typename OffsetIndexedAddrT>
-        requires std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode>
-    const memory::MemAddr OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::_evaluate_indirect_address()
+        requires (std::derived_from<OffsetIndexedAddrT, OffsetIndexedAddressingMode> ||
+                  std::derived_from<OffsetIndexedAddrT, OffsetRelativeAddressing>)
+    const memory::MemAddr OffsetIndirectIndexedAddressingModeT<OffsetIndexedAddrT>::_evaluate_indirect_address() const
     {
         const memory::MemAddr indirect_addr{
-            memory::MemAddr(OffsetIndexedAddrT::get_addressed_word(OffsetIndexedAddrT::hw_arch))
+            memory::MemAddr(OffsetIndexedAddrT::get_addressed_word())
         };
         const memory::MemAddr final_addr{ memory::MemAddr(OffsetIndexedAddrT::hw_arch.get_word(indirect_addr)) };
         return final_addr;

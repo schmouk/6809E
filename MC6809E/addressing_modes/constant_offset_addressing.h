@@ -36,7 +36,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() override;
+        virtual const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------
@@ -55,7 +55,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() override;
+        virtual const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------
@@ -74,7 +74,7 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() override;
+        virtual const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------

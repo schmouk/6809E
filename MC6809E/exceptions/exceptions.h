@@ -96,6 +96,21 @@ namespace except
     };
 
 
+    //=====   Invalid Indexing Post-Byte Exception   ==========
+    class InvalidIndexingPostByteException : public std::exception
+    {
+    public:
+        InvalidIndexingPostByteException(const memory::Byte post_byte) noexcept;
+        virtual ~InvalidIndexingPostByteException() noexcept = default;
+
+        const char* what() const noexcept override;
+
+    private:
+        const memory::Byte  _post_byte{};
+        mutable std::string _err_msg{};
+    };
+
+
     //=====   Invalid Offset Addressing Mode Exception   ======
     struct InvalidOffsetAddressingModeException : public std::exception
     {
@@ -116,6 +131,19 @@ namespace except
 
     private:
         const std::vector<memory::Byte>  _op_code{};
+        mutable std::string _err_msg{};
+    };
+
+
+    //=====   Not Implemented Method Exception   ==============
+    class NotImplementedMethodException : public std::exception
+    {
+    public:
+        NotImplementedMethodException(const std::string& method_name) noexcept;
+        const char* what() const noexcept override;
+
+    private:
+        const std::string   _method_name{};
         mutable std::string _err_msg{};
     };
 

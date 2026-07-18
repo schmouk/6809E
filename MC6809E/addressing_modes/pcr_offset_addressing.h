@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+//#include "./offset_indexed_addressing.h"
 #include "./relative_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -11,6 +12,7 @@
 namespace addr
 {
     //=====   Program Counter Short Relative Addressing   =====
+    //---------------------------------------------------------
     struct ProgramCounterShortRelativeAddressing : public ShortRelativeAddressing
     {
         inline ProgramCounterShortRelativeAddressing(archi::HWArchitecture& hw_arch_);
@@ -26,6 +28,11 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     };
+
+    //---------------------------------------------------------
+    using ProgramCounterShortRelativeIndirectAddressing =
+        OffsetIndirectIndexedAddressingModeT<ProgramCounterShortRelativeAddressing>;
+
 
     //=====   Program Counter Long Relative Addressing   ======
     struct ProgramCounterLongRelativeAddressing : public LongRelativeAddressing
@@ -43,5 +50,9 @@ namespace addr
         virtual const std::uint64_t get_word_cycles() const override;
 
     };
+
+    //---------------------------------------------------------
+    using ProgramCounterLongRelativeIndirectAddressing =
+        OffsetIndirectIndexedAddressingModeT<ProgramCounterLongRelativeAddressing>;
 
 }

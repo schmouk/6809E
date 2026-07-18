@@ -40,7 +40,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant5bitsOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset Constant5bitsOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Byte post_byte{ get_post_byte() };
 
@@ -74,7 +74,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant8bitsOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset Constant8bitsOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Byte offset_code{ hw_arch.load_next_byte() };
 
@@ -107,7 +107,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Offset Constant16bitsOffsetIndexedAddressing::_evaluate_offset()
+    const memory::Offset Constant16bitsOffsetIndexedAddressing::_evaluate_offset() const
     {
         const memory::Word offset_code{ hw_arch.load_next_word() };
 
