@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-//#include "./offset_indexed_addressing.h"
+#include "./offset_indexed_addressing.h"
 #include "./relative_addressing.h"
 
 #include "../architecture/hw_architecture.h"

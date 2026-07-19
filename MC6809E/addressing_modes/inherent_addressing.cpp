@@ -1,6 +1,7 @@
 
 #include <cstdint>
 
+#include "./base_addressing.h"
 #include "./inherent_addressing.h"
 
 #include "../architecture/hw_architecture.h"
@@ -11,9 +12,12 @@
 namespace addr
 {
     //---------------------------------------------------------
-    const memory::Byte InherentAddressing::get_addressed_byte(
-        archi::HWArchitecture& hw_arch
-    ) const
+    InherentAddressing::InherentAddressing(archi::HWArchitecture& hw_arch) noexcept
+        : BaseAddressingMode(hw_arch)
+    {}
+
+    //---------------------------------------------------------
+    const memory::Byte InherentAddressing::get_addressed_byte() const
     {
         throw except::InvalidAddressingModeException(
             "Byte addressing is invalid for inherent addressing mode"
@@ -21,9 +25,7 @@ namespace addr
     }
 
     //---------------------------------------------------------
-    const memory::Word InherentAddressing::get_addressed_word(
-        archi::HWArchitecture& hw_arch
-    ) const
+    const memory::Word InherentAddressing::get_addressed_word() const
     {
         throw except::InvalidAddressingModeException(
             "Word addressing is invalid for inherent addressing mode"
