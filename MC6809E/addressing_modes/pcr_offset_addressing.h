@@ -15,7 +15,7 @@ namespace addr
     //---------------------------------------------------------
     struct ProgramCounterShortRelativeAddressing : public ShortRelativeAddressing
     {
-        inline ProgramCounterShortRelativeAddressing(archi::HWArchitecture& hw_arch_);
+        ProgramCounterShortRelativeAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ProgramCounterShortRelativeAddressing() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte() const override;
@@ -37,7 +37,7 @@ namespace addr
     //=====   Program Counter Long Relative Addressing   ======
     struct ProgramCounterLongRelativeAddressing : public LongRelativeAddressing
     {
-        inline ProgramCounterLongRelativeAddressing(archi::HWArchitecture& hw_arch_);
+        ProgramCounterLongRelativeAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ProgramCounterLongRelativeAddressing() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte() const override;       

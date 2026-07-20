@@ -13,8 +13,8 @@ namespace addr
     //=====   Direct Addressing   =============================
     struct DirectAddressing : public BaseAddressingMode
     {
-        inline DirectAddressing(archi::HWArchitecture& hw_arch) noexcept;
-        inline virtual ~DirectAddressing() noexcept = default;
+        DirectAddressing(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~DirectAddressing() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte();
         virtual const memory::Word  get_addressed_word();

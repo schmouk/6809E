@@ -18,7 +18,7 @@ namespace addr
     class OffsetIndexedAddressingMode : public IndexedAddressingMode
     {
     public:
-        inline OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept;
+        OffsetIndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept;
 
         virtual ~OffsetIndexedAddressingMode() noexcept = default;
 
@@ -46,7 +46,7 @@ namespace addr
     class OffsetIndirectIndexedAddressingModeT : public OffsetIndexedAddrT
     {
     public:
-        inline OffsetIndirectIndexedAddressingModeT(archi::HWArchitecture& hw_arch_);
+        OffsetIndirectIndexedAddressingModeT(archi::HWArchitecture& hw_arch_);
 
         virtual ~OffsetIndirectIndexedAddressingModeT() noexcept = default;
 

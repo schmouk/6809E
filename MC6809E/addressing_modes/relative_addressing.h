@@ -13,7 +13,7 @@ namespace addr
     //=====   Offsets Relative Addressing Base Class   ========
     struct OffsetRelativeAddressing : public BaseAddressingMode
     {
-        inline OffsetRelativeAddressing(archi::HWArchitecture& hw_arch_);
+        OffsetRelativeAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~OffsetRelativeAddressing() noexcept = default;
 
         virtual const memory::Offset get_offset() const = 0;
@@ -23,7 +23,7 @@ namespace addr
     //=====   Short Relative Branching   ======================
     struct ShortRelativeAddressing : public OffsetRelativeAddressing
     {
-        inline ShortRelativeAddressing(archi::HWArchitecture& hw_arch);
+        ShortRelativeAddressing(archi::HWArchitecture& hw_arch);
         virtual ~ShortRelativeAddressing() noexcept = default;
 
         virtual const memory::Offset get_offset() const override;
@@ -36,7 +36,7 @@ namespace addr
     //=====    Long Relative Branching   ======================
     struct LongRelativeAddressing : public OffsetRelativeAddressing
     {
-        inline LongRelativeAddressing(archi::HWArchitecture& hw_arch);
+        LongRelativeAddressing(archi::HWArchitecture& hw_arch);
         virtual ~LongRelativeAddressing() noexcept = default;
 
         virtual const memory::Offset get_offset() const override;

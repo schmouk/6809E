@@ -14,11 +14,11 @@ namespace addr
     class IndexedAddressingMode : public BaseAddressingMode
     {
     public:
-        inline IndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept;
+        IndexedAddressingMode(archi::HWArchitecture& hw_arch_) noexcept;
         virtual ~IndexedAddressingMode() noexcept = default;
 
-        inline cpu::CPUIndexRegister* get_indexing_reg_ptr() const noexcept;
-        inline const memory::Byte     get_post_byte() const noexcept;
+        cpu::CPUIndexRegister* get_indexing_reg_ptr() const noexcept;
+        const memory::Byte     get_post_byte() const noexcept;
 
 
     private:

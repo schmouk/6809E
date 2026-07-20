@@ -99,8 +99,8 @@ namespace cpu
     struct CPUCCRegister : public CPURegister8bits
     {
         //-----   Constructors / Destructors   ----------------
-        inline CPUCCRegister() noexcept = default;
-        inline virtual ~CPUCCRegister() noexcept = default;
+        CPUCCRegister() noexcept = default;
+        virtual ~CPUCCRegister() noexcept = default;
 
         CPUCCRegister(const CPUCCRegister&) noexcept = default;
         CPUCCRegister(CPUCCRegister&&) noexcept = default;
@@ -108,50 +108,50 @@ namespace cpu
         CPUCCRegister& operator= (const CPUCCRegister&) noexcept = default;
         CPUCCRegister& operator= (CPUCCRegister&&) noexcept = default;
 
-        inline const CPUCCRegister& operator= (const int new_value) noexcept;
+        const CPUCCRegister& operator= (const int new_value) noexcept;
 
 
         //-----   Operations   --------------------------------
-        inline const bool carry_flag() const noexcept;      // C flag - Bit 0
-        inline void clr_carry() noexcept;
-        inline void set_carry() noexcept;
-        inline void set_carry(const bool flag_value) noexcept;
-        inline const memory::Byte carry_value() const noexcept;
+        const bool carry_flag() const noexcept;      // C flag - Bit 0
+        void clr_carry() noexcept;
+        void set_carry() noexcept;
+        void set_carry(const bool flag_value) noexcept;
+        const memory::Byte carry_value() const noexcept;
 
-        inline const bool overflow_flag() const noexcept;   // V flag - Bit 1
-        inline void clr_overflow() noexcept;
-        inline void set_overflow() noexcept;
-        inline void set_overflow(const bool flag_value) noexcept;
+        const bool overflow_flag() const noexcept;   // V flag - Bit 1
+        void clr_overflow() noexcept;
+        void set_overflow() noexcept;
+        void set_overflow(const bool flag_value) noexcept;
 
-        inline const bool zero_flag() const noexcept;       // Z flag - Bit 2
-        inline void clr_zero() noexcept;
-        inline void set_zero() noexcept;
-        inline void set_zero(const bool flag_value) noexcept;
+        const bool zero_flag() const noexcept;       // Z flag - Bit 2
+        void clr_zero() noexcept;
+        void set_zero() noexcept;
+        void set_zero(const bool flag_value) noexcept;
 
-        inline const bool negative_flag() const noexcept;   // N flag - bit 3
-        inline void clr_negative() noexcept;
-        inline void set_negative() noexcept;
-        inline void set_negative(const bool flag_value) noexcept;
+        const bool negative_flag() const noexcept;   // N flag - bit 3
+        void clr_negative() noexcept;
+        void set_negative() noexcept;
+        void set_negative(const bool flag_value) noexcept;
 
-        inline const bool irqmask_flag() const noexcept;    // I flag - bit 4
-        inline void clr_irqmask() noexcept;
-        inline void set_irqmask() noexcept;
+        const bool irqmask_flag() const noexcept;    // I flag - bit 4
+        void clr_irqmask() noexcept;
+        void set_irqmask() noexcept;
 
-        inline const bool halfcarry_flag() const noexcept;  // H flag - bit 5
-        inline void clr_halfcarry() noexcept;
-        inline void set_halfcarry() noexcept;
-        inline void set_halfcarry(const bool flag_value) noexcept;
+        const bool halfcarry_flag() const noexcept;  // H flag - bit 5
+        void clr_halfcarry() noexcept;
+        void set_halfcarry() noexcept;
+        void set_halfcarry(const bool flag_value) noexcept;
 
-        inline const bool firqmask_flag() const noexcept;   // F flag - bit 6
-        inline void clr_firqmask() noexcept;
-        inline void set_firqmask() noexcept;
+        const bool firqmask_flag() const noexcept;   // F flag - bit 6
+        void clr_firqmask() noexcept;
+        void set_firqmask() noexcept;
 
-        inline const bool entire_flag() const noexcept;     // E flag - bit 7
-        inline void clr_entire() noexcept;
-        inline void set_entire() noexcept;
+        const bool entire_flag() const noexcept;     // E flag - bit 7
+        void clr_entire() noexcept;
+        void set_entire() noexcept;
 
 
-        inline void clr() noexcept;
+        void clr() noexcept;
 
 
         //-----   Bits Masks   --------------------------------
@@ -175,8 +175,7 @@ namespace cpu
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
     CPURegisterT<IntT>::CPURegisterT(const IntT value) noexcept
         : _value(value)
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     template<typename IntT>
@@ -197,7 +196,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator= (const IntT new_value) noexcept
+    const CPURegisterT<IntT>& CPURegisterT<IntT>::operator= (const IntT new_value) noexcept
     {
         _value = new_value;
         return *this;
@@ -206,7 +205,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegisterT<IntT> CPURegisterT<IntT>::operator+ (const IntT offset_value) noexcept
+    const CPURegisterT<IntT> CPURegisterT<IntT>::operator+ (const IntT offset_value) noexcept
     {
         return CPURegisterT<IntT>(_value + offset_value);
     }
@@ -214,7 +213,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator+= (const IntT offset_value) noexcept
+    const CPURegisterT<IntT>& CPURegisterT<IntT>::operator+= (const IntT offset_value) noexcept
     {
         _value += offset_value;
         return *this;
@@ -223,7 +222,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegisterT<IntT> CPURegisterT<IntT>::operator-  (const IntT offset_value) noexcept
+    const CPURegisterT<IntT> CPURegisterT<IntT>::operator-  (const IntT offset_value) noexcept
     {
         return CPURegisterT<IntT>(_value - offset_value);
     }
@@ -231,7 +230,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const CPURegisterT<IntT>& CPURegisterT<IntT>::operator-= (const IntT offset_value) noexcept
+    const CPURegisterT<IntT>& CPURegisterT<IntT>::operator-= (const IntT offset_value) noexcept
     {
         _value -= offset_value;
         return *this;
@@ -276,7 +275,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline CPURegisterT<IntT>::operator IntT() noexcept
+    CPURegisterT<IntT>::operator IntT() noexcept
     {
         return _value;
     }
@@ -284,7 +283,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline CPURegisterT<IntT>::operator const IntT() const noexcept
+    CPURegisterT<IntT>::operator const IntT() const noexcept
     {
         return _value;
     }
@@ -292,7 +291,7 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    inline const IntT CPURegisterT<IntT>::operator() () const noexcept
+    const IntT CPURegisterT<IntT>::operator() () const noexcept
     {
         return _value;
     }

@@ -20,6 +20,7 @@ namespace instr
         virtual ~ANDBase() noexcept = default;
 
     protected:
+        virtual void       _evaluate_cc_flags(const int intermediate_value) override;
         virtual const int  _evaluate_value(const int reg_value, const int mem_value) override;
     };
 

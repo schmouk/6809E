@@ -14,7 +14,7 @@ namespace addr
     class AccAOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline AccAOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
+        AccAOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~AccAOffsetIndexedAddressing() noexcept = default;
 
@@ -34,8 +34,7 @@ namespace addr
     class AccBOffsetIndexedAddressing : public AccAOffsetIndexedAddressing
     {
     public:
-        inline AccBOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
-
+        AccBOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~AccBOffsetIndexedAddressing() noexcept = default;
 
     protected:
@@ -51,8 +50,7 @@ namespace addr
     class AccDOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
-
+        AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~AccDOffsetIndexedAddressing() noexcept = default;
 
         virtual const std::uint64_t get_byte_cycles() const override;

@@ -14,7 +14,7 @@ namespace addr
     struct ZeroOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline ZeroOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_) noexcept;
+        ZeroOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_) noexcept;
 
         virtual ~ZeroOffsetIndexedAddressing() noexcept = default;
     };
@@ -28,7 +28,7 @@ namespace addr
     class Constant5bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant5bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
+        Constant5bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant5bitsOffsetIndexedAddressing() noexcept = default;
 
@@ -48,7 +48,7 @@ namespace addr
     class Constant8bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant8bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
+        Constant8bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant8bitsOffsetIndexedAddressing() noexcept = default;
 
@@ -67,7 +67,7 @@ namespace addr
     class Constant16bitsOffsetIndexedAddressing : public OffsetIndexedAddressingMode
     {
     public:
-        inline Constant16bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
+        Constant16bitsOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
 
         virtual ~Constant16bitsOffsetIndexedAddressing() noexcept = default;
 

@@ -8,7 +8,7 @@
 namespace addr
 {
     //---------------------------------------------------------
-    inline BaseAddressingMode::BaseAddressingMode(archi::HWArchitecture& hw_arch_) noexcept
+    BaseAddressingMode::BaseAddressingMode(archi::HWArchitecture& hw_arch_) noexcept
         : hw_arch(hw_arch_)
     {}
 

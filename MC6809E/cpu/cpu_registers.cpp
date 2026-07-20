@@ -5,7 +5,7 @@
 namespace cpu
 {
     //---------------------------------------------------------
-    inline const CPUCCRegister& CPUCCRegister::operator= (const int new_value) noexcept
+    const CPUCCRegister& CPUCCRegister::operator= (const int new_value) noexcept
     {
         set(new_value & 0xff);
         return *this;
@@ -33,7 +33,7 @@ namespace cpu
     }
 
     //---------------------------------------------------------
-    inline const memory::Byte CPUCCRegister::carry_value() const noexcept {
+    const memory::Byte CPUCCRegister::carry_value() const noexcept {
         return memory::Byte(carry_flag());
     }
 
@@ -168,7 +168,7 @@ namespace cpu
     }
 
     //---------------------------------------------------------
-    inline void CPUCCRegister::clr() noexcept
+    void CPUCCRegister::clr() noexcept
     {
         set(get() & CLR_MASK);
     }

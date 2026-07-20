@@ -13,7 +13,7 @@ namespace addr
     //=====   Extended Addressing   ===========================
     struct ExtendedAddressing : public BaseAddressingMode
     {
-        inline ExtendedAddressing(archi::HWArchitecture& hw_arch_);
+        ExtendedAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ExtendedAddressing() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte() const override;
@@ -27,7 +27,7 @@ namespace addr
     //=====   Extended Indirect Addressing   ==================
     struct ExtendedIndirectAddressing : public BaseAddressingMode
     {
-        inline ExtendedIndirectAddressing(archi::HWArchitecture& hw_arch_);
+        ExtendedIndirectAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ExtendedIndirectAddressing() noexcept = default;
 
         virtual const memory::Byte  get_addressed_byte() const override;
