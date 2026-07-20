@@ -40,7 +40,8 @@ namespace addr
     };
 
     //---------------------------------------------------------
-    using Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
+    // Notice: next addressing mode is not valid w. MC6809E
+    //using Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
 
 
     //=====   Constant 8-bits Offset Indexed Addressing   =====

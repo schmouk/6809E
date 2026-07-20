@@ -25,27 +25,6 @@ namespace addr
         const memory::Byte post_byte{ hw_arch.get_byte(hw_arch.regPC() + 1) };
 
         /** /
-        //* - class  OffsetIndexedAddressingMode                  : public BaseAddressingMode;
-        * - struct ZeroOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
-        //* - struct Constant5bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
-        * - struct Constant8bitsOffsetIndexedAddressing         : public OffsetIndexedAddressingMode;
-        * - struct Constant16bitsOffsetIndexedAddressing        : public OffsetIndexedAddressingMode;
-        * - struct AccAOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
-        * - struct AccBOffsetIndexedAddressing                  : public AccAOffsetIndexedAddressing;
-        * - struct AccDOffsetIndexedAddressing                  : public OffsetIndexedAddressingMode;
-        * - template<const memory::Word POST_INC = 1>
-        *   struct PostIncrementIndexedAddressing               : public BaseAddressingMode;
-        * - template<const memory::Word PRE_DEC = 1>
-        *   struct PreDecrementIndexedAddressing                : public BaseAddressingMode;
-        * - template<typename IndexedAddrT>
-        *   struct OffsetIndirectIndexedAddressingModeT         : public IndexedAddrT;
-        * - using  ZeroOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<ZeroOffsetIndexedAddressing>;
-        * - using  Constant5bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant5bitsOffsetIndexedAddressing>;
-        * - using  Constant8bitsOffsetIndirectIndexedAddressing = OffsetIndirectIndexedAddressingModeT<Constant8bitsOffsetIndexedAddressing>;
-        * - using  Constant16bitsOffsetIndirectIndexedAddressing= OffsetIndirectIndexedAddressingModeT<Constant16bitsOffsetIndexedAddressing>;
-        * - using  AccAOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccAOffsetIndexedAddressing>;
-        * - using  AccBOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccBOffsetIndexedAddressing>;
-        * - using  AccDOffsetIndirectIndexedAddressing          = OffsetIndirectIndexedAddressingModeT<AccDOffsetIndexedAddressing>;
         * - using  PostIncrementIndirectIndexedAddressing       = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
         * - using  PreDecrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
         /**/
@@ -67,7 +46,7 @@ namespace addr
 
             case 0b0001:
                 if (indirect_bit_is_set)
-                    return std::make_unique<PostIncrementIndexedIndirectAddressing>(hw_arch);
+                    return std::make_unique<PostIncrementIndirectIndexedAddressing>(hw_arch);
                 else
                     return std::make_unique<PostIncrementIndexedAddressing<2>>(hw_arch);
                 break;
@@ -81,7 +60,7 @@ namespace addr
 
             case 0b0011:
                 if (indirect_bit_is_set)
-                    return std::make_unique<PreDecrementIndexedIndirectAddressing>(hw_arch);
+                    return std::make_unique<PreDecrementIndirectIndexedAddressing>(hw_arch);
                 else
                     return std::make_unique<PreDecrementIndexedAddressing<2>>(hw_arch);
                 break;

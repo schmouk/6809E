@@ -40,13 +40,13 @@ namespace addr
     };
 
     //---------------------------------------------------------
-    struct PostIncrementIndexedIndirectAddressing : public PostIncrementIndexedAddressing<2>
+    struct PostIncrementIndirectIndexedAddressing : public PostIncrementIndexedAddressing<2>
     {
-        inline PostIncrementIndexedIndirectAddressing(archi::HWArchitecture& hw_arch_)
+        inline PostIncrementIndirectIndexedAddressing(archi::HWArchitecture& hw_arch_)
             : PostIncrementIndexedAddressing<2>(hw_arch_)
         {}
 
-        virtual ~PostIncrementIndexedIndirectAddressing() noexcept = default;
+        virtual ~PostIncrementIndirectIndexedAddressing() noexcept = default;
 
     };
 
@@ -79,13 +79,13 @@ namespace addr
     };
 
     //---------------------------------------------------------
-    struct PreDecrementIndexedIndirectAddressing : public PreDecrementIndexedAddressing<2>
+    struct PreDecrementIndirectIndexedAddressing : public PreDecrementIndexedAddressing<2>
     {
-        inline PreDecrementIndexedIndirectAddressing(archi::HWArchitecture& hw_arch_)
+        inline PreDecrementIndirectIndexedAddressing(archi::HWArchitecture& hw_arch_)
             : PreDecrementIndexedAddressing<2>(hw_arch_)
         {}
 
-        virtual ~PreDecrementIndexedIndirectAddressing() noexcept = default;
+        virtual ~PreDecrementIndirectIndexedAddressing() noexcept = default;
 
     };
 
