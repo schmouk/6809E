@@ -16,7 +16,7 @@ namespace instr
     struct ADDBase : public ADCBase
     {
     public:
-        inline ADDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
+        ADDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
         virtual ~ADDBase() noexcept = default;
 
     protected:
@@ -29,7 +29,7 @@ namespace instr
     //-----   ADDA Immediate   --------------------------------
     struct ADDAImmediate : public ADDBase
     {
-        inline ADDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        ADDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAImmediate() noexcept = default;
 
         virtual void exec() override;
@@ -39,7 +39,7 @@ namespace instr
     //-----   ADDA Direct   -----------------------------------
     struct ADDADirect : public ADDBase
     {
-        inline ADDADirect(archi::HWArchitecture& hw_arch) noexcept;
+        ADDADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDADirect() noexcept = default;
 
         virtual void exec() override;
@@ -50,7 +50,7 @@ namespace instr
     class ADDAIndexed : public ADDBase
     {
     public:
-        inline ADDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        ADDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAIndexed() noexcept = default;
 
         virtual void exec() override;
@@ -63,7 +63,7 @@ namespace instr
     //-----   ADDA Extended   ---------------------------------
     struct ADDAExtended : public ADDBase
     {
-        inline ADDAExtended(archi::HWArchitecture& hw_arch) noexcept;
+        ADDAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAExtended() noexcept = default;
 
         virtual void exec() override;
@@ -75,7 +75,7 @@ namespace instr
     //-----   ADDB Immediate   --------------------------------
     struct ADDBImmediate : public ADDBase
     {
-        inline ADDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        ADDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBImmediate() noexcept = default;
 
         virtual void exec() override;
@@ -85,7 +85,7 @@ namespace instr
     //-----   ADDB Direct   -----------------------------------
     struct ADDBDirect : public ADDBase
     {
-        inline ADDBDirect(archi::HWArchitecture& hw_arch) noexcept;
+        ADDBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBDirect() noexcept = default;
 
         virtual void exec() override;
@@ -96,7 +96,7 @@ namespace instr
     class ADDBIndexed : public ADDBase
     {
     public:
-        inline ADDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        ADDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBIndexed() noexcept = default;
 
         virtual void exec() override;
@@ -109,7 +109,7 @@ namespace instr
     //-----   ADDB Extended   ---------------------------------
     struct ADDBExtended : public ADDBase
     {
-        inline ADDBExtended(archi::HWArchitecture& hw_arch) noexcept;
+        ADDBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBExtended() noexcept = default;
 
         virtual void exec() override;
@@ -121,7 +121,7 @@ namespace instr
     //-----   ADDD Immediate   --------------------------------
     struct ADDDImmediate : public ADDBase
     {
-        inline ADDDImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        ADDDImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDImmediate() noexcept = default;
 
         virtual void exec() override;
@@ -131,7 +131,7 @@ namespace instr
     //-----   ADDD Direct   -----------------------------------
     struct ADDDDirect : public ADDBase
     {
-        inline ADDDDirect(archi::HWArchitecture& hw_arch) noexcept;
+        ADDDDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDDirect() noexcept = default;
 
         virtual void exec() override;
@@ -142,7 +142,7 @@ namespace instr
     class ADDDIndexed : public ADDBase
     {
     public:
-        inline ADDDIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        ADDDIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDIndexed() noexcept = default;
 
         virtual void exec() override;
@@ -155,7 +155,7 @@ namespace instr
     //-----   ADDD Extended   ---------------------------------
     struct ADDDExtended : public ADDBase
     {
-        inline ADDDExtended(archi::HWArchitecture& hw_arch) noexcept;
+        ADDDExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDExtended() noexcept = default;
 
         virtual void exec() override;

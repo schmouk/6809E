@@ -16,7 +16,7 @@ namespace instr
     class ADCBase : public BaseInstruction
     {
     public:
-        inline ADCBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
+        ADCBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
         virtual ~ADCBase() noexcept = default;
 
     protected:
@@ -30,7 +30,7 @@ namespace instr
     //-----   ADCA Immediate   --------------------------------
     struct ADCAImmediate : public ADCBase
     {
-        inline ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAImmediate() noexcept = default;
 
         virtual void exec() override;
@@ -40,7 +40,7 @@ namespace instr
     //-----   ADCA Direct   -----------------------------------
     struct ADCADirect : public ADCBase
     {
-        inline ADCADirect(archi::HWArchitecture& hw_arch) noexcept;
+        ADCADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCADirect() noexcept = default;
 
         virtual void exec() override;
@@ -51,7 +51,7 @@ namespace instr
     class ADCAIndexed : public ADCBase
     {
     public:
-        inline ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAIndexed() noexcept = default;
 
         virtual void exec() override;
@@ -64,7 +64,7 @@ namespace instr
     //-----   ADCA Extended   ---------------------------------
     struct ADCAExtended : public ADCBase
     {
-        inline ADCAExtended(archi::HWArchitecture& hw_arch) noexcept;
+        ADCAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAExtended() noexcept = default;
 
         virtual void exec() override;
@@ -76,7 +76,7 @@ namespace instr
     //-----   ADCB Immediate   --------------------------------
     struct ADCBImmediate : public ADCBase
     {
-        inline ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBImmediate() noexcept = default;
 
         virtual void exec() override;
@@ -86,7 +86,7 @@ namespace instr
     //-----   ADCB Direct   -----------------------------------
     struct ADCBDirect : public ADCBase
     {
-        inline ADCBDirect(archi::HWArchitecture& hw_arch) noexcept;
+        ADCBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBDirect() noexcept = default;
 
         virtual void exec() override;
@@ -97,7 +97,7 @@ namespace instr
     class ADCBIndexed : public ADCBase
     {
     public:
-        inline ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBIndexed() noexcept = default;
 
         virtual void exec() override;
@@ -110,7 +110,7 @@ namespace instr
     //-----   ADCB Extended   ---------------------------------
     struct ADCBExtended : public ADCBase
     {
-        inline ADCBExtended(archi::HWArchitecture& hw_arch) noexcept;
+        ADCBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBExtended() noexcept = default;
 
         virtual void exec() override;
