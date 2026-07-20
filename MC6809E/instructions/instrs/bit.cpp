@@ -46,7 +46,7 @@ namespace instr
     //-----   BITA Immediate   --------------------------------
     //---------------------------------------------------------
     BITAImmediate::BITAImmediate(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0x89 }
+        : BITBase{ hw_arch, 0x85 }
     {
     }
 
@@ -67,7 +67,7 @@ namespace instr
     //-----   BITA Direct   -----------------------------------
     //---------------------------------------------------------
     BITADirect::BITADirect(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0x99 }
+        : BITBase{ hw_arch, 0x95 }
     {
     }
 
@@ -90,7 +90,7 @@ namespace instr
     //-----   BITA Indexed   ----------------------------------
     //---------------------------------------------------------
     BITAIndexed::BITAIndexed(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xA9 }
+        : BITBase{ hw_arch, 0xA5 }
     {
     }
 
@@ -111,7 +111,7 @@ namespace instr
     //-----   BITA Extended   ---------------------------------
     //---------------------------------------------------------
     BITAExtended::BITAExtended(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xB9 }
+        : BITBase{ hw_arch, 0xB5 }
     {
     }
 
@@ -135,7 +135,7 @@ namespace instr
     //-----   BITB Immediate   --------------------------------
     //---------------------------------------------------------
     BITBImmediate::BITBImmediate(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xC9 }
+        : BITBase{ hw_arch, 0xC5 }
     {
     }
 
@@ -156,7 +156,7 @@ namespace instr
     //-----   BITB Direct   -----------------------------------
     //---------------------------------------------------------
     BITBDirect::BITBDirect(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xD9 }
+        : BITBase{ hw_arch, 0xD5 }
     {
     }
 
@@ -178,7 +178,7 @@ namespace instr
     //-----   BITB Indexed   ----------------------------------
     //---------------------------------------------------------
     BITBIndexed::BITBIndexed(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xE9 }
+        : BITBase{ hw_arch, 0xE5 }
     {
     }
 
@@ -199,7 +199,7 @@ namespace instr
     //-----   BITB Extended   ---------------------------------
     //---------------------------------------------------------
     BITBExtended::BITBExtended(archi::HWArchitecture& hw_arch) noexcept
-        : BITBase{ hw_arch, 0xF9 }
+        : BITBase{ hw_arch, 0xF5 }
     {
     }
 
