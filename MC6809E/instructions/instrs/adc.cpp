@@ -22,26 +22,30 @@ namespace instr
     //---------------------------------------------------------
     const memory::Byte ADCBase::_evaluate(const int reg_value, const int mem_value)
     {
-        const int final_value{ _evaluate_final_value(reg_value, mem_value) };
-
-        _hw_arch.regCC.clr();
-
-        if (final_value == 0) {
-            _hw_arch.regCC.set_zero();
-            return 0;
-        }
-
-        _hw_arch.regCC.set_carry(final_value > 0xff);
-        _hw_arch.regCC.set_overflow(final_value < -128 || final_value > 127);
-        _hw_arch.regCC.set_negative((final_value & 0x80) != 0);
-        _hw_arch.regCC.set_halfcarry((reg_value & 0x0f) + (mem_value & 0x0f) > 0x0f);
-        
-        return memory::Byte(final_value & 0xff);
+        const int intermediate_value{ _evaluate_value(reg_value, mem_value) };
+        _evaluate_cc_flags(intermediate_value);
+        return memory::Byte(intermediate_value & 0xff);
     }
 
     //---------------------------------------------------------
-    const memory::Byte ADCBase::_evaluate_final_value(const int reg_value, const int mem_value)
+    void ADCBase::_evaluate_cc_flags(const int intermediate_value)
     {
+        _hw_arch.regCC.clr();
+
+        if (intermediate_value == 0) {
+            _hw_arch.regCC.set_zero();
+        }
+        else {
+            _hw_arch.regCC.set_carry(intermediate_value > 0xff);
+            _hw_arch.regCC.set_overflow(intermediate_value < -128 || intermediate_value > 127);
+            _hw_arch.regCC.set_negative((intermediate_value & 0x80) != 0);
+        }
+    }
+
+    //---------------------------------------------------------
+    const int ADCBase::_evaluate_value(const int reg_value, const int mem_value)
+    {
+        _hw_arch.regCC.set_halfcarry((reg_value & 0x0f) + (mem_value & 0x0f) + _hw_arch.regCC.carry_value() > 0x0f);
         return reg_value + mem_value + _hw_arch.regCC.carry_value();
     }
 

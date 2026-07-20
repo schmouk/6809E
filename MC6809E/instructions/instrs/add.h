@@ -22,8 +22,8 @@ namespace instr
         virtual ~ADDBase() noexcept = default;
 
     protected:
-        virtual const memory::Byte _evaluate_final_value(const int reg_value, const int mem_value) override;
-        const memory::Word         _evaluate_16(const int reg_value, const int mem_value);
+        virtual const int  _evaluate_value(const int reg_value, const int mem_value) override;
+        const memory::Word _evaluate_16(const int reg_value, const int mem_value);
     };
 
 

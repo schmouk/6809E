@@ -20,28 +20,18 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    const memory::Byte ADDBase::_evaluate_final_value(const int reg_value, const int mem_value)
+    const int ADDBase::_evaluate_value(const int reg_value, const int mem_value)
     {
+        _hw_arch.regCC.set_halfcarry((reg_value & 0x0f) + (mem_value & 0x0f) > 0x0f);
         return reg_value + mem_value;
     }
 
     //---------------------------------------------------------
     const memory::Word ADDBase::_evaluate_16(const int reg_value, const int mem_value)
     {
-        const int final_value{ _evaluate_final_value(reg_value, mem_value) };
-
-        _hw_arch.regCC.clr();
-
-        if (final_value == 0) {
-            _hw_arch.regCC.set_zero();
-            return 0;
-        }
-
-        _hw_arch.regCC.set_carry(final_value > 0xffff);
-        _hw_arch.regCC.set_overflow(final_value < -32768 || final_value > 32767);
-        _hw_arch.regCC.set_negative((final_value & 0x8000) != 0);
-
-        return memory::Word(final_value & 0xffff);
+        const int intermediate_value{ reg_value + mem_value };
+        _evaluate_cc_flags(intermediate_value);
+        return memory::Word(intermediate_value & 0xffff);
     }
 
 
@@ -225,7 +215,7 @@ namespace instr
     void ADDDImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
-        _hw_arch.regD = _evaluate(_hw_arch.regD, mem_value);
+        _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
     }
 
     //---------------------------------------------------------
@@ -247,7 +237,7 @@ namespace instr
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        _hw_arch.regD = _evaluate(_hw_arch.regD, mem_value);
+        _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
     }
 
     //---------------------------------------------------------
@@ -266,7 +256,7 @@ namespace instr
     void ADDDIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
-        _hw_arch.regD = _evaluate(_hw_arch.regD, _indexed_mode_ptr->get_addressed_word());
+        _hw_arch.regD = _evaluate_16(_hw_arch.regD, _indexed_mode_ptr->get_addressed_word());
     }
 
     //---------------------------------------------------------
@@ -288,7 +278,7 @@ namespace instr
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
-        _hw_arch.regD = _evaluate(_hw_arch.regD, mem_value);
+        _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
     }
 
     //---------------------------------------------------------

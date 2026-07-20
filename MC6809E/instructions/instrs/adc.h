@@ -21,7 +21,8 @@ namespace instr
 
     protected:
         const memory::Byte _evaluate(const int reg_value, const int mem_value);
-        virtual const memory::Byte _evaluate_final_value(const int reg_value, const int mem_value);
+        virtual void       _evaluate_cc_flags(const int intermediate_value);
+        virtual const int  _evaluate_value(const int reg_value, const int mem_value);
     };
 
 
