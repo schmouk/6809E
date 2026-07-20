@@ -24,11 +24,6 @@ namespace addr
     {
         const memory::Byte post_byte{ hw_arch.get_byte(hw_arch.regPC() + 1) };
 
-        /** /
-        * - using  PostIncrementIndirectIndexedAddressing       = OffsetIndirectIndexedAddressingModeT<PostIncrementIndexedAddressing<2>>;
-        * - using  PreDecrementIndirectIndexedAddressing        = OffsetIndirectIndexedAddressingModeT<PreDecrementIndexedAddressing<2>>;
-        /**/
-
         if ((post_byte & 0x80) == 0) {
             return std::make_unique<Constant5bitsOffsetIndexedAddressing>(hw_arch);
         }

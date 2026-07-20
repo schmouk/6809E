@@ -2,6 +2,9 @@
 
 #include "./adc.h"
 #include "../base_instruction.h"
+
+#include "../../addressing_modes/base_addressing.h"
+#include "../../addressing_modes/indexed_addressing_factory.h"
 #include "../../architecture/hw_architecture.h"
 #include "../../memory/types.h"
 #include "../../cpu/microproc_unit.h"
@@ -11,17 +14,15 @@ namespace instr
 {
     //-----   ADCA Immediate   --------------------------------
     //---------------------------------------------------------
-    ADCAImmediate::ADCAImmediate() noexcept
-        : BaseInstruction{ 0x89 }
+    ADCAImmediate::ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0x89 }
     {}
 
     //---------------------------------------------------------
-    void ADCAImmediate::exec(archi::HWArchitecture& hw_arch)
+    void ADCAImmediate::exec()
     {
-        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.regPC) };
-        hw_arch.regPC++;
-
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        memory::Byte mem_value{ _hw_arch.load_next_byte() };
+        _hw_arch.regA += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------
@@ -33,18 +34,17 @@ namespace instr
 
     //-----   ADCA Direct   -----------------------------------
     //---------------------------------------------------------
-    ADCADirect::ADCADirect() noexcept
-        : BaseInstruction{ 0x99 }
+    ADCADirect::ADCADirect(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0x99 }
     {}
 
     //---------------------------------------------------------
-    void ADCADirect::exec(archi::HWArchitecture& hw_arch)
+    void ADCADirect::exec()
     {
-        memory::Byte value_low_addr{ hw_arch.get_byte(hw_arch.regPC) };
-        hw_arch.regPC++;
-        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.get_directpage_addr(value_low_addr)) };
+        memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
+        memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        _hw_arch.regA += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------
@@ -56,35 +56,37 @@ namespace instr
 
     //-----   ADCA Indexed   ----------------------------------
     //---------------------------------------------------------
+    ADCAIndexed::ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xA9 }
+    {}
 
     //---------------------------------------------------------
-
-    //---------------------------------------------------------
-
-    struct ADCAIndexed : public BaseInstruction
+    void ADCAIndexed::exec()
     {
-        inline ADCAIndexed();
-        virtual ~ADCAIndexed() noexcept = default;
+        _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
+        _hw_arch.regA += _indexed_mode_ptr->get_addressed_byte() + _hw_arch.regCC.carry_value();
+    }
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
-    };
+    //---------------------------------------------------------
+    const std::uint64_t ADCAIndexed::get_cycles_count() noexcept
+    {
+        return 4 + _indexed_mode_ptr->get_byte_cycles();
+    }
 
 
     //-----   ADCA Extended   ---------------------------------
     //---------------------------------------------------------
-    ADCAExtended::ADCAExtended() noexcept
-        : BaseInstruction{ 0x99 }
+    ADCAExtended::ADCAExtended(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xB9 }
     {}
 
     //---------------------------------------------------------
-    void ADCAExtended::exec(archi::HWArchitecture& hw_arch)
+    void ADCAExtended::exec()
     {
-        memory::MemAddr value_addr { memory::MemAddr(hw_arch.get_word(hw_arch.regPC)) };
-        hw_arch.regPC += 2;
-        memory::Byte mem_value{ hw_arch.get_byte(value_addr) };
+        memory::MemAddr value_addr { memory::MemAddr(_hw_arch.load_next_word()) };
+        memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        _hw_arch.regA += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------
@@ -96,17 +98,15 @@ namespace instr
 
     //-----   ADCB Immediate   --------------------------------
     //---------------------------------------------------------
-    ADCBImmediate::ADCBImmediate() noexcept
-        : BaseInstruction{ 0x89 }
+    ADCBImmediate::ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xC9 }
     {}
 
     //---------------------------------------------------------
-    void ADCBImmediate::exec(archi::HWArchitecture& hw_arch)
+    void ADCBImmediate::exec()
     {
-        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.regPC) };
-        hw_arch.regPC++;
-
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        memory::Byte mem_value{ _hw_arch.load_next_byte() };
+        _hw_arch.regB += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------
@@ -118,18 +118,17 @@ namespace instr
 
     //-----   ADCB Direct   -----------------------------------
     //---------------------------------------------------------
-    ADCBDirect::ADCBDirect() noexcept
-        : BaseInstruction{ 0x99 }
+    ADCBDirect::ADCBDirect(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xD9 }
     {}
 
     //---------------------------------------------------------
-    void ADCBDirect::exec(archi::HWArchitecture& hw_arch)
+    void ADCBDirect::exec()
     {
-        memory::Byte value_low_addr{ hw_arch.get_byte(hw_arch.regPC) };
-        hw_arch.regPC++;
-        memory::Byte mem_value{ hw_arch.get_byte(hw_arch.get_directpage_addr(value_low_addr)) };
+        memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
+        memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        _hw_arch.regB += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------
@@ -139,29 +138,39 @@ namespace instr
     }
 
     //-----   ADCB Indexed   ----------------------------------
-    struct ADCBIndexed : public BaseInstruction
+    //---------------------------------------------------------
+    ADCBIndexed::ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xE9 }
     {
-        inline ADCBIndexed();
-        virtual ~ADCBIndexed() noexcept = default;
+    }
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
-    };
+    //---------------------------------------------------------
+    void ADCBIndexed::exec()
+    {
+        _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
+        _hw_arch.regB += _indexed_mode_ptr->get_addressed_byte() + _hw_arch.regCC.carry_value();
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t ADCBIndexed::get_cycles_count() noexcept
+    {
+        return 4 + _indexed_mode_ptr->get_byte_cycles();
+    }
+
 
     //-----   ADCB Extended   ---------------------------------
     //---------------------------------------------------------
-    ADCBExtended::ADCBExtended() noexcept
-        : BaseInstruction{ 0x99 }
+    ADCBExtended::ADCBExtended(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0xF9 }
     {}
 
     //---------------------------------------------------------
-    void ADCBExtended::exec(archi::HWArchitecture& hw_arch)
+    void ADCBExtended::exec()
     {
-        memory::MemAddr value_addr{ memory::MemAddr(hw_arch.get_word(hw_arch.regPC)) };
-        hw_arch.regPC += 2;
-        memory::Byte mem_value{ hw_arch.get_byte(value_addr) };
+        memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
+        memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
-        hw_arch.regA += mem_value + hw_arch.regCC.carry_value();
+        _hw_arch.regB += mem_value + _hw_arch.regCC.carry_value();
     }
 
     //---------------------------------------------------------

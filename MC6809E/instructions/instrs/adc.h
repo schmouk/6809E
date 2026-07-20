@@ -1,10 +1,12 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 #include "../base_instruction.h"
+
+#include "../../addressing_modes/base_addressing.h"
 #include "../../architecture/hw_architecture.h"
-#include "../../memory/types.h"
 
 
 namespace instr
@@ -13,40 +15,44 @@ namespace instr
     //-----   ADCA Immediate   --------------------------------
     struct ADCAImmediate : public BaseInstruction
     {
-        inline ADCAImmediate() noexcept;
+        inline ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAImmediate() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADCA Direct   -----------------------------------
     struct ADCADirect : public BaseInstruction
     {
-        inline ADCADirect() noexcept;
+        inline ADCADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCADirect() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADCA Indexed   ----------------------------------
-    struct ADCAIndexed : public BaseInstruction
+    class ADCAIndexed : public BaseInstruction
     {
-        inline ADCAIndexed() noexcept;
+    public:
+        inline ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAIndexed() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
+
+    private:
+        std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
     };
 
     //-----   ADCA Extended   ---------------------------------
     struct ADCAExtended : public BaseInstruction
     {
-        inline ADCAExtended() noexcept;
+        inline ADCAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAExtended() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -55,40 +61,44 @@ namespace instr
     //-----   ADCB Immediate   --------------------------------
     struct ADCBImmediate : public BaseInstruction
     {
-        inline ADCBImmediate() noexcept;
+        inline ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBImmediate() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADCB Direct   -----------------------------------
     struct ADCBDirect : public BaseInstruction
     {
-        inline ADCBDirect() noexcept;
+        inline ADCBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBDirect() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADCB Indexed   ----------------------------------
-    struct ADCBIndexed : public BaseInstruction
+    class ADCBIndexed : public BaseInstruction
     {
-        inline ADCBIndexed() noexcept;
+    public:
+        inline ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBIndexed() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
+
+    private:
+        std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
     };
 
     //-----   ADCB Extended   ---------------------------------
     struct ADCBExtended : public BaseInstruction
     {
-        inline ADCBExtended() noexcept;
+        inline ADCBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBExtended() noexcept = default;
 
-        virtual void exec(archi::HWArchitecture& hw_arch) override;
+        virtual void exec() override;
         virtual const std::uint64_t get_cycles_count() noexcept override;
     };
 

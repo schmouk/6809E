@@ -9,14 +9,14 @@ namespace instr
 {
     //===== Instruction ABX   =================================
     //---------------------------------------------------------
-    ABX::ABX() noexcept
-        : BaseInstruction{ 0x3a }
+    ABX::ABX(archi::HWArchitecture& hw_arch) noexcept
+        : BaseInstruction{ hw_arch, 0x3a }
     {}
 
     //---------------------------------------------------------
-    void  ABX::exec(archi::HWArchitecture& hw_arch)
+    void  ABX::exec()
     {
-        hw_arch.regX += hw_arch.regB;
+        _hw_arch.regX += _hw_arch.regB;
     }
 
     //---------------------------------------------------------

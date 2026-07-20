@@ -26,8 +26,19 @@ namespace instr
         BaseInstruction(const BaseInstruction&) = delete;
         BaseInstruction(BaseInstruction&&) = delete;
 
-        BaseInstruction(const memory::Byte opcode) noexcept;
-        BaseInstruction(const memory::Byte opcode1, const memory::Byte opcode2) noexcept;
+        inline BaseInstruction(const memory::Byte opcode) noexcept;
+        inline BaseInstruction(const memory::Byte opcode1, const memory::Byte opcode2) noexcept;
+
+        BaseInstruction(
+            archi::HWArchitecture& hw_arch,
+            const memory::Byte     opcode
+        ) noexcept;
+
+        BaseInstruction(
+            archi::HWArchitecture& hw_arch, 
+            const memory::Byte     opcode1,
+            const memory::Byte     opcode2
+        ) noexcept;
 
 
         //-----   Operators   ---------------------------------
@@ -36,10 +47,12 @@ namespace instr
 
 
         //-----   Operations   --------------------------------
-        virtual void exec(archi::HWArchitecture& hw_architecture) = 0;
-
+        virtual void exec() = 0;
         virtual const std::uint64_t get_cycles_count() noexcept = 0;
 
+
+    protected:
+        archi::HWArchitecture _hw_arch{};
 
     private:
         std::vector<memory::Byte> _opcode{};

@@ -20,8 +20,11 @@ namespace cpu
         inline MicroprocUnit() noexcept = default;
         inline virtual ~MicroprocUnit() noexcept = default;
 
-        MicroprocUnit(const MicroprocUnit&) = delete;   // Can't copy CPUs content
-        MicroprocUnit(MicroprocUnit&&) = delete;        // Can't move CPUs content
+        MicroprocUnit(const MicroprocUnit&) = default;
+        MicroprocUnit(MicroprocUnit&&) = default;
+
+        MicroprocUnit& operator=(const MicroprocUnit&) = default;
+        MicroprocUnit& operator=(MicroprocUnit&&) = default;
 
 
         //-----   CPU Registers   -----------------------------

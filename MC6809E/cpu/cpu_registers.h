@@ -35,8 +35,11 @@ namespace cpu
 
         inline CPURegisterT(const IntT value) noexcept;
 
-        CPURegisterT(const CPURegisterT&) = delete;   // Can't copy content of registers
-        CPURegisterT(CPURegisterT&&) = delete;        // Can't move content of registers
+        inline CPURegisterT(const CPURegisterT&) noexcept = default;
+        inline CPURegisterT(CPURegisterT&&) noexcept = default;
+
+        inline CPURegisterT& operator=(const CPURegisterT&) noexcept = default;
+        inline CPURegisterT& operator=(CPURegisterT&&) noexcept = default;
 
 
         //-----   Operators   ---------------------------------
@@ -99,11 +102,11 @@ namespace cpu
         inline CPUCCRegister() noexcept = default;
         inline virtual ~CPUCCRegister() noexcept = default;
 
-        CPUCCRegister(const CPUCCRegister&) = delete;       // Can't copy content of registers
-        CPUCCRegister(CPUCCRegister&&) = delete;            // Can't move content of registers
+        CPUCCRegister(const CPUCCRegister&) noexcept = default;
+        CPUCCRegister(CPUCCRegister&&) noexcept = default;
 
-        CPUCCRegister& operator= (const CPUCCRegister&) = delete;
-        CPUCCRegister& operator= (CPUCCRegister&&) = delete;
+        CPUCCRegister& operator= (const CPUCCRegister&) noexcept = default;
+        CPUCCRegister& operator= (CPUCCRegister&&) noexcept = default;
 
 
         //-----   Operations   --------------------------------
