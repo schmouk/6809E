@@ -113,19 +113,23 @@ namespace cpu
         inline const bool carry_flag() const noexcept;      // C flag - Bit 0
         inline void clr_carry() noexcept;
         inline void set_carry() noexcept;
+        inline void set_carry(const bool flag_value) noexcept;
         inline const memory::Byte carry_value() const noexcept;
 
         inline const bool overflow_flag() const noexcept;   // V flag - Bit 1
         inline void clr_overflow() noexcept;
         inline void set_overflow() noexcept;
+        inline void set_overflow(const bool flag_value) noexcept;
 
         inline const bool zero_flag() const noexcept;       // Z flag - Bit 2
         inline void clr_zero() noexcept;
         inline void set_zero() noexcept;
+        inline void set_zero(const bool flag_value) noexcept;
 
         inline const bool negative_flag() const noexcept;   // N flag - bit 3
         inline void clr_negative() noexcept;
         inline void set_negative() noexcept;
+        inline void set_negative(const bool flag_value) noexcept;
 
         inline const bool irqmask_flag() const noexcept;    // I flag - bit 4
         inline void clr_irqmask() noexcept;
@@ -134,6 +138,7 @@ namespace cpu
         inline const bool halfcarry_flag() const noexcept;  // H flag - bit 5
         inline void clr_halfcarry() noexcept;
         inline void set_halfcarry() noexcept;
+        inline void set_halfcarry(const bool flag_value) noexcept;
 
         inline const bool firqmask_flag() const noexcept;   // F flag - bit 6
         inline void clr_firqmask() noexcept;
@@ -142,6 +147,9 @@ namespace cpu
         inline const bool entire_flag() const noexcept;     // E flag - bit 7
         inline void clr_entire() noexcept;
         inline void set_entire() noexcept;
+
+
+        inline void clr() noexcept;
 
 
         //-----   Bits Masks   --------------------------------
@@ -153,6 +161,8 @@ namespace cpu
         inline static constexpr std::uint8_t H_FLAG = 0x20;
         inline static constexpr std::uint8_t F_FLAG = 0x40;
         inline static constexpr std::uint8_t E_FLAG = 0x80;
+
+        inline static constexpr std::uint8_t CLR_MASK = 0b01010000;  // Notice: does not change status of I and F flags
 
     };
 

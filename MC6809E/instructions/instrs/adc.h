@@ -7,13 +7,27 @@
 
 #include "../../addressing_modes/base_addressing.h"
 #include "../../architecture/hw_architecture.h"
+#include "../../memory/types.h"
 
 
 namespace instr
 {
+    //=====   ADC Base Class   ================================
+    class ADCBase : public BaseInstruction
+    {
+    public:
+        inline ADCBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
+        virtual ~ADCBase() noexcept = default;
+
+    protected:
+        const memory::Byte _evaluate(const int reg_value, const int mem_value);
+        virtual const memory::Byte _evaluate_final_value(const int reg_value, const int mem_value);
+    };
+
+
     //=====   ADCA   ==========================================
     //-----   ADCA Immediate   --------------------------------
-    struct ADCAImmediate : public BaseInstruction
+    struct ADCAImmediate : public ADCBase
     {
         inline ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAImmediate() noexcept = default;
@@ -23,7 +37,7 @@ namespace instr
     };
 
     //-----   ADCA Direct   -----------------------------------
-    struct ADCADirect : public BaseInstruction
+    struct ADCADirect : public ADCBase
     {
         inline ADCADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCADirect() noexcept = default;
@@ -33,7 +47,7 @@ namespace instr
     };
 
     //-----   ADCA Indexed   ----------------------------------
-    class ADCAIndexed : public BaseInstruction
+    class ADCAIndexed : public ADCBase
     {
     public:
         inline ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept;
@@ -47,7 +61,7 @@ namespace instr
     };
 
     //-----   ADCA Extended   ---------------------------------
-    struct ADCAExtended : public BaseInstruction
+    struct ADCAExtended : public ADCBase
     {
         inline ADCAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAExtended() noexcept = default;
@@ -59,7 +73,7 @@ namespace instr
 
     //=====   ADCB   ==========================================
     //-----   ADCB Immediate   --------------------------------
-    struct ADCBImmediate : public BaseInstruction
+    struct ADCBImmediate : public ADCBase
     {
         inline ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBImmediate() noexcept = default;
@@ -69,7 +83,7 @@ namespace instr
     };
 
     //-----   ADCB Direct   -----------------------------------
-    struct ADCBDirect : public BaseInstruction
+    struct ADCBDirect : public ADCBase
     {
         inline ADCBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBDirect() noexcept = default;
@@ -79,7 +93,7 @@ namespace instr
     };
 
     //-----   ADCB Indexed   ----------------------------------
-    class ADCBIndexed : public BaseInstruction
+    class ADCBIndexed : public ADCBase
     {
     public:
         inline ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept;
@@ -93,7 +107,7 @@ namespace instr
     };
 
     //-----   ADCB Extended   ---------------------------------
-    struct ADCBExtended : public BaseInstruction
+    struct ADCBExtended : public ADCBase
     {
         inline ADCBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBExtended() noexcept = default;
