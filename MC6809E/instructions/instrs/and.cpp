@@ -17,7 +17,14 @@ namespace instr
     //---------------------------------------------------------
     ANDBase::ANDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept
         : ADCBase(hw_arch, opcode)
+    {}
+
+    //---------------------------------------------------------
+    void ANDBase::_evaluate_cc_flags(const int intermediate_value)
     {
+        _hw_arch.regCC.set_zero(intermediate_value == 0);
+        _hw_arch.regCC.clr_overflow();
+        _hw_arch.regCC.set_negative((intermediate_value & 0x80) != 0);
     }
 
     //---------------------------------------------------------
