@@ -34,7 +34,7 @@ namespace instr
         _hw_arch.regCC.set_carry(final_value > 0xff);
         _hw_arch.regCC.set_overflow(final_value < -128 || final_value > 127);
         _hw_arch.regCC.set_negative((final_value & 0x80) != 0);
-        _hw_arch.regCC.set_halfcarry((final_value & 0x0f) > 9);
+        _hw_arch.regCC.set_halfcarry((reg_value & 0x0f) + (mem_value & 0x0f) > 0x0f);
         
         return memory::Byte(final_value & 0xff);
     }
