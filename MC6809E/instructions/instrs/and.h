@@ -1,0 +1,130 @@
+#pragma once
+
+#include <cstdint>
+#include <memory>
+
+#include "./adc.h"
+
+#include "../../addressing_modes/base_addressing.h"
+#include "../../architecture/hw_architecture.h"
+#include "../../memory/types.h"
+
+
+namespace instr
+{
+    //=====   AND Base Class   ================================
+    struct ANDBase : public ADCBase
+    {
+    public:
+        inline ANDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
+        virtual ~ANDBase() noexcept = default;
+
+    protected:
+        virtual const int  _evaluate_value(const int reg_value, const int mem_value) override;
+    };
+
+
+    //=====   ANDA   ==========================================
+    //-----   ANDA Immediate   --------------------------------
+    struct ANDAImmediate : public ANDBase
+    {
+        inline ANDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDAImmediate() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+    //-----   ANDA Direct   -----------------------------------
+    struct ANDADirect : public ANDBase
+    {
+        inline ANDADirect(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDADirect() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+    //-----   ANDA Indexed   ----------------------------------
+    class ANDAIndexed : public ANDBase
+    {
+    public:
+        inline ANDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDAIndexed() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+
+    private:
+        std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
+    };
+
+    //-----   ANDA Extended   ---------------------------------
+    struct ANDAExtended : public ANDBase
+    {
+        inline ANDAExtended(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDAExtended() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+
+    //=====   ANDB   ==========================================
+    //-----   ANDB Immediate   --------------------------------
+    struct ANDBImmediate : public ANDBase
+    {
+        inline ANDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDBImmediate() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+    //-----   ANDB Direct   -----------------------------------
+    struct ANDBDirect : public ANDBase
+    {
+        inline ANDBDirect(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDBDirect() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+    //-----   ANDB Indexed   ----------------------------------
+    class ANDBIndexed : public ANDBase
+    {
+    public:
+        inline ANDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDBIndexed() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+
+    private:
+        std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
+    };
+
+    //-----   ANDB Extended   ---------------------------------
+    struct ANDBExtended : public ANDBase
+    {
+        inline ANDBExtended(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDBExtended() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+
+    //=====   ANDCC   =========================================
+    //-----   ANDCC Immediate   -------------------------------
+    struct ANDCCImmediate : public ANDBase
+    {
+        inline ANDCCImmediate(archi::HWArchitecture& hw_arch) noexcept;
+        virtual ~ANDCCImmediate() noexcept = default;
+
+        virtual void exec() override;
+        virtual const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+}

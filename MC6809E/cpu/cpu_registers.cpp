@@ -4,6 +4,12 @@
 
 namespace cpu
 {
+    //---------------------------------------------------------
+    inline const CPUCCRegister& CPUCCRegister::operator= (const int new_value) noexcept
+    {
+        set(new_value & 0xff);
+        return *this;
+    }
 
     //---------------------------------------------------------
     const bool CPUCCRegister::carry_flag() const noexcept {

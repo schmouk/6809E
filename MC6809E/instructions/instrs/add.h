@@ -5,8 +5,6 @@
 
 #include "./adc.h"
 
-#include "../base_instruction.h"
-
 #include "../../addressing_modes/base_addressing.h"
 #include "../../architecture/hw_architecture.h"
 #include "../../memory/types.h"

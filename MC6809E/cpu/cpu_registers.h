@@ -108,6 +108,8 @@ namespace cpu
         CPUCCRegister& operator= (const CPUCCRegister&) noexcept = default;
         CPUCCRegister& operator= (CPUCCRegister&&) noexcept = default;
 
+        inline const CPUCCRegister& operator= (const int new_value) noexcept;
+
 
         //-----   Operations   --------------------------------
         inline const bool carry_flag() const noexcept;      // C flag - Bit 0
