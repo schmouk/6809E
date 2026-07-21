@@ -32,11 +32,11 @@ namespace addr
 
         virtual ~Constant5bitsOffsetIndexedAddressing() noexcept = default;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------
@@ -52,11 +52,11 @@ namespace addr
 
         virtual ~Constant8bitsOffsetIndexedAddressing() noexcept = default;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------
@@ -71,11 +71,11 @@ namespace addr
 
         virtual ~Constant16bitsOffsetIndexedAddressing() noexcept = default;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
     };
 
     //---------------------------------------------------------

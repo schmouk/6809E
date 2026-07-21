@@ -20,8 +20,8 @@ namespace instr
         virtual ~ANDBase() noexcept = default;
 
     protected:
-        virtual void       _evaluate_cc_flags(const int intermediate_value) override;
-        virtual const int  _evaluate_value(const int reg_value, const int mem_value) override;
+        void       _evaluate_cc_flags(const int intermediate_value) override;
+        const int  _evaluate_value(const int reg_value, const int mem_value) override;
     };
 
 
@@ -32,8 +32,8 @@ namespace instr
         ANDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ANDA Direct   -----------------------------------
@@ -42,8 +42,8 @@ namespace instr
         ANDADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDADirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ANDA Indexed   ----------------------------------
@@ -53,8 +53,8 @@ namespace instr
         ANDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -66,8 +66,8 @@ namespace instr
         ANDAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -78,8 +78,8 @@ namespace instr
         ANDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ANDB Direct   -----------------------------------
@@ -88,8 +88,8 @@ namespace instr
         ANDBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ANDB Indexed   ----------------------------------
@@ -99,8 +99,8 @@ namespace instr
         ANDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -112,8 +112,8 @@ namespace instr
         ANDBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -124,8 +124,8 @@ namespace instr
         ANDCCImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDCCImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

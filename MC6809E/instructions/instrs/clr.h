@@ -33,8 +33,8 @@ namespace instr
         CLRAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRAInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -45,8 +45,8 @@ namespace instr
         CLRBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRBInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -57,8 +57,8 @@ namespace instr
         CLRDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CLR Indexed   -----------------------------------
@@ -68,8 +68,8 @@ namespace instr
         CLRIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -81,8 +81,8 @@ namespace instr
         CLRExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

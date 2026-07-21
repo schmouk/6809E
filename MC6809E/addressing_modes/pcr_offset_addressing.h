@@ -18,14 +18,14 @@ namespace addr
         ProgramCounterShortRelativeAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ProgramCounterShortRelativeAddressing() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte() const override;
-        virtual const memory::Word  get_addressed_word() const override;
+        const memory::Byte  get_addressed_byte() const override;
+        const memory::Word  get_addressed_word() const override;
 
-        virtual void set_addressed_byte(const memory::Byte byte_value) override;
-        virtual void set_addressed_word(const memory::Word word_value) override;
+        void set_addressed_byte(const memory::Byte byte_value) override;
+        void set_addressed_word(const memory::Word word_value) override;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     };
 
@@ -40,14 +40,14 @@ namespace addr
         ProgramCounterLongRelativeAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~ProgramCounterLongRelativeAddressing() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte() const override;       
-        virtual const memory::Word  get_addressed_word() const override;
+        const memory::Byte  get_addressed_byte() const override;       
+        const memory::Word  get_addressed_word() const override;
 
-        virtual void set_addressed_byte(const memory::Byte byte_value) override;
-        virtual void set_addressed_word(const memory::Word word_value) override;
+        void set_addressed_byte(const memory::Byte byte_value) override;
+        void set_addressed_word(const memory::Word word_value) override;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     };
 

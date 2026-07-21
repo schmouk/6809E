@@ -33,8 +33,8 @@ namespace instr
         BITAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   BITA Direct   -----------------------------------
@@ -43,8 +43,8 @@ namespace instr
         BITADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITADirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   BITA Indexed   ----------------------------------
@@ -54,8 +54,8 @@ namespace instr
         BITAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -67,8 +67,8 @@ namespace instr
         BITAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -79,8 +79,8 @@ namespace instr
         BITBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   BITB Direct   -----------------------------------
@@ -89,8 +89,8 @@ namespace instr
         BITBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   BITB Indexed   ----------------------------------
@@ -100,8 +100,8 @@ namespace instr
         BITBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -113,8 +113,8 @@ namespace instr
         BITBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

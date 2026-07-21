@@ -20,7 +20,7 @@ namespace instr
         virtual ~ADDBase() noexcept = default;
 
     protected:
-        virtual const int  _evaluate_value(const int reg_value, const int mem_value) override;
+        const int  _evaluate_value(const int reg_value, const int mem_value) override;
         const memory::Word _evaluate_16(const int reg_value, const int mem_value);
     };
 
@@ -32,8 +32,8 @@ namespace instr
         ADDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDA Direct   -----------------------------------
@@ -42,8 +42,8 @@ namespace instr
         ADDADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDADirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDA Indexed   ----------------------------------
@@ -53,8 +53,8 @@ namespace instr
         ADDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -66,8 +66,8 @@ namespace instr
         ADDAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDAExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -78,8 +78,8 @@ namespace instr
         ADDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDB Direct   -----------------------------------
@@ -88,8 +88,8 @@ namespace instr
         ADDBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDB Indexed   ----------------------------------
@@ -99,8 +99,8 @@ namespace instr
         ADDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -112,8 +112,8 @@ namespace instr
         ADDBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDBExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -124,8 +124,8 @@ namespace instr
         ADDDImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDD Direct   -----------------------------------
@@ -134,8 +134,8 @@ namespace instr
         ADDDDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ADDD Indexed   ----------------------------------
@@ -145,8 +145,8 @@ namespace instr
         ADDDIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -158,8 +158,8 @@ namespace instr
         ADDDExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADDDExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

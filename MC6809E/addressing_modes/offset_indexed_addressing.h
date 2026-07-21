@@ -28,8 +28,8 @@ namespace addr
         virtual void set_addressed_byte(const memory::Byte byte_value);
         virtual void set_addressed_word(const memory::Word word_value);
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
         memory::Offset _offset{ 0 };
@@ -50,14 +50,14 @@ namespace addr
 
         virtual ~OffsetIndirectIndexedAddressingModeT() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte() const override;
-        virtual const memory::Word  get_addressed_word() const override;
+        const memory::Byte  get_addressed_byte() const override;
+        const memory::Word  get_addressed_word() const override;
 
         virtual void set_addressed_byte(const memory::Byte byte_value);
         virtual void set_addressed_word(const memory::Word word_value);
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
 
     private:

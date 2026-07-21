@@ -33,8 +33,8 @@ namespace instr
         ASRAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRAInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -45,8 +45,8 @@ namespace instr
         ASRBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRBInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -57,8 +57,8 @@ namespace instr
         ASRDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ASR Indexed   -----------------------------------
@@ -68,8 +68,8 @@ namespace instr
         ASRIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -81,8 +81,8 @@ namespace instr
         ASRExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

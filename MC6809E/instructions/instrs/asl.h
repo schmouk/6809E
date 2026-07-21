@@ -33,8 +33,8 @@ namespace instr
         ASLAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASLAInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -45,8 +45,8 @@ namespace instr
         ASLBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASLBInherent() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -57,8 +57,8 @@ namespace instr
         ASLDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASLDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   ASL Indexed   -----------------------------------
@@ -68,8 +68,8 @@ namespace instr
         ASLIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASLIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -81,8 +81,8 @@ namespace instr
         ASLExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASLExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

@@ -26,10 +26,10 @@ namespace addr
         ShortRelativeAddressing(archi::HWArchitecture& hw_arch);
         virtual ~ShortRelativeAddressing() noexcept = default;
 
-        virtual const memory::Offset get_offset() const override;
+        const memory::Offset get_offset() const override;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
     };
 
 
@@ -39,10 +39,10 @@ namespace addr
         LongRelativeAddressing(archi::HWArchitecture& hw_arch);
         virtual ~LongRelativeAddressing() noexcept = default;
 
-        virtual const memory::Offset get_offset() const override;
+        const memory::Offset get_offset() const override;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
     };
 
 }

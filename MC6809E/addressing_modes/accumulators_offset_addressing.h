@@ -18,11 +18,11 @@ namespace addr
 
         virtual ~AccAOffsetIndexedAddressing() noexcept = default;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
 
     };
 
@@ -38,7 +38,7 @@ namespace addr
         virtual ~AccBOffsetIndexedAddressing() noexcept = default;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
 
     };
 
@@ -53,11 +53,11 @@ namespace addr
         AccDOffsetIndexedAddressing(archi::HWArchitecture& hw_arch_);
         virtual ~AccDOffsetIndexedAddressing() noexcept = default;
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
 
     protected:
-        virtual const memory::Offset _evaluate_offset() const override;
+        const memory::Offset _evaluate_offset() const override;
 
     };
 

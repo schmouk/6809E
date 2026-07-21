@@ -33,8 +33,8 @@ namespace instr
         CMPAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPA Direct   -----------------------------------
@@ -43,8 +43,8 @@ namespace instr
         CMPADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPADirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPA Indexed   ----------------------------------
@@ -54,8 +54,8 @@ namespace instr
         CMPAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -67,8 +67,8 @@ namespace instr
         CMPAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -79,8 +79,8 @@ namespace instr
         CMPBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPB Direct   -----------------------------------
@@ -89,8 +89,8 @@ namespace instr
         CMPBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPB Indexed   ----------------------------------
@@ -100,8 +100,8 @@ namespace instr
         CMPBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -113,8 +113,8 @@ namespace instr
         CMPBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -125,8 +125,8 @@ namespace instr
         CMPDImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPD Direct   -----------------------------------
@@ -135,8 +135,8 @@ namespace instr
         CMPDDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPD Indexed   ----------------------------------
@@ -146,8 +146,8 @@ namespace instr
         CMPDIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -159,8 +159,8 @@ namespace instr
         CMPDExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -171,8 +171,8 @@ namespace instr
         CMPSImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPS Direct   -----------------------------------
@@ -181,8 +181,8 @@ namespace instr
         CMPSDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPS Indexed   ----------------------------------
@@ -192,8 +192,8 @@ namespace instr
         CMPSIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -205,8 +205,8 @@ namespace instr
         CMPSExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -217,8 +217,8 @@ namespace instr
         CMPUImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPU Direct   -----------------------------------
@@ -227,8 +227,8 @@ namespace instr
         CMPUDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPU Indexed   ----------------------------------
@@ -238,8 +238,8 @@ namespace instr
         CMPUIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -251,8 +251,8 @@ namespace instr
         CMPUExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -263,8 +263,8 @@ namespace instr
         CMPXImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPX Direct   -----------------------------------
@@ -273,8 +273,8 @@ namespace instr
         CMPXDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPX Indexed   ----------------------------------
@@ -284,8 +284,8 @@ namespace instr
         CMPXIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -297,8 +297,8 @@ namespace instr
         CMPXExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 
@@ -309,8 +309,8 @@ namespace instr
         CMPYImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYImmediate() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPY Direct   -----------------------------------
@@ -319,8 +319,8 @@ namespace instr
         CMPYDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYDirect() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
     //-----   CMPY Indexed   ----------------------------------
@@ -330,8 +330,8 @@ namespace instr
         CMPYIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYIndexed() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
 
     private:
         std::unique_ptr<addr::BaseAddressingMode> _indexed_mode_ptr{ nullptr };
@@ -343,8 +343,8 @@ namespace instr
         CMPYExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYExtended() noexcept = default;
 
-        virtual void exec() override;
-        virtual const std::uint64_t get_cycles_count() noexcept override;
+        void exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
     };
 
 }

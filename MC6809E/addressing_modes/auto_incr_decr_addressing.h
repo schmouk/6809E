@@ -35,8 +35,8 @@ namespace addr
             const memory::Word     word_val
         );
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
     };
 
     //---------------------------------------------------------
@@ -61,8 +61,8 @@ namespace addr
 
         virtual ~PreDecrementIndexedAddressing() noexcept = default;
 
-        virtual const memory::Byte  get_addressed_byte(cpu::CPUIndexRegister& reg) const;
-        virtual const memory::Word  get_addressed_word(cpu::CPUIndexRegister& reg) const;
+        const memory::Byte  get_addressed_byte(cpu::CPUIndexRegister& reg) const;
+        const memory::Word  get_addressed_word(cpu::CPUIndexRegister& reg) const;
 
         void set_addressed_byte(
             cpu::CPUIndexRegister& reg,
@@ -74,8 +74,8 @@ namespace addr
             const memory::Word     word_val
         );
 
-        virtual const std::uint64_t get_byte_cycles() const override;
-        virtual const std::uint64_t get_word_cycles() const override;
+        const std::uint64_t get_byte_cycles() const override;
+        const std::uint64_t get_word_cycles() const override;
     };
 
     //---------------------------------------------------------
