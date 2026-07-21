@@ -12,6 +12,24 @@ namespace archi
     {}
 
     //---------------------------------------------------------
+    void HWArchitecture::clr_interrupts_wait()
+    {
+        _waiting_interrupts = false;
+    }
+
+    //---------------------------------------------------------
+    void HWArchitecture::set_interrupts_wait()
+    {
+        _waiting_interrupts = true;
+    }
+
+    //---------------------------------------------------------
+    const bool HWArchitecture::is_waiting_interrupts()
+    {
+        return _waiting_interrupts;
+    }
+
+    //---------------------------------------------------------
     void HWArchitecture::set_memory_schema(const memory::MemorySchema& mem_schema) noexcept
     {
         (void)memory::MemorySchema::operator=(mem_schema);
@@ -45,6 +63,13 @@ namespace archi
     {
         set_word(regPC(), word_val);
         regPC += 2;
+    }
+
+    //---------------------------------------------------------
+    void HWArchitecture::run(const memory::MemAddr start_address)
+    {
+        //TODO: Implement this
+
     }
 
 }
