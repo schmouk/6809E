@@ -5,6 +5,8 @@
 * - class HWArchitecture;  // The HardWare Architecture running any MC6809E emulation
 */
 
+#include <cstdint>
+
 #include "../cpu/microproc_unit.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
@@ -25,25 +27,34 @@ namespace archi
 
         HWArchitecture(memory::MemorySchema& mem_) noexcept;
 
-        //-----   Accessors   ---------------------------------
+
+        //-----   Accessors / Mutators   ----------------------
         void clr_interrupts_wait();
         void set_interrupts_wait();
-        const bool is_waiting_interrupts();
+        const bool is_waiting_interrupts() const;
+
 
         //-----   Operations   --------------------------------
-        void set_memory_schema(const memory::MemorySchema& mem_) noexcept;
-
         const memory::Byte load_next_byte();                // PC register relative
         void  save_next_byte(const memory::Byte byte_val);  // PC register relative
 
         const memory::Word load_next_word();                // PC register relative
         void  save_next_word(const memory::Word word_val);  // PC register relative
 
+        const std::uint64_t pull_system_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
+        const std::uint64_t push_system_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
+
+        const std::uint64_t pull_user_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
+        const std::uint64_t push_user_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
+
         void run(const memory::MemAddr start_address);
+
+        void set_memory_schema(const memory::MemorySchema& mem_) noexcept;
 
 
     private:
-        bool _waiting_interrupts{ false };
+        memory::Byte _waiting_interrupts{ false };
+
     };
 
 }

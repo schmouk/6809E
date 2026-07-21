@@ -223,7 +223,7 @@ namespace instr
     void ANDCCImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
-        _hw_arch.regCC = std::uint8_t(_hw_arch.regCC & mem_value);
+        _hw_arch.regCC = std::uint8_t(_hw_arch.regCC() & mem_value);
     }
 
     //---------------------------------------------------------
