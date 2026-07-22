@@ -6,8 +6,10 @@
 */
 
 #include <cstdint>
+#include <utility>
 
 #include "../cpu/microproc_unit.h"
+#include "../cpu/cpu_registers.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
 
@@ -35,6 +37,8 @@ namespace archi
 
 
         //-----   Operations   --------------------------------
+        std::pair<cpu::CPURegister*, cpu::CPURegister*> get_registers_defs(const memory::Byte post_byte);
+
         const memory::Byte load_next_byte();                // PC register relative
         void  save_next_byte(const memory::Byte byte_val);  // PC register relative
 
@@ -54,6 +58,8 @@ namespace archi
 
     private:
         memory::Byte _waiting_interrupts{ false };
+
+        cpu::CPURegister* _get_register_def(const memory::Byte def_4bits);
 
     };
 

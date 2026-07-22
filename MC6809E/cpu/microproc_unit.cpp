@@ -1,5 +1,6 @@
 #include <cstdint>
 
+#include "./cpu_registers.h"
 #include "./microproc_unit.h"
 
 #include "../exceptions/exceptions.h"

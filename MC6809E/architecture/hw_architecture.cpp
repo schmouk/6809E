@@ -1,9 +1,13 @@
 #include <cstdint>
+#include <utility>
 
 #include "./hw_architecture.h"
 #include "../cpu/microproc_unit.h"
+#include "../cpu/cpu_registers.h"
+#include "../exceptions/exceptions.h"
 #include "../memory/memory_schema.h"
 #include "../memory/types.h"
+
 
 namespace archi
 {
@@ -29,6 +33,17 @@ namespace archi
     const bool HWArchitecture::is_waiting_interrupts() const
     {
         return _waiting_interrupts;
+    }
+
+    //---------------------------------------------------------
+    std::pair<cpu::CPURegister*, cpu::CPURegister*> HWArchitecture::get_registers_defs(const memory::Byte post_byte)
+    {
+        cpu::CPURegister* reg1_ptr{ _get_register_def(post_byte >> 4) };
+        cpu::CPURegister* reg2_ptr{ _get_register_def(post_byte & 0x0f) };
+        if (reg1_ptr->is_8bits() != reg2_ptr->is_8bits())
+            throw except::InvalidMixedRegisterAddressingModeException();
+
+        return { reg1_ptr, reg2_ptr };
     }
 
     //---------------------------------------------------------
@@ -276,6 +291,45 @@ namespace archi
     void HWArchitecture::set_memory_schema(const memory::MemorySchema& mem_schema) noexcept
     {
         (void)memory::MemorySchema::operator=(mem_schema);
+    }
+
+    //---------------------------------------------------------
+    cpu::CPURegister* HWArchitecture::_get_register_def(const memory::Byte def_4bits)
+    {
+        switch (cpu::EReg(def_4bits)) {
+        case cpu::EReg::D:
+            return &regD;
+
+        case cpu::EReg::X:
+            return &regX;
+
+        case cpu::EReg::Y:
+            return &regY;
+
+        case cpu::EReg::U:
+            return &regU;
+
+        case cpu::EReg::S:
+            return &regS;
+
+        case cpu::EReg::PC:
+            return &regPC;
+
+        case cpu::EReg::A:
+            return &regA;
+
+        case cpu::EReg::B:
+            return &regB;
+
+        case cpu::EReg::CC:
+            return &regCC;
+
+        case cpu::EReg::DP:
+            return &regDP;
+
+        default:
+            throw except::InvalidRegisterCodeAddressingModeException(def_4bits);
+        }
     }
 
 }

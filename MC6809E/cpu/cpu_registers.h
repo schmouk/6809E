@@ -20,13 +20,18 @@ namespace cpu
 {
     //=====   The Microprocessing Registers   =================
     //---------------------------------------------------------
-    struct CPURegister {};  // Notice: the base class for every CPU register
+    struct CPURegister  // Notice: the base class for every CPU register
+    {
+        virtual bool is_8bits() const noexcept = 0;
+        virtual const int get() const noexcept = 0;
+        virtual void set(const int val) noexcept = 0;
+    };
 
 
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    class CPURegisterT : private CPURegister
+    class CPURegisterT : public CPURegister
     {
     public:
         //-----   Constructors / Destructors   ----------------
@@ -75,8 +80,10 @@ namespace cpu
 
 
         //-----   Operations   --------------------------------
-        inline const IntT get() const noexcept;         // Gets the value of the register content
-        inline void       set(const IntT val) noexcept; // Sets value of the register content
+        inline const int get() const noexcept override;         // Gets the value of the register content
+        inline void      set(const int val) noexcept override;  // Sets value of the register content
+
+        inline bool is_8bits() const noexcept override;
 
 
     private:
@@ -191,17 +198,25 @@ namespace cpu
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    const IntT CPURegisterT<IntT>::get() const noexcept
+    const int CPURegisterT<IntT>::get() const noexcept
     {
-        return _value;
+        return int(_value);
     }
 
     //---------------------------------------------------------
     template<typename IntT>
         requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
-    void CPURegisterT<IntT>::set(const IntT val) noexcept
+    void CPURegisterT<IntT>::set(const int val) noexcept
     {
-        _value = val;
+        _value = IntT(val);
+    }
+
+    //---------------------------------------------------------
+    template<typename IntT>
+        requires std::is_same_v<std::uint8_t, IntT> || std::is_same_v<std::uint16_t, IntT>
+    inline bool CPURegisterT<IntT>::is_8bits() const noexcept
+    {
+        return sizeof(IntT) == 1;
     }
 
     //---------------------------------------------------------
