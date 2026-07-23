@@ -366,7 +366,6 @@ namespace instr
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regS = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
-
     }
 
     //---------------------------------------------------------
@@ -451,7 +450,6 @@ namespace instr
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regU = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
-
     }
 
     //---------------------------------------------------------
@@ -620,7 +618,6 @@ namespace instr
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regY = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
-
     }
 
     //---------------------------------------------------------
