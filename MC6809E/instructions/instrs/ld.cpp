@@ -238,7 +238,7 @@ namespace instr
     void LDDImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
-        _hw_arch.regD = _evaluate_16(mem_value);
+        _hw_arch.set_regD(_evaluate_16(mem_value));
     }
 
     //---------------------------------------------------------
@@ -260,7 +260,7 @@ namespace instr
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        _hw_arch.regD = _evaluate_16(mem_value);
+        _hw_arch.set_regD(_evaluate_16(mem_value));
     }
 
     //---------------------------------------------------------
@@ -280,8 +280,7 @@ namespace instr
     void LDDIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
-        _hw_arch.regD = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
-
+        _hw_arch.set_regD(_evaluate_16(_indexed_mode_ptr->get_addressed_word()));
     }
 
     //---------------------------------------------------------
@@ -303,7 +302,7 @@ namespace instr
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
-        _hw_arch.regD = _evaluate_16(mem_value);
+        _hw_arch.set_regD(_evaluate_16(mem_value));
     }
 
     //---------------------------------------------------------

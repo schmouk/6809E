@@ -44,4 +44,12 @@ namespace cpu
         }
     }
 
+    //---------------------------------------------------------
+    void MicroprocUnit::set_regD(const memory::Word value) noexcept
+    {
+        regD == value;
+        regA = value >> 8;
+        regB = value & 0xff;
+    }
+
 }

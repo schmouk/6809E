@@ -39,6 +39,8 @@ namespace cpu
 
         const memory::Word get_reg_value(const cpu::EReg reg_index) const;
 
+        void set_regD(const memory::Word value) noexcept;
+
     };
 
 }
