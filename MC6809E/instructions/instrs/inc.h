@@ -33,7 +33,7 @@ namespace instr
         INCAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~INCAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         INCBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~INCBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         INCDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~INCDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         INCIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~INCIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         INCExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~INCExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

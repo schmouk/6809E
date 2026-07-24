@@ -43,10 +43,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDAImmediate::exec()
+    const std::uint64_t ADDAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -63,12 +64,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDADirect::exec()
+    const std::uint64_t ADDADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -85,10 +87,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDAIndexed::exec()
+    const std::uint64_t ADDAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regA = _evaluate(_hw_arch.regA, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -105,12 +108,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDAExtended::exec()
+    const std::uint64_t ADDAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -128,10 +132,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDBImmediate::exec()
+    const std::uint64_t ADDBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -148,12 +153,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDBDirect::exec()
+    const std::uint64_t ADDBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -169,10 +175,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDBIndexed::exec()
+    const std::uint64_t ADDBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regB = _evaluate(_hw_arch.regB, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -189,12 +196,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDBExtended::exec()
+    const std::uint64_t ADDBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -212,10 +220,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDDImmediate::exec()
+    const std::uint64_t ADDDImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -232,10 +241,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDDDirect::exec()
+    const std::uint64_t ADDDDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
+        return get_cycles_count();
 
         _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
     }
@@ -253,10 +263,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDDIndexed::exec()
+    const std::uint64_t ADDDIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regD = _evaluate_16(_hw_arch.regD, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -273,12 +284,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ADDDExtended::exec()
+    const std::uint64_t ADDDExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.regD = _evaluate_16(_hw_arch.regD, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

@@ -66,10 +66,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDAImmediate::exec()
+    const std::uint64_t LDAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regA = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -86,12 +87,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDADirect::exec()
+    const std::uint64_t LDADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regA = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -108,10 +110,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDAIndexed::exec()
+    const std::uint64_t LDAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regA = _evaluate(_indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -128,12 +131,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDAExtended::exec()
+    const std::uint64_t LDAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regA = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -151,10 +155,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDBImmediate::exec()
+    const std::uint64_t LDBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regB = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -171,12 +176,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDBDirect::exec()
+    const std::uint64_t LDBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regB = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -192,10 +198,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDBIndexed::exec()
+    const std::uint64_t LDBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regB = _evaluate(_indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -212,12 +219,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDBExtended::exec()
+    const std::uint64_t LDBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regB = _evaluate(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -235,10 +243,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDDImmediate::exec()
+    const std::uint64_t LDDImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.set_regD(_evaluate_16(mem_value));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -255,12 +264,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDDDirect::exec()
+    const std::uint64_t LDDDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.set_regD(_evaluate_16(mem_value));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -277,10 +287,11 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    void LDDIndexed::exec()
+    const std::uint64_t LDDIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.set_regD(_evaluate_16(_indexed_mode_ptr->get_addressed_word()));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -297,12 +308,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDDExtended::exec()
+    const std::uint64_t LDDExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.set_regD(_evaluate_16(mem_value));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -320,10 +332,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDSImmediate::exec()
+    const std::uint64_t LDSImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regS = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -340,12 +353,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDSDirect::exec()
+    const std::uint64_t LDSDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regS = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -361,10 +375,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDSIndexed::exec()
+    const std::uint64_t LDSIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regS = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -381,12 +396,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDSExtended::exec()
+    const std::uint64_t LDSExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.regS = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -404,10 +420,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDUImmediate::exec()
+    const std::uint64_t LDUImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regU = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -424,12 +441,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDUDirect::exec()
+    const std::uint64_t LDUDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regU = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -445,10 +463,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDUIndexed::exec()
+    const std::uint64_t LDUIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regU = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -465,12 +484,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDUExtended::exec()
+    const std::uint64_t LDUExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.regU = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -488,10 +508,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDXImmediate::exec()
+    const std::uint64_t LDXImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regX = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -508,12 +529,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDXDirect::exec()
+    const std::uint64_t LDXDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regX = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -529,10 +551,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDXIndexed::exec()
+    const std::uint64_t LDXIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regX = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -549,12 +572,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDXExtended::exec()
+    const std::uint64_t LDXExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.regX = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -572,10 +596,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDYImmediate::exec()
+    const std::uint64_t LDYImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regY = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -592,12 +617,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDYDirect::exec()
+    const std::uint64_t LDYDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regY = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -613,10 +639,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDYIndexed::exec()
+    const std::uint64_t LDYIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regY = _evaluate_16(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -633,12 +660,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LDYExtended::exec()
+    const std::uint64_t LDYExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _hw_arch.regY = _evaluate_16(mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

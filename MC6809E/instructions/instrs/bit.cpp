@@ -47,14 +47,14 @@ namespace instr
     //---------------------------------------------------------
     BITAImmediate::BITAImmediate(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0x85 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITAImmediate::exec()
+    const std::uint64_t BITAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -68,16 +68,16 @@ namespace instr
     //---------------------------------------------------------
     BITADirect::BITADirect(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0x95 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITADirect::exec()
+    const std::uint64_t BITADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -91,14 +91,14 @@ namespace instr
     //---------------------------------------------------------
     BITAIndexed::BITAIndexed(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xA5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITAIndexed::exec()
+    const std::uint64_t BITAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regA = _evaluate(_hw_arch.regA, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -112,16 +112,16 @@ namespace instr
     //---------------------------------------------------------
     BITAExtended::BITAExtended(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xB5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITAExtended::exec()
+    const std::uint64_t BITAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -136,14 +136,14 @@ namespace instr
     //---------------------------------------------------------
     BITBImmediate::BITBImmediate(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xC5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITBImmediate::exec()
+    const std::uint64_t BITBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -157,16 +157,16 @@ namespace instr
     //---------------------------------------------------------
     BITBDirect::BITBDirect(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xD5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITBDirect::exec()
+    const std::uint64_t BITBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -179,14 +179,14 @@ namespace instr
     //---------------------------------------------------------
     BITBIndexed::BITBIndexed(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xE5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITBIndexed::exec()
+    const std::uint64_t BITBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regB = _evaluate(_hw_arch.regB, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -200,16 +200,16 @@ namespace instr
     //---------------------------------------------------------
     BITBExtended::BITBExtended(archi::HWArchitecture& hw_arch) noexcept
         : BITBase{ hw_arch, 0xF5 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void BITBExtended::exec()
+    const std::uint64_t BITBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

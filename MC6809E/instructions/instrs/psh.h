@@ -29,7 +29,7 @@ namespace instr
         PSHSImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~PSHSImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
     };
 
 
@@ -39,7 +39,7 @@ namespace instr
         PSHUImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~PSHUImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
     };
 
 }

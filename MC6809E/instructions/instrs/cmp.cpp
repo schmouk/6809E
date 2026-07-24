@@ -66,10 +66,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPAImmediate::exec()
+    const std::uint64_t CMPAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _evaluate_cc_flags(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -86,12 +87,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPADirect::exec()
+    const std::uint64_t CMPADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -108,10 +110,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPAIndexed::exec()
+    const std::uint64_t CMPAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags(_hw_arch.regA, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -128,12 +131,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPAExtended::exec()
+    const std::uint64_t CMPAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _evaluate_cc_flags(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -151,10 +155,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPBImmediate::exec()
+    const std::uint64_t CMPBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _evaluate_cc_flags(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -171,12 +176,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPBDirect::exec()
+    const std::uint64_t CMPBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -192,10 +198,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPBIndexed::exec()
+    const std::uint64_t CMPBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags(_hw_arch.regB, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -212,12 +219,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPBExtended::exec()
+    const std::uint64_t CMPBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _evaluate_cc_flags(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -235,10 +243,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPDImmediate::exec()
+    const std::uint64_t CMPDImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _evaluate_cc_flags_16(_hw_arch.regD, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -255,12 +264,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPDDirect::exec()
+    const std::uint64_t CMPDDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags_16(_hw_arch.regD, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -276,10 +286,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPDIndexed::exec()
+    const std::uint64_t CMPDIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags_16(_hw_arch.regD, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -296,12 +307,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPDExtended::exec()
+    const std::uint64_t CMPDExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _evaluate_cc_flags_16(_hw_arch.regD, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -319,10 +331,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CMPSImmediate::exec()
+    const std::uint64_t CMPSImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _evaluate_cc_flags_16(_hw_arch.regS, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -336,16 +349,16 @@ namespace instr
     //---------------------------------------------------------
     CMPSDirect::CMPSDirect(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0x9C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPSDirect::exec()
+    const std::uint64_t CMPSDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags_16(_hw_arch.regS, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -358,14 +371,14 @@ namespace instr
     //---------------------------------------------------------
     CMPSIndexed::CMPSIndexed(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0xAC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPSIndexed::exec()
+    const std::uint64_t CMPSIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags_16(_hw_arch.regS, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -379,16 +392,16 @@ namespace instr
     //---------------------------------------------------------
     CMPSExtended::CMPSExtended(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0xBC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPSExtended::exec()
+    const std::uint64_t CMPSExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _evaluate_cc_flags_16(_hw_arch.regS, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -403,14 +416,14 @@ namespace instr
     //---------------------------------------------------------
     CMPUImmediate::CMPUImmediate(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x11, 0x83 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPUImmediate::exec()
+    const std::uint64_t CMPUImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _evaluate_cc_flags_16(_hw_arch.regU, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -424,16 +437,16 @@ namespace instr
     //---------------------------------------------------------
     CMPUDirect::CMPUDirect(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x11, 0x93 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPUDirect::exec()
+    const std::uint64_t CMPUDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags_16(_hw_arch.regU, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -446,14 +459,14 @@ namespace instr
     //---------------------------------------------------------
     CMPUIndexed::CMPUIndexed(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x11, 0xA3 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPUIndexed::exec()
+    const std::uint64_t CMPUIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags_16(_hw_arch.regU, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -467,16 +480,16 @@ namespace instr
     //---------------------------------------------------------
     CMPUExtended::CMPUExtended(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x11, 0xB3 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPUExtended::exec()
+    const std::uint64_t CMPUExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _evaluate_cc_flags_16(_hw_arch.regU, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -491,14 +504,14 @@ namespace instr
     //---------------------------------------------------------
     CMPXImmediate::CMPXImmediate(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x8C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPXImmediate::exec()
+    const std::uint64_t CMPXImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _evaluate_cc_flags_16(_hw_arch.regX, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -512,16 +525,16 @@ namespace instr
     //---------------------------------------------------------
     CMPXDirect::CMPXDirect(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x9C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPXDirect::exec()
+    const std::uint64_t CMPXDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags_16(_hw_arch.regX, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -534,14 +547,14 @@ namespace instr
     //---------------------------------------------------------
     CMPXIndexed::CMPXIndexed(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0xAC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPXIndexed::exec()
+    const std::uint64_t CMPXIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags_16(_hw_arch.regX, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -555,16 +568,16 @@ namespace instr
     //---------------------------------------------------------
     CMPXExtended::CMPXExtended(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0xBC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPXExtended::exec()
+    const std::uint64_t CMPXExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _evaluate_cc_flags_16(_hw_arch.regX, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -579,14 +592,14 @@ namespace instr
     //---------------------------------------------------------
     CMPYImmediate::CMPYImmediate(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0x8C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPYImmediate::exec()
+    const std::uint64_t CMPYImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _evaluate_cc_flags_16(_hw_arch.regY, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -600,16 +613,16 @@ namespace instr
     //---------------------------------------------------------
     CMPYDirect::CMPYDirect(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0x9C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPYDirect::exec()
+    const std::uint64_t CMPYDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Word mem_value{ _hw_arch.get_word(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _evaluate_cc_flags_16(_hw_arch.regY, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -622,14 +635,14 @@ namespace instr
     //---------------------------------------------------------
     CMPYIndexed::CMPYIndexed(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0xAC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPYIndexed::exec()
+    const std::uint64_t CMPYIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _evaluate_cc_flags_16(_hw_arch.regY, _indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -643,16 +656,16 @@ namespace instr
     //---------------------------------------------------------
     CMPYExtended::CMPYExtended(archi::HWArchitecture& hw_arch) noexcept
         : CMPBase{ hw_arch, 0x10, 0xBC }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void CMPYExtended::exec()
+    const std::uint64_t CMPYExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Word mem_value{ _hw_arch.get_word(value_addr) };
 
         _evaluate_cc_flags_16(_hw_arch.regY, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

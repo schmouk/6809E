@@ -18,9 +18,10 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NOPInherent::exec()
+    const std::uint64_t NOPInherent::exec()
     {
         // Notice: No-op
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

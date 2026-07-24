@@ -33,7 +33,7 @@ namespace instr
         CMPAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -43,7 +43,7 @@ namespace instr
         CMPADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -54,7 +54,7 @@ namespace instr
         CMPAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -67,7 +67,7 @@ namespace instr
         CMPAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -79,7 +79,7 @@ namespace instr
         CMPBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -89,7 +89,7 @@ namespace instr
         CMPBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -100,7 +100,7 @@ namespace instr
         CMPBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -113,7 +113,7 @@ namespace instr
         CMPBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -125,7 +125,7 @@ namespace instr
         CMPDImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -135,7 +135,7 @@ namespace instr
         CMPDDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -146,7 +146,7 @@ namespace instr
         CMPDIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -159,7 +159,7 @@ namespace instr
         CMPDExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPDExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -171,7 +171,7 @@ namespace instr
         CMPSImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -181,7 +181,7 @@ namespace instr
         CMPSDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -192,7 +192,7 @@ namespace instr
         CMPSIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -205,7 +205,7 @@ namespace instr
         CMPSExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPSExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -217,7 +217,7 @@ namespace instr
         CMPUImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -227,7 +227,7 @@ namespace instr
         CMPUDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -238,7 +238,7 @@ namespace instr
         CMPUIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -251,7 +251,7 @@ namespace instr
         CMPUExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPUExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -263,7 +263,7 @@ namespace instr
         CMPXImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -273,7 +273,7 @@ namespace instr
         CMPXDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -284,7 +284,7 @@ namespace instr
         CMPXIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -297,7 +297,7 @@ namespace instr
         CMPXExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPXExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -309,7 +309,7 @@ namespace instr
         CMPYImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -319,7 +319,7 @@ namespace instr
         CMPYDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -330,7 +330,7 @@ namespace instr
         CMPYIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -343,7 +343,7 @@ namespace instr
         CMPYExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CMPYExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

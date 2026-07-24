@@ -33,7 +33,7 @@ namespace instr
         LSRAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LSRAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         LSRBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LSRBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         LSRDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LSRDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         LSRIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LSRIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         LSRExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LSRExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

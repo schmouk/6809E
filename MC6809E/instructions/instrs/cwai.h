@@ -15,7 +15,7 @@ namespace instr
         CWAIImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CWAIImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

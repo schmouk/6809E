@@ -22,12 +22,14 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void JMPDirect::exec()
+    const std::uint64_t JMPDirect::exec()
     {
         const memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         const memory::MemAddr mem_addr{ _hw_arch.get_directpage_addr(value_low_addr) };
 
         _hw_arch.regPC = _hw_arch.get_word(mem_addr);
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -44,10 +46,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void JMPIndexed::exec()
+    const std::uint64_t JMPIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regPC = _indexed_mode_ptr->get_addressed_word();  // Notice: Not sure of this
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -64,10 +68,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void JMPExtended::exec()
+    const std::uint64_t JMPExtended::exec()
     {
         memory::MemAddr mem_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         _hw_arch.regPC = _hw_arch.get_word(mem_addr);
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

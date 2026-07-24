@@ -14,9 +14,10 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void  ABX::exec()
+    const std::uint64_t  ABX::exec()
     {
         _hw_arch.regX += _hw_arch.regB;
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

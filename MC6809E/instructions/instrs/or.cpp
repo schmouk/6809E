@@ -49,10 +49,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORAImmediate::exec()
+    const std::uint64_t ORAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -70,12 +71,13 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    void ORADirect::exec()
+    const std::uint64_t ORADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -92,10 +94,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORAIndexed::exec()
+    const std::uint64_t ORAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regA = _evaluate(_hw_arch.regA, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -112,12 +115,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORAExtended::exec()
+    const std::uint64_t ORAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -135,10 +139,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORBImmediate::exec()
+    const std::uint64_t ORBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -155,12 +160,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORBDirect::exec()
+    const std::uint64_t ORBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -176,10 +182,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORBIndexed::exec()
+    const std::uint64_t ORBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regB = _evaluate(_hw_arch.regB, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -196,12 +203,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORBExtended::exec()
+    const std::uint64_t ORBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -219,10 +227,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void ORCCImmediate::exec()
+    const std::uint64_t ORCCImmediate::exec()
     {
         memory::Word mem_value{ _hw_arch.load_next_word() };
         _hw_arch.regCC = std::uint8_t(_hw_arch.regCC() | mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

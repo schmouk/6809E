@@ -33,7 +33,7 @@ namespace instr
         ASRAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         ASRBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         ASRDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         ASRIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         ASRExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ASRExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

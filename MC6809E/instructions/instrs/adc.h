@@ -33,7 +33,7 @@ namespace instr
         ADCAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -43,7 +43,7 @@ namespace instr
         ADCADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -54,7 +54,7 @@ namespace instr
         ADCAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -67,7 +67,7 @@ namespace instr
         ADCAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -79,7 +79,7 @@ namespace instr
         ADCBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -89,7 +89,7 @@ namespace instr
         ADCBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -100,7 +100,7 @@ namespace instr
         ADCBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -113,7 +113,7 @@ namespace instr
         ADCBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ADCBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

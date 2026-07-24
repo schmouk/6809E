@@ -32,7 +32,7 @@ namespace instr
         ANDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -42,7 +42,7 @@ namespace instr
         ANDADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -53,7 +53,7 @@ namespace instr
         ANDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -66,7 +66,7 @@ namespace instr
         ANDAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -78,7 +78,7 @@ namespace instr
         ANDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -88,7 +88,7 @@ namespace instr
         ANDBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -99,7 +99,7 @@ namespace instr
         ANDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -112,7 +112,7 @@ namespace instr
         ANDBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -124,7 +124,7 @@ namespace instr
         ANDCCImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ANDCCImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

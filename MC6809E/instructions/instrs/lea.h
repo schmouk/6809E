@@ -33,7 +33,7 @@ namespace instr
         LEASIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LEASIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     protected:
@@ -52,7 +52,7 @@ namespace instr
         LEAUIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LEAUIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     protected:
@@ -71,7 +71,7 @@ namespace instr
         LEAXIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LEAXIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -87,7 +87,7 @@ namespace instr
         LEAYIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LEAYIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:

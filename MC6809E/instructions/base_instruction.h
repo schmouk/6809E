@@ -47,7 +47,7 @@ namespace instr
 
 
         //-----   Operations   --------------------------------
-        virtual void exec() = 0;
+        virtual const std::uint64_t exec() = 0;
         virtual const std::uint64_t get_cycles_count() noexcept = 0;
 
 

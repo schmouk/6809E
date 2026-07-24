@@ -14,12 +14,14 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void DAAInherent::exec()
+    const std::uint64_t DAAInherent::exec()
     {
         memory::Byte add_decimal_mask{ memory::Byte(_hw_arch.regCC.carry_flag() ? 0x60 : 0x00) };
         if (_hw_arch.regCC.halfcarry_flag())
             add_decimal_mask += 0x06;
         _hw_arch.regA += add_decimal_mask;
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

@@ -33,7 +33,7 @@ namespace instr
         NEGAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~NEGAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         NEGBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~NEGBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         NEGDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~NEGDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         NEGIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~NEGIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         NEGExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~NEGExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

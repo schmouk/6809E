@@ -33,7 +33,7 @@ namespace instr
         BITAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -43,7 +43,7 @@ namespace instr
         BITADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -54,7 +54,7 @@ namespace instr
         BITAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -67,7 +67,7 @@ namespace instr
         BITAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -79,7 +79,7 @@ namespace instr
         BITBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -89,7 +89,7 @@ namespace instr
         BITBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -100,7 +100,7 @@ namespace instr
         BITBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -113,7 +113,7 @@ namespace instr
         BITBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~BITBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

@@ -14,12 +14,14 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void CWAIImmediate::exec()
+    const std::uint64_t CWAIImmediate::exec()
     {
         const memory::Byte post_byte{ _hw_arch.load_next_byte() };
         _hw_arch.regCC &= post_byte;
         _hw_arch.push_system_stack(0xff);
         _hw_arch.set_interrupts_wait();
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

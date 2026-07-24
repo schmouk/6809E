@@ -30,11 +30,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void PULSImmediate::exec()
+    const std::uint64_t PULSImmediate::exec()
     {
         const memory::Byte ctrl_code{ _hw_arch.load_next_byte() };
 
         _pulled_cycles_count = _hw_arch.pull_system_stack(ctrl_code);
+        return get_cycles_count();
     }
 
 
@@ -45,11 +46,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void PULUImmediate::exec()
+    const std::uint64_t PULUImmediate::exec()
     {
         const memory::Byte ctrl_code{ _hw_arch.load_next_byte() };
 
         _pulled_cycles_count = _hw_arch.pull_user_stack(ctrl_code);
+        return get_cycles_count();
     }
 
 }

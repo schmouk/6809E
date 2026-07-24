@@ -50,9 +50,10 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NEGAInherent::exec()
+    const std::uint64_t NEGAInherent::exec()
     {
         _hw_arch.regA = _evaluate(_hw_arch.regA);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -69,9 +70,10 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NEGBInherent::exec()
+    const std::uint64_t NEGBInherent::exec()
     {
         _hw_arch.regB = _evaluate(_hw_arch.regB);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -89,13 +91,14 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NEGDirect::exec()
+    const std::uint64_t NEGDirect::exec()
     {
         const memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         const memory::MemAddr mem_addr{ _hw_arch.get_directpage_addr(value_low_addr) };
         const memory::Byte mem_value{ _hw_arch.get_byte(mem_addr) };
 
         _hw_arch.set_byte(mem_addr, _evaluate(mem_value));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -112,13 +115,15 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NEGIndexed::exec()
+    const std::uint64_t NEGIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
 
         _indexed_mode_ptr->set_addressed_byte(
             _evaluate(_indexed_mode_ptr->get_addressed_byte())
         );
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -135,12 +140,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void NEGExtended::exec()
+    const std::uint64_t NEGExtended::exec()
     {
         memory::MemAddr mem_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(mem_addr) };
 
         _hw_arch.set_byte(mem_addr, _evaluate(mem_value));
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

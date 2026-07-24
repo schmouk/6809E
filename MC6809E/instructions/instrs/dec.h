@@ -33,7 +33,7 @@ namespace instr
         DECAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~DECAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         DECBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~DECBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         DECDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~DECDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         DECIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~DECIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         DECExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~DECExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

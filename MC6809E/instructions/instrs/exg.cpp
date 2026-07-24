@@ -18,7 +18,7 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EXGImmediate::exec()
+    const std::uint64_t EXGImmediate::exec()
     {
         cpu::CPURegister* reg1_ptr{ nullptr };
         cpu::CPURegister* reg2_ptr{ nullptr };
@@ -28,6 +28,8 @@ namespace instr
         const int tmp{ reg1_ptr->get() };
         reg1_ptr->set(reg2_ptr->get());
         reg2_ptr->set(tmp);
+
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

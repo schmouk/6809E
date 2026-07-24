@@ -33,7 +33,7 @@ namespace instr
         COMAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~COMAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         COMBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~COMBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         COMDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~COMDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         COMIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~COMIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         COMExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~COMExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

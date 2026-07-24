@@ -30,11 +30,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void PSHSImmediate::exec()
+    const std::uint64_t PSHSImmediate::exec()
     {
         const memory::Byte ctrl_code{ _hw_arch.load_next_byte() };
 
         _pushed_cycles_count = _hw_arch.push_system_stack(ctrl_code);
+        return get_cycles_count();
     }
 
 
@@ -45,11 +46,12 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void PSHUImmediate::exec()
+    const std::uint64_t PSHUImmediate::exec()
     {
         const memory::Byte ctrl_code{ _hw_arch.load_next_byte() };
 
         _pushed_cycles_count = _hw_arch.push_user_stack(ctrl_code);
+        return get_cycles_count();
     }
 
 }

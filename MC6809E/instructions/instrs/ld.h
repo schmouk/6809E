@@ -36,7 +36,7 @@ namespace instr
         LDAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -46,7 +46,7 @@ namespace instr
         LDADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         LDAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -70,7 +70,7 @@ namespace instr
         LDAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -82,7 +82,7 @@ namespace instr
         LDBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -92,7 +92,7 @@ namespace instr
         LDBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -103,7 +103,7 @@ namespace instr
         LDBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -116,7 +116,7 @@ namespace instr
         LDBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -128,7 +128,7 @@ namespace instr
         LDDImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDDImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -138,7 +138,7 @@ namespace instr
         LDDDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDDDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -149,7 +149,7 @@ namespace instr
         LDDIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDDIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -162,7 +162,7 @@ namespace instr
         LDDExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDDExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -174,7 +174,7 @@ namespace instr
         LDSImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDSImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -184,7 +184,7 @@ namespace instr
         LDSDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDSDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -195,7 +195,7 @@ namespace instr
         LDSIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDSIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -208,7 +208,7 @@ namespace instr
         LDSExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDSExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -220,7 +220,7 @@ namespace instr
         LDUImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDUImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -230,7 +230,7 @@ namespace instr
         LDUDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDUDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -241,7 +241,7 @@ namespace instr
         LDUIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDUIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -254,7 +254,7 @@ namespace instr
         LDUExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDUExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -266,7 +266,7 @@ namespace instr
         LDXImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDXImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -276,7 +276,7 @@ namespace instr
         LDXDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDXDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -287,7 +287,7 @@ namespace instr
         LDXIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDXIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -300,7 +300,7 @@ namespace instr
         LDXExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDXExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -312,7 +312,7 @@ namespace instr
         LDYImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDYImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -322,7 +322,7 @@ namespace instr
         LDYDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDYDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -333,7 +333,7 @@ namespace instr
         LDYIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDYIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -346,7 +346,7 @@ namespace instr
         LDYExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~LDYExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

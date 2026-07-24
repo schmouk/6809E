@@ -33,7 +33,7 @@ namespace instr
         CLRAInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRAInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -45,7 +45,7 @@ namespace instr
         CLRBInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRBInherent() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -57,7 +57,7 @@ namespace instr
         CLRDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -68,7 +68,7 @@ namespace instr
         CLRIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -81,7 +81,7 @@ namespace instr
         CLRExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~CLRExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

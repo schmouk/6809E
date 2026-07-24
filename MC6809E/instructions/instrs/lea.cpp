@@ -41,10 +41,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LEASIndexed::exec()
+    const std::uint64_t LEASIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regS = _evaluate(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -66,10 +67,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LEAUIndexed::exec()
+    const std::uint64_t LEAUIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regU = _evaluate(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -91,10 +93,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void LEAXIndexed::exec()
+    const std::uint64_t LEAXIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regX = _evaluate(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -109,14 +112,14 @@ namespace instr
     //---------------------------------------------------------
     LEAYIndexed::LEAYIndexed(archi::HWArchitecture& hw_arch) noexcept
         : LEABase{ hw_arch, 0x31 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
-    void LEAYIndexed::exec()
+    const std::uint64_t LEAYIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regY = _evaluate(_indexed_mode_ptr->get_addressed_word());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

@@ -29,7 +29,7 @@ namespace instr
         PULSImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~PULSImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
     };
 
 
@@ -39,7 +39,7 @@ namespace instr
         PULUImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~PULUImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
     };
 
 }

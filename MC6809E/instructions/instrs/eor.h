@@ -33,7 +33,7 @@ namespace instr
         EORAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -43,7 +43,7 @@ namespace instr
         EORADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -54,7 +54,7 @@ namespace instr
         EORAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -67,7 +67,7 @@ namespace instr
         EORAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -79,7 +79,7 @@ namespace instr
         EORBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -89,7 +89,7 @@ namespace instr
         EORBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -100,7 +100,7 @@ namespace instr
         EORBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -113,7 +113,7 @@ namespace instr
         EORBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~EORBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

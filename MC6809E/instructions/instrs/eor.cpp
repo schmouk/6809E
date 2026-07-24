@@ -50,10 +50,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORAImmediate::exec()
+    const std::uint64_t EORAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -70,12 +71,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORADirect::exec()
+    const std::uint64_t EORADirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -92,10 +94,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORAIndexed::exec()
+    const std::uint64_t EORAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regA = _evaluate(_hw_arch.regA, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -112,12 +115,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORAExtended::exec()
+    const std::uint64_t EORAExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regA = _evaluate(_hw_arch.regA, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -135,10 +139,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORBImmediate::exec()
+    const std::uint64_t EORBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -155,12 +160,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORBDirect::exec()
+    const std::uint64_t EORBDirect::exec()
     {
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -176,10 +182,11 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORBIndexed::exec()
+    const std::uint64_t EORBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
         _hw_arch.regB = _evaluate(_hw_arch.regB, _indexed_mode_ptr->get_addressed_byte());
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------
@@ -196,12 +203,13 @@ namespace instr
     {}
 
     //---------------------------------------------------------
-    void EORBExtended::exec()
+    const std::uint64_t EORBExtended::exec()
     {
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
         _hw_arch.regB = _evaluate(_hw_arch.regB, mem_value);
+        return get_cycles_count();
     }
 
     //---------------------------------------------------------

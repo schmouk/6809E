@@ -32,7 +32,7 @@ namespace instr
         ORAImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORAImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -42,7 +42,7 @@ namespace instr
         ORADirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORADirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -53,7 +53,7 @@ namespace instr
         ORAIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORAIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -66,7 +66,7 @@ namespace instr
         ORAExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORAExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -78,7 +78,7 @@ namespace instr
         ORBImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORBImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -88,7 +88,7 @@ namespace instr
         ORBDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORBDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -99,7 +99,7 @@ namespace instr
         ORBIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORBIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -112,7 +112,7 @@ namespace instr
         ORBExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORBExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -124,7 +124,7 @@ namespace instr
         ORCCImmediate(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~ORCCImmediate() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

@@ -7,7 +7,6 @@
 
 #include "../../addressing_modes/base_addressing.h"
 #include "../../architecture/hw_architecture.h"
-#include "../../memory/types.h"
 
 
 namespace instr
@@ -19,7 +18,7 @@ namespace instr
         JMPDirect(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~JMPDirect() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -30,7 +29,7 @@ namespace instr
         JMPIndexed(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~JMPIndexed() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
 
     private:
@@ -43,7 +42,7 @@ namespace instr
         JMPExtended(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~JMPExtended() noexcept = default;
 
-        void exec() override;
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
