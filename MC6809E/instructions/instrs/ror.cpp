@@ -1,6 +1,6 @@
 #include <cstdint>
 
-#include "./asl.h"
+#include "./ror.h"
 #include "../base_instruction.h"
 
 #include "../../addressing_modes/base_addressing.h"
@@ -13,14 +13,14 @@
 
 namespace instr
 {
-    //=====   ASL Base Class   ================================
+    //=====   ROR Base Class   ================================
     //---------------------------------------------------------
-    ASLBase::ASLBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept
+    RORBase::RORBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept
         : BaseInstruction(hw_arch, opcode)
     {}
 
     //---------------------------------------------------------
-    const memory::Byte ASLBase::_evaluate(const int value)
+    const memory::Byte RORBase::_evaluate(const int value)
     {
         const int intermediate_value{ _evaluate_value(value) };
         _evaluate_cc_flags(intermediate_value);
@@ -28,7 +28,7 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    void ASLBase::_evaluate_cc_flags(const int intermediate_value)
+    void RORBase::_evaluate_cc_flags(const int intermediate_value)
     {
         _hw_arch.regCC.set_carry((intermediate_value & 0x100) != 0);
         _hw_arch.regCC.set_zero((intermediate_value & 0xff) == 0);
@@ -36,65 +36,63 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    const int ASLBase::_evaluate_value(const int value)
+    const int RORBase::_evaluate_value(const int value)
     {
-        const bool bit7{ (value & 0x80) == 0x80 };
-        const bool bit6{ (value & 0x40) == 0x40 };
-        _hw_arch.regCC.set_overflow(bit7 != bit6);
-
-        return value << 1;
+        const int carry_value{ _hw_arch.regCC.carry_flag() };
+        _hw_arch.regCC.set_carry(value & 0x01);
+        return (value >> 1) | (carry_value << 7);
     }
 
 
-    //=====   ASLA   ==========================================
-    //-----   ASLA Inherent   ---------------------------------
-    ASLAInherent::ASLAInherent(archi::HWArchitecture& hw_arch) noexcept
-        : ASLBase{ hw_arch, 0x48 }
+    //=====   RORA   ==========================================
+    //-----   RORA Inherent   ---------------------------------
+    RORAInherent::RORAInherent(archi::HWArchitecture& hw_arch) noexcept
+        : RORBase{ hw_arch, 0x46 }
     {}
 
     //---------------------------------------------------------
-    const std::uint64_t ASLAInherent::exec()
+    const std::uint64_t RORAInherent::exec()
     {
         _hw_arch.regA = _evaluate(_hw_arch.regA);
         return get_cycles_count();
     }
 
     //---------------------------------------------------------
-    const std::uint64_t ASLAInherent::get_cycles_count() noexcept
+    const std::uint64_t RORAInherent::get_cycles_count() noexcept
     {
         return 2;
     }
 
 
-    //=====   ASLB   ==========================================
-    //-----   ASLB Inherent   ---------------------------------
-    ASLBInherent::ASLBInherent(archi::HWArchitecture& hw_arch) noexcept
-        : ASLBase{ hw_arch, 0x58 }
+    //=====   RORB   ==========================================
+    //-----   RORB Inherent   ---------------------------------
+    RORBInherent::RORBInherent(archi::HWArchitecture& hw_arch) noexcept
+        : RORBase{ hw_arch, 0x56 }
     {}
 
     //---------------------------------------------------------
-    const std::uint64_t ASLBInherent::exec()
+    const std::uint64_t RORBInherent::exec()
     {
         _hw_arch.regB = _evaluate(_hw_arch.regB);
         return get_cycles_count();
     }
 
     //---------------------------------------------------------
-    const std::uint64_t ASLBInherent::get_cycles_count() noexcept
+    const std::uint64_t RORBInherent::get_cycles_count() noexcept
     {
         return 2;
     }
 
 
-    //=====   ASL Memory   ====================================
-    //-----   ASL Direct   ------------------------------------
+    //=====   ROR Memory   ====================================
+    //-----   ROR Direct   ------------------------------------
     //---------------------------------------------------------
-    ASLDirect::ASLDirect(archi::HWArchitecture& hw_arch) noexcept
-        : ASLBase{ hw_arch, 0x08 }
+    RORDirect::RORDirect(archi::HWArchitecture& hw_arch) noexcept
+        : RORBase{ hw_arch, 0x06 }
     {}
 
     //---------------------------------------------------------
-    const std::uint64_t ASLDirect::exec()
+    const std::uint64_t RORDirect::exec()
     {
         const memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         const memory::MemAddr mem_addr{ _hw_arch.get_directpage_addr(value_low_addr) };
@@ -105,20 +103,20 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    const std::uint64_t ASLDirect::get_cycles_count() noexcept
+    const std::uint64_t RORDirect::get_cycles_count() noexcept
     {
         return 6;
     }
 
 
-    //-----   ASL Indexed   -----------------------------------
+    //-----   ROR Indexed   -----------------------------------
     //---------------------------------------------------------
-    ASLIndexed::ASLIndexed(archi::HWArchitecture& hw_arch) noexcept
-        : ASLBase{ hw_arch, 0x68 }
+    RORIndexed::RORIndexed(archi::HWArchitecture& hw_arch) noexcept
+        : RORBase{ hw_arch, 0x66 }
     {}
 
     //---------------------------------------------------------
-    const std::uint64_t ASLIndexed::exec()
+    const std::uint64_t RORIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
 
@@ -130,20 +128,20 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    const std::uint64_t ASLIndexed::get_cycles_count() noexcept
+    const std::uint64_t RORIndexed::get_cycles_count() noexcept
     {
         return 6 + _indexed_mode_ptr->get_byte_cycles();
     }
 
 
-    //-----   ASL Extended   ----------------------------------
+    //-----   ROR Extended   ----------------------------------
     //---------------------------------------------------------
-    ASLExtended::ASLExtended(archi::HWArchitecture& hw_arch) noexcept
-        : ASLBase{ hw_arch, 0x78 }
+    RORExtended::RORExtended(archi::HWArchitecture& hw_arch) noexcept
+        : RORBase{ hw_arch, 0x76 }
     {}
 
     //---------------------------------------------------------
-    const std::uint64_t ASLExtended::exec()
+    const std::uint64_t RORExtended::exec()
     {
         memory::MemAddr mem_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(mem_addr) };
@@ -153,7 +151,7 @@ namespace instr
     }
 
     //---------------------------------------------------------
-    const std::uint64_t ASLExtended::get_cycles_count() noexcept
+    const std::uint64_t RORExtended::get_cycles_count() noexcept
     {
         return 7;
     }
