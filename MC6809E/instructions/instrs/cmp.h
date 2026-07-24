@@ -13,7 +13,7 @@
 namespace instr
 {
     //=====   CMP Base Class   ================================
-    struct CMPBase : public BaseInstruction
+    class CMPBase : public BaseInstruction
     {
     public:
         CMPBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;

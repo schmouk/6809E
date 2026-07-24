@@ -39,8 +39,7 @@ namespace instr
     //---------------------------------------------------------
     ANDAImmediate::ANDAImmediate(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0x84 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDAImmediate::exec()
@@ -60,8 +59,7 @@ namespace instr
     //---------------------------------------------------------
     ANDADirect::ANDADirect(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0x94 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDADirect::exec()
@@ -83,8 +81,7 @@ namespace instr
     //---------------------------------------------------------
     ANDAIndexed::ANDAIndexed(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0xA4 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDAIndexed::exec()
@@ -104,8 +101,7 @@ namespace instr
     //---------------------------------------------------------
     ANDAExtended::ANDAExtended(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0xB4 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDAExtended::exec()
@@ -149,8 +145,7 @@ namespace instr
     //---------------------------------------------------------
     ANDBDirect::ANDBDirect(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0xD4 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDBDirect::exec()
@@ -171,8 +166,7 @@ namespace instr
     //---------------------------------------------------------
     ANDBIndexed::ANDBIndexed(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0xE4 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDBIndexed::exec()
@@ -192,8 +186,7 @@ namespace instr
     //---------------------------------------------------------
     ANDBExtended::ANDBExtended(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0xF4 }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDBExtended::exec()
@@ -216,8 +209,7 @@ namespace instr
     //---------------------------------------------------------
     ANDCCImmediate::ANDCCImmediate(archi::HWArchitecture& hw_arch) noexcept
         : ANDBase{ hw_arch, 0x1C }
-    {
-    }
+    {}
 
     //---------------------------------------------------------
     void ANDCCImmediate::exec()

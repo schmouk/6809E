@@ -13,7 +13,7 @@
 namespace instr
 {
     //=====   ADD Base Class   ================================
-    struct ADDBase : public ADCBase
+    class ADDBase : public ADCBase
     {
     public:
         ADDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;

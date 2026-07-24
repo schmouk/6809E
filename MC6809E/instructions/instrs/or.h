@@ -12,7 +12,7 @@
 namespace instr
 {
     //=====   OR Base Class   =================================
-    struct ORBase : public BaseInstruction
+    class ORBase : public BaseInstruction
     {
     public:
         ORBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;

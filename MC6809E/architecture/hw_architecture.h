@@ -47,6 +47,8 @@ namespace archi
 
         const std::uint64_t pull_system_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
         const std::uint64_t push_system_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
+        const std::uint64_t pull_system_stack_pcr(); // Notice: returns a cycles-count
+        const std::uint64_t push_system_stack_pcr(); // Notice: returns a cycles-count
 
         const std::uint64_t pull_user_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count
         const std::uint64_t push_user_stack(const memory::Byte ctrl_code); // Notice: returns a cycles-count

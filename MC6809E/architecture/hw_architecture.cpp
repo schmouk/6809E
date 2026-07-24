@@ -133,48 +133,64 @@ namespace archi
         if (ctrl_code & 0b1000'0000) {
             regS -= 2;
             set_word(regS, regPC);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0100'0000) {
             regS -= 2;
             set_word(regS, regU);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0010'0000) {
             regS -= 2;
             set_word(regS, regY);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0001'0000) {
             regS -= 2;
             set_word(regS, regX);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0000'1000) {
             set_word(--regS, regDP);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0100) {
             set_word(--regS, regB);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0010) {
             set_word(--regS, regA);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0001) {
             set_word(--regS, regCC);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         return cycles_count;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::pull_system_stack_pcr()
+    {
+        regPC = get_word(regS);
+        regS += 2;
+        return 2;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::push_system_stack_pcr()
+    {
+        regS -= 2;
+        set_word(regS, regPC);
+        return 2;
     }
 
     //---------------------------------------------------------
@@ -184,46 +200,46 @@ namespace archi
 
         if (ctrl_code & 0b000'001) {
             regCC = get_byte(regU++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b000'0010) {
             regA = get_byte(regU++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b000'0100) {
             regB = get_byte(regU++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b000'1000) {
             regDP = get_byte(regU++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0001'0000) {
             regX = get_word(regU);
             regU += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0010'0000) {
             regY = get_word(regU);
             regU += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0100'0000) {
             regU = get_word(regU);
             regU += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b1000'0000) {
             regPC = get_word(regU);
             regU += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         return cycles_count;
@@ -237,45 +253,45 @@ namespace archi
         if (ctrl_code & 0b1000'0000) {
             regU -= 2;
             set_word(regU, regPC);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0100'0000) {
             regU -= 2;
             set_word(regU, regU);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0010'0000) {
             regU -= 2;
             set_word(regU, regY);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0001'0000) {
             regU -= 2;
             set_word(regU, regX);
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0000'1000) {
             set_word(--regU, regDP);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0100) {
             set_word(--regU, regB);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0010) {
             set_word(--regU, regA);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0000'0001) {
             set_word(--regU, regCC);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         return cycles_count;

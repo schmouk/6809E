@@ -27,9 +27,7 @@ namespace instr
         const memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         const memory::MemAddr mem_addr{ _hw_arch.get_directpage_addr(value_low_addr) };
 
-        _hw_arch.push_system_stack(_hw_arch.regPC() & 0xff);
-        _hw_arch.push_system_stack(_hw_arch.regPC() >> 8);
-
+        _hw_arch.push_system_stack_pcr();
         _hw_arch.regPC = _hw_arch.get_word(mem_addr);
     }
 
@@ -51,9 +49,7 @@ namespace instr
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
 
-        _hw_arch.push_system_stack(_hw_arch.regPC() & 0xff);
-        _hw_arch.push_system_stack(_hw_arch.regPC() >> 8);
-
+        _hw_arch.push_system_stack_pcr();
         _hw_arch.regPC = _indexed_mode_ptr->get_addressed_word();  // Notice: Not sure of this
     }
 
@@ -75,9 +71,7 @@ namespace instr
     {
         memory::MemAddr mem_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
 
-        _hw_arch.push_system_stack(_hw_arch.regPC() & 0xff);
-        _hw_arch.push_system_stack(_hw_arch.regPC() >> 8);
-
+        _hw_arch.push_system_stack_pcr();
         _hw_arch.regPC = _hw_arch.get_word(mem_addr);
     }
 

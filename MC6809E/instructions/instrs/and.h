@@ -13,7 +13,7 @@
 namespace instr
 {
     //=====   AND Base Class   ================================
-    struct ANDBase : public ADCBase
+    class ANDBase : public ADCBase
     {
     public:
         ANDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;

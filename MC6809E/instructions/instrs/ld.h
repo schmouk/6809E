@@ -13,7 +13,7 @@
 namespace instr
 {
     //=====   LD Base Class   =================================
-    struct LDBase : public BaseInstruction
+    class LDBase : public BaseInstruction
     {
     public:
         LDBase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;

@@ -13,7 +13,7 @@
 namespace instr
 {
     //=====   LEA Base Class   ================================
-    struct LEABase : public BaseInstruction
+    class LEABase : public BaseInstruction
     {
     public:
         LEABase(archi::HWArchitecture& hw_arch, const memory::Byte opcode) noexcept;
