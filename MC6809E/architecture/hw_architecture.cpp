@@ -78,48 +78,48 @@ namespace archi
     {
         std::uint64_t cycles_count{ 0 };
 
-        if (ctrl_code & 0b000'001) {
+        if (ctrl_code & 0b0000'0001) {
             regCC = get_byte(regS++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
-        if (ctrl_code & 0b000'0010) {
+        if (ctrl_code & 0b0000'0010) {
             regA = get_byte(regS++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
-        if (ctrl_code & 0b000'0100) {
+        if (ctrl_code & 0b0000'0100) {
             regB = get_byte(regS++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
-        if (ctrl_code & 0b000'1000) {
+        if (ctrl_code & 0b0000'1000) {
             regDP = get_byte(regS++);
-            cycles_count += 2;
+            cycles_count += 1;
         }
 
         if (ctrl_code & 0b0001'0000) {
             regX= get_word(regS);
             regS += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0010'0000) {
             regY = get_word(regS);
             regS += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b0100'0000) {
             regU = get_word(regS);
             regS += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         if (ctrl_code & 0b1000'0000) {
             regPC = get_word(regS);
             regS += 2;
-            cycles_count += 3;
+            cycles_count += 2;
         }
 
         return cycles_count;
@@ -178,6 +178,14 @@ namespace archi
     }
 
     //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::pull_system_stack_ccr()
+    {
+        regCC = get_byte(regS);
+        regS++;
+        return 1;
+    }
+
+    //---------------------------------------------------------
     const std::uint64_t HWArchitecture::pull_system_stack_pcr()
     {
         regPC = get_word(regS);
@@ -198,17 +206,17 @@ namespace archi
     {
         std::uint64_t cycles_count{ 0 };
 
-        if (ctrl_code & 0b000'001) {
+        if (ctrl_code & 0b0000'0001) {
             regCC = get_byte(regU++);
             cycles_count += 1;
         }
 
-        if (ctrl_code & 0b000'0010) {
+        if (ctrl_code & 0b0000'0010) {
             regA = get_byte(regU++);
             cycles_count += 1;
         }
 
-        if (ctrl_code & 0b000'0100) {
+        if (ctrl_code & 0b0000'0100) {
             regB = get_byte(regU++);
             cycles_count += 1;
         }

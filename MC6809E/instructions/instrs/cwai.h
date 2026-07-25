@@ -3,7 +3,6 @@
 #include <cstdint>
 
 #include "../base_instruction.h"
-
 #include "../../architecture/hw_architecture.h"
 
 
