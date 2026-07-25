@@ -30,16 +30,10 @@ namespace instr
     //---------------------------------------------------------
     void ADCBase::_evaluate_cc_flags(const int intermediate_value)
     {
-        _hw_arch.regCC.clr();
-
-        if (intermediate_value == 0) {
-            _hw_arch.regCC.set_zero();
-        }
-        else {
-            _hw_arch.regCC.set_carry(intermediate_value > 0xff);
-            _hw_arch.regCC.set_overflow(intermediate_value < -128 || intermediate_value > 127);
-            _hw_arch.regCC.set_negative((intermediate_value & 0x80) != 0);
-        }
+        _hw_arch.regCC.set_zero((intermediate_value & 0xff) == 0);
+        _hw_arch.regCC.set_carry(intermediate_value > 0xff);
+        _hw_arch.regCC.set_overflow(intermediate_value < -128 || intermediate_value > 127);
+        _hw_arch.regCC.set_negative((intermediate_value & 0x80) != 0);
     }
 
     //---------------------------------------------------------
