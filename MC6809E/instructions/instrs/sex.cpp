@@ -16,12 +16,12 @@ namespace instr
     const std::uint64_t SEXInherent::exec()
     {
         if ((_hw_arch.regB() & 0x80) == 0) {
-            _hw_arch.regA = 0x00;
+            _hw_arch.set_regA(0x00);
             _hw_arch.regCC.set_negative();
             _hw_arch.regCC.set_zero(_hw_arch.regB == 0);
         }
         else {
-            _hw_arch.regA = 0xFF;
+            _hw_arch.set_regA(0xFF);
             _hw_arch.regCC.clr_negative();
             _hw_arch.regCC.clr_zero();
         }

@@ -53,7 +53,7 @@ namespace instr
     //---------------------------------------------------------
     const std::uint64_t RORAInherent::exec()
     {
-        _hw_arch.regA = _evaluate(_hw_arch.regA);
+        _hw_arch.set_regA(_evaluate(_hw_arch.regA));
         return get_cycles_count();
     }
 
@@ -73,7 +73,7 @@ namespace instr
     //---------------------------------------------------------
     const std::uint64_t RORBInherent::exec()
     {
-        _hw_arch.regB = _evaluate(_hw_arch.regB);
+        _hw_arch.set_regB(_evaluate(_hw_arch.regB));
         return get_cycles_count();
     }
 

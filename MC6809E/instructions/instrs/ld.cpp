@@ -69,7 +69,7 @@ namespace instr
     const std::uint64_t LDAImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
-        _hw_arch.regA = _evaluate(mem_value);
+        _hw_arch.set_regA(_evaluate(mem_value));
         return get_cycles_count();
     }
 
@@ -92,7 +92,7 @@ namespace instr
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        _hw_arch.regA = _evaluate(mem_value);
+        _hw_arch.set_regA(_evaluate(mem_value));
         return get_cycles_count();
     }
 
@@ -113,7 +113,7 @@ namespace instr
     const std::uint64_t LDAIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
-        _hw_arch.regA = _evaluate(_indexed_mode_ptr->get_addressed_byte());
+        _hw_arch.set_regA(_evaluate(_indexed_mode_ptr->get_addressed_byte()));
         return get_cycles_count();
     }
 
@@ -136,7 +136,7 @@ namespace instr
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
-        _hw_arch.regA = _evaluate(mem_value);
+        _hw_arch.set_regA(_evaluate(mem_value));
         return get_cycles_count();
     }
 
@@ -158,7 +158,7 @@ namespace instr
     const std::uint64_t LDBImmediate::exec()
     {
         memory::Byte mem_value{ _hw_arch.load_next_byte() };
-        _hw_arch.regB = _evaluate(mem_value);
+        _hw_arch.set_regB(_evaluate(mem_value));
         return get_cycles_count();
     }
 
@@ -181,7 +181,7 @@ namespace instr
         memory::Byte value_low_addr{ _hw_arch.load_next_byte() };
         memory::Byte mem_value{ _hw_arch.get_byte(_hw_arch.get_directpage_addr(value_low_addr)) };
 
-        _hw_arch.regB = _evaluate(mem_value);
+        _hw_arch.set_regB(_evaluate(mem_value));
         return get_cycles_count();
     }
 
@@ -201,7 +201,7 @@ namespace instr
     const std::uint64_t LDBIndexed::exec()
     {
         _indexed_mode_ptr = addr::make_indexed_addressing_class(_hw_arch);
-        _hw_arch.regB = _evaluate(_indexed_mode_ptr->get_addressed_byte());
+        _hw_arch.set_regB(_evaluate(_indexed_mode_ptr->get_addressed_byte()));
         return get_cycles_count();
     }
 
@@ -224,7 +224,7 @@ namespace instr
         memory::MemAddr value_addr{ memory::MemAddr(_hw_arch.load_next_word()) };
         memory::Byte mem_value{ _hw_arch.get_byte(value_addr) };
 
-        _hw_arch.regB = _evaluate(mem_value);
+        _hw_arch.set_regB(_evaluate(mem_value));
         return get_cycles_count();
     }
 

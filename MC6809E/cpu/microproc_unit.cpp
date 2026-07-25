@@ -45,11 +45,25 @@ namespace cpu
     }
 
     //---------------------------------------------------------
+    void MicroprocUnit::set_regA(const memory::Byte value) noexcept
+    {
+        regA = value;
+        regD = (memory::Word(value) << 8) | (regD() & 0x00ff);
+    }
+
+    //---------------------------------------------------------
+    void MicroprocUnit::set_regB(const memory::Byte value) noexcept
+    {
+        regB = value;
+        regD = (regD() & 0xff00) | memory::Word(value);
+    }
+
+    //---------------------------------------------------------
     void MicroprocUnit::set_regD(const memory::Word value) noexcept
     {
-        regD == value;
-        regA = value >> 8;
-        regB = value & 0xff;
+        regD = value;
+        regA = memory::Byte(value >> 8);
+        regB = memory::Byte(value & 0xff);
     }
 
 }

@@ -29,6 +29,17 @@ namespace instr
         reg1_ptr->set(reg2_ptr->get());
         reg2_ptr->set(tmp);
 
+        // Notice: next lines are unsatisfactory implementation
+        if (reg1_ptr == &_hw_arch.regA || reg2_ptr == &_hw_arch.regA) {
+            _hw_arch.set_regA(_hw_arch.regA());
+        }
+        else if (reg1_ptr == &_hw_arch.regB || reg2_ptr == &_hw_arch.regB) {
+            _hw_arch.set_regB(_hw_arch.regB());
+        }
+        else if (reg1_ptr == &_hw_arch.regD || reg2_ptr == &_hw_arch.regD) {
+            _hw_arch.set_regD(_hw_arch.regD());
+        }
+
         return get_cycles_count();
     }
 
