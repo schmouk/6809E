@@ -186,6 +186,20 @@ namespace archi
     }
 
     //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::pull_system_stack_all()
+    {
+        pull_system_stack(0xff);
+        return 12;
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::push_system_stack_all()
+    {
+        push_system_stack(0xff);
+        return 12;
+    }
+
+    //---------------------------------------------------------
     const std::uint64_t HWArchitecture::pull_system_stack_pcr()
     {
         regPC = get_word(regS);
