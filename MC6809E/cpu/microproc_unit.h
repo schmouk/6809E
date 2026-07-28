@@ -39,6 +39,7 @@ namespace cpu
 
         const memory::Word get_reg_value(const cpu::EReg reg_index) const;
 
+        // Notice: unsatisfactory implementation here below
         void set_regA(const memory::Byte value) noexcept;
         void set_regB(const memory::Byte value) noexcept;
         void set_regD(const memory::Word value) noexcept;
