@@ -30,8 +30,6 @@ namespace instr
     //---------------------------------------------------------
     void CLRBase::_evaluate_cc_flags(const int intermediate_value)
     {
-        _hw_arch.regCC.clr();
-
         _hw_arch.regCC.clr_carry();
         _hw_arch.regCC.clr_overflow();
         _hw_arch.regCC.set_zero();
