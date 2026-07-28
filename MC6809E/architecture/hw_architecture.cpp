@@ -18,24 +18,6 @@ namespace archi
     {}
 
     //---------------------------------------------------------
-    void HWArchitecture::clr_interrupts_wait()
-    {
-        _waiting_interrupts = false;
-    }
-
-    //---------------------------------------------------------
-    void HWArchitecture::set_interrupts_wait()
-    {
-        _waiting_interrupts = true;
-    }
-
-    //---------------------------------------------------------
-    const bool HWArchitecture::is_waiting_interrupts() const
-    {
-        return _waiting_interrupts;
-    }
-
-    //---------------------------------------------------------
     std::pair<cpu::CPURegister*, cpu::CPURegister*> HWArchitecture::get_registers_defs(const memory::Byte post_byte)
     {
         cpu::CPURegister* reg1_ptr{ _get_register_def(post_byte >> 4) };
@@ -329,6 +311,31 @@ namespace archi
     void HWArchitecture::set_memory_schema(const memory::MemorySchema& mem_schema) noexcept
     {
         (void)memory::MemorySchema::operator=(mem_schema);
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t HWArchitecture::wait_interrupt_synchronization()
+    {
+        set_interrupts_wait();
+        return 0;
+    }
+
+    //---------------------------------------------------------
+    void HWArchitecture::clr_interrupts_wait()
+    {
+        _waiting_interrupts = false;
+    }
+
+    //---------------------------------------------------------
+    void HWArchitecture::set_interrupts_wait()
+    {
+        _waiting_interrupts = true;
+    }
+
+    //---------------------------------------------------------
+    const bool HWArchitecture::is_waiting_interrupts() const
+    {
+        return _waiting_interrupts;
     }
 
     //---------------------------------------------------------

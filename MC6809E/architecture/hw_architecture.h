@@ -30,12 +30,6 @@ namespace archi
         HWArchitecture(memory::MemorySchema& mem_) noexcept;
 
 
-        //-----   Accessors / Mutators   ----------------------
-        void clr_interrupts_wait();
-        void set_interrupts_wait();
-        const bool is_waiting_interrupts() const;
-
-
         //-----   Operations   --------------------------------
         std::pair<cpu::CPURegister*, cpu::CPURegister*> get_registers_defs(const memory::Byte post_byte);
 
@@ -59,6 +53,13 @@ namespace archi
         void run(const memory::MemAddr start_address);
 
         void set_memory_schema(const memory::MemorySchema& mem_) noexcept;
+
+        const std::uint64_t wait_interrupt_synchronization(); // Notice: waits for any unmasked interruption
+
+        //-----   Accessors / Mutators   ----------------------
+        void clr_interrupts_wait();
+        void set_interrupts_wait();
+        const bool is_waiting_interrupts() const;
 
 
     private:
