@@ -255,10 +255,84 @@ namespace instr
     }
 
 
+    //=====   BLS / LBLS   ====================================
+    //---------------------------------------------------------
+    BLS::BLS(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x23)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BLS::exec()
+    {
+        return _exec(
+            _hw_arch.regCC.carry_flag() || _hw_arch.regCC.zero_flag()
+        );
+    }
+
+    //---------------------------------------------------------
+    LBLS::LBLS(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x23)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBLS::exec()
+    {
+        return _exec(
+            _hw_arch.regCC.carry_flag() || _hw_arch.regCC.zero_flag()
+        );
+    }
 
 
+    //=====   BLT / LBLT   ====================================
+    //---------------------------------------------------------
+    BLT::BLT(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x2D)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BLT::exec()
+    {
+        return _exec(
+            _hw_arch.regCC.negative_flag() ^ _hw_arch.regCC.overflow_flag()
+        );
+    }
+
+    //---------------------------------------------------------
+    LBLT::LBLT(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x2D)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBLT::exec()
+    {
+        return _exec(
+            _hw_arch.regCC.negative_flag() ^ _hw_arch.regCC.overflow_flag()
+        );
+    }
 
 
+    //=====   BMI / LBMI   ====================================
+    //---------------------------------------------------------
+    BMI::BMI(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x2B)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BMI::exec()
+    {
+        return _exec(_hw_arch.regCC.negative_flag());
+    }
+
+    //---------------------------------------------------------
+    LBMI::LBMI(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x2B)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBMI::exec()
+    {
+        return _exec(_hw_arch.regCC.negative_flag());
+    }
 
 
     //=====   BNE / LBNE   ====================================
@@ -284,6 +358,156 @@ namespace instr
     const std::uint64_t LBNE::exec()
     {
         return _exec(!_hw_arch.regCC.zero_flag());
+    }
+
+
+    //=====   BPL / LBPL   ====================================
+    //---------------------------------------------------------
+    BPL::BPL(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x2A)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BPL::exec()
+    {
+        return _exec(!_hw_arch.regCC.negative_flag());
+    }
+
+    //---------------------------------------------------------
+    LBPL::LBPL(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x2A)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBPL::exec()
+    {
+        return _exec(!_hw_arch.regCC.negative_flag());
+    }
+
+
+    //=====   BRA / LBRA   ====================================
+    //---------------------------------------------------------
+    BRA::BRA(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x20)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BRA::exec()
+    {
+        return _exec(true);
+    }
+
+    //---------------------------------------------------------
+    LBRA::LBRA(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x16)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBRA::exec()
+    {
+        return _exec(true);
+    }
+
+    //---------------------------------------------------------
+    const std::uint64_t LBRA::get_cycles_count() noexcept
+    {
+        return 5;
+    }
+
+
+    //=====   BRN / LBRN   ====================================
+    //---------------------------------------------------------
+    BRN::BRN(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x21)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BRN::exec()
+    {
+        return _exec(false);
+    }
+
+    //---------------------------------------------------------
+    LBRN::LBRN(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x21)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBRN::exec()
+    {
+        return _exec(false);
+    }
+
+
+    //=====   BSR / LBSR   ====================================
+    //---------------------------------------------------------
+    BSR::BSR(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x8D)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BSR::exec()
+    {
+        return _exec(true) + 4;  // i.e. return 7 (= 3 + 4)
+    }
+
+    //---------------------------------------------------------
+    LBSR::LBSR(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x17)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBSR::exec()
+    {
+        return _exec(true) + 3;  // i.e. return 9 (= (5 + 1) + 3)
+    }
+
+
+    //=====   BVC / LBVC   ====================================
+    //---------------------------------------------------------
+    BVC::BVC(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x28)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BVC::exec()
+    {
+        return _exec(!_hw_arch.regCC.overflow_flag());
+    }
+
+    //---------------------------------------------------------
+    LBVC::LBVC(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x28)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBVC::exec()
+    {
+        return _exec(!_hw_arch.regCC.overflow_flag());
+    }
+
+
+    //=====   BVS / LBVS   ====================================
+    //---------------------------------------------------------
+    BVS::BVS(archi::HWArchitecture& hw_arch)
+        : ShortRelativeBranchingBase(hw_arch, 0x29)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t BVS::exec()
+    {
+        return _exec(_hw_arch.regCC.overflow_flag());
+    }
+
+    //---------------------------------------------------------
+    LBVS::LBVS(archi::HWArchitecture& hw_arch)
+        : LongRelativeBranchingBase(hw_arch, 0x10, 0x29)
+    {}
+
+    //---------------------------------------------------------
+    const std::uint64_t LBVS::exec()
+    {
+        return _exec(_hw_arch.regCC.overflow_flag());
     }
 
 }

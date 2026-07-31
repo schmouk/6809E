@@ -187,9 +187,73 @@ namespace instr
     };
 
 
+    //=====   BLO / LBLO   ====================================
+    // Notice: unsigned comparisons
+    using BLO = BCS;
+    using LBLO = LBCS;
 
 
+    //=====   BLS / LBLS   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BLS : public ShortRelativeBranchingBase
+    {
+        BLS(archi::HWArchitecture& hw_arch);
+        virtual ~BLS() noexcept = default;
 
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBLS : public LongRelativeBranchingBase
+    {
+        LBLS(archi::HWArchitecture& hw_arch);
+        virtual ~LBLS() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BLT / LBLT   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BLT : public ShortRelativeBranchingBase
+    {
+        BLT(archi::HWArchitecture& hw_arch);
+        virtual ~BLT() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBLT : public LongRelativeBranchingBase
+    {
+        LBLT(archi::HWArchitecture& hw_arch);
+        virtual ~LBLT() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BMI / LBMI   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BMI : public ShortRelativeBranchingBase
+    {
+        BMI(archi::HWArchitecture& hw_arch);
+        virtual ~BMI() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBMI : public LongRelativeBranchingBase
+    {
+        LBMI(archi::HWArchitecture& hw_arch);
+        virtual ~LBMI() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
 
 
     //=====   BNE / LBNE   ====================================
@@ -207,6 +271,133 @@ namespace instr
     {
         LBNE(archi::HWArchitecture& hw_arch);
         virtual ~LBNE() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BPL / LBPL   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BPL : public ShortRelativeBranchingBase
+    {
+        BPL(archi::HWArchitecture& hw_arch);
+        virtual ~BPL() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBPL : public LongRelativeBranchingBase
+    {
+        LBPL(archi::HWArchitecture& hw_arch);
+        virtual ~LBPL() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BRA / LBRA   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BRA : public ShortRelativeBranchingBase
+    {
+        BRA(archi::HWArchitecture& hw_arch);
+        virtual ~BRA() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBRA : public LongRelativeBranchingBase
+    {
+        LBRA(archi::HWArchitecture& hw_arch);
+        virtual ~LBRA() noexcept = default;
+
+        const std::uint64_t exec() override;
+        const std::uint64_t get_cycles_count() noexcept override;
+    };
+
+
+    //=====   BRN / LBRN   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BRN : public ShortRelativeBranchingBase
+    {
+        BRN(archi::HWArchitecture& hw_arch);
+        virtual ~BRN() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBRN : public LongRelativeBranchingBase
+    {
+        LBRN(archi::HWArchitecture& hw_arch);
+        virtual ~LBRN() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BSR / LBSR   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BSR : public ShortRelativeBranchingBase
+    {
+        BSR(archi::HWArchitecture& hw_arch);
+        virtual ~BSR() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBSR : public LongRelativeBranchingBase
+    {
+        LBSR(archi::HWArchitecture& hw_arch);
+        virtual ~LBSR() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BVC / LBVC   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BVC : public ShortRelativeBranchingBase
+    {
+        BVC(archi::HWArchitecture& hw_arch);
+        virtual ~BVC() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBVC : public LongRelativeBranchingBase
+    {
+        LBVC(archi::HWArchitecture& hw_arch);
+        virtual ~LBVC() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+
+    //=====   BVS / LBVS   ====================================
+    // Notice: signed comparisons
+    //---------------------------------------------------------
+    struct BVS : public ShortRelativeBranchingBase
+    {
+        BVS(archi::HWArchitecture& hw_arch);
+        virtual ~BVS() noexcept = default;
+
+        const std::uint64_t exec() override;
+    };
+
+    //---------------------------------------------------------
+    struct LBVS : public LongRelativeBranchingBase
+    {
+        LBVS(archi::HWArchitecture& hw_arch);
+        virtual ~LBVS() noexcept = default;
 
         const std::uint64_t exec() override;
     };
