@@ -23,7 +23,7 @@ namespace interrupt
 
     protected:
         archi::HWArchitecture _hw_arch;
-        memory::MemAddr       _pcr_value;
+        memory::Word          _pcr_value;
 
     };
 }
