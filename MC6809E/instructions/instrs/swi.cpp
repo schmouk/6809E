@@ -33,7 +33,6 @@ namespace instr
     //---------------------------------------------------------
     const std::uint64_t SWIBase::exec()
     {
-        _hw_arch.push_system_stack_all();
         _hw_arch.regPC = _hw_arch.get_word(_vect_addr);
         return get_cycles_count();
     }
@@ -51,6 +50,16 @@ namespace instr
         return 19;
     }
 
+    //---------------------------------------------------------
+    const std::uint64_t SWIInherent::exec()
+    {
+        _hw_arch.regCC.set_entire();
+        _hw_arch.regCC.set_firqmask();
+        _hw_arch.regCC.set_irqmask();
+        _hw_arch.push_system_stack_all();
+        return SWIBase::exec();
+    }
+
     //=====   SWI2   ==========================================
     //---------------------------------------------------------
     SWI2Inherent::SWI2Inherent(archi::HWArchitecture& hw_arch) noexcept
@@ -58,17 +67,33 @@ namespace instr
     {}
 
     //---------------------------------------------------------
+    const std::uint64_t SWI2Inherent::exec()
+    {
+        _hw_arch.regCC.clr_entire();
+        _hw_arch.push_system_stack_pcr();
+        return SWIBase::exec();
+    }
+
+    //---------------------------------------------------------
     const std::uint64_t SWI2Inherent::get_cycles_count() noexcept
     {
         return 20;
     }
-    
+
 
     //=====   SWI3   ==========================================
     //---------------------------------------------------------
     SWI3Inherent::SWI3Inherent(archi::HWArchitecture& hw_arch) noexcept
         : SWIBase(hw_arch, 0x11, 0x3F, 0xFFF2)
     {}
+
+    //---------------------------------------------------------
+    const std::uint64_t SWI3Inherent::exec()
+    {
+        _hw_arch.regCC.clr_entire();
+        _hw_arch.push_system_stack_pcr();
+        return SWIBase::exec();
+    }
 
     //---------------------------------------------------------
     const std::uint64_t SWI3Inherent::get_cycles_count() noexcept

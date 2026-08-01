@@ -18,7 +18,7 @@ namespace interrupt
 
 
         //-----   Operations   --------------------------------
-        virtual void exec() = 0;
+        virtual void exec();
 
 
     protected:

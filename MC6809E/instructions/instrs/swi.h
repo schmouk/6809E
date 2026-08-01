@@ -42,6 +42,7 @@ namespace instr
         SWIInherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~SWIInherent() noexcept = default;
 
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -52,6 +53,7 @@ namespace instr
         SWI2Inherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~SWI2Inherent() noexcept = default;
 
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 
@@ -62,6 +64,7 @@ namespace instr
         SWI3Inherent(archi::HWArchitecture& hw_arch) noexcept;
         virtual ~SWI3Inherent() noexcept = default;
 
+        const std::uint64_t exec() override;
         const std::uint64_t get_cycles_count() noexcept override;
     };
 

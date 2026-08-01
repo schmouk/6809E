@@ -16,4 +16,12 @@ namespace interrupt
         , _pcr_value{ memory::MemAddr(hw_arch.get_word(interrupt_vector_addr)) }
     {}
 
+    //---------------------------------------------------------
+    void BaseInterrupt::exec()
+    {
+        _hw_arch.regCC.set_entire();
+        _hw_arch.push_system_stack_all();
+        _hw_arch.regPC = _pcr_value;
+    }
+
 }
