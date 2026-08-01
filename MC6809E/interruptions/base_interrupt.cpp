@@ -19,6 +19,8 @@ namespace interrupt
     //---------------------------------------------------------
     void BaseInterrupt::exec()
     {
+        _hw_arch.regCC.set_firqmask();
+        _hw_arch.regCC.set_irqmask();
         _hw_arch.regCC.set_entire();
         _hw_arch.push_system_stack_all();
         _hw_arch.regPC = _pcr_value;

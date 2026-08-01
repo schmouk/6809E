@@ -12,7 +12,7 @@ namespace interrupt
     struct FIRQInterrupt : public BaseInterrupt
     {
         FIRQInterrupt(archi::HWArchitecture& hw_arch)
-            : BaseInterrupt(hw_arch, memory::MemAddr(0xFFFC))
+            : BaseInterrupt(hw_arch, memory::MemAddr(0xFFF6))
         {}
 
         virtual ~FIRQInterrupt() noexcept = default;
