@@ -8,7 +8,7 @@
 * This file declares the table of interruptions vetors for the MC6809E
 */
 
-namespace cpu
+namespace interrupt
 {
     //=====   MC6809E Interruptions   =========================
     enum class MC6809EInterruptions

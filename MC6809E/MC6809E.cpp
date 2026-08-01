@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include "cpu/microproc_unit.h"
-#include "cpu/interruptions_vector.h"
 //#include "exceptions/exceptions.h"
+#include "interruptions/interruptions_vector.h"
 #include "memory/memory_addresses.h"
 #include "memory/memory_schema.h"
 #include "memory/types.h"
